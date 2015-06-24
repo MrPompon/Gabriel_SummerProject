@@ -1,0 +1,6 @@
+[NAME] Char
+[HP] 100
+[DMG] 30
+[SPEED] 5
+
+

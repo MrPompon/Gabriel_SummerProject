@@ -1,0 +1,7 @@
+[NAME] Minotaur
+[LOOT] 200
+[HP] 1000
+[DMG] 300
+[SPEED] 55
+[SKILLS] Cleave Stomp Defend HeadButt
+

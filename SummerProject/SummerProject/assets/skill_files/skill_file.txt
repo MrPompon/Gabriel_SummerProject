@@ -1,0 +1,13 @@
+skillname | Attribute  | DMG | HitRate%| AmountsOfHits 
+
+--Normal skills--
+[Defend] Defend Defensive 0 0 0 
+
+--Agility skills--
+[RazorDaggers] RazorDaggers Offensive 15 30 9
+[Cleave] Cleave Offensive 25 80 2 
+
+--Strength skills --
+[HeadButt] HeadButt Offensive 80 80 1 
+[Stomp] Stomp Offensive 40 60 2  
+[Smash] Smash Offensive 180 20 1 

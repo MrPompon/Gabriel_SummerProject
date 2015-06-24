@@ -1,0 +1,6 @@
+SkillName Attribute? DMG/Power 
+
+[Cleave] Offensive
+[Stomp] Offensive
+[Defend] Defensive
+[HeadButt] Offensive

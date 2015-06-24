@@ -1,0 +1,16 @@
+# ignore directories
+bin/
+build/
+ipch/
+
+# ignore extensions
+*.exe
+*.lib
+*.dll
+*.idb
+*.so
+*.sdf
+
+# exceptions
+!external/**/*
+!assets/**/*

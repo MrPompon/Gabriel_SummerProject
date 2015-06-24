@@ -39,7 +39,7 @@ namespace spaceshooter
 		void InitEnemyStats();
 	private:
 		DrawManager* m_draw_manager;
-
+		int Random(int min, int max);
 		float m_screen_width;
 		float m_screen_height;
 		//textures pointers etc 
@@ -58,6 +58,8 @@ namespace spaceshooter
 
 		//battle stats
 		BS_Skills* m_skillHolder;
+		bool CalculateSkillHit(float enemyHitRate, float skillHitRate, float playerEvadeRate);
+		float CalculateSkillDamage(float DMG, float SkillDMG,std::string p_skillName);
 		int currentSelectedOption;
 		int AmountOfOptionsInMenu1;
 		int AmountOfOptionsInMenu2;
@@ -66,16 +68,23 @@ namespace spaceshooter
 		float m_player_health;
 		float m_player_damage;
 		float m_player_speed;
+		float m_player_evadeRate;
 		std::string m_player_name;
 		//enemy
 		float m_enemy_health;
 		float m_enemy_damage;
 		float m_enemy_speed;
+		float m_enemy_hitrate;
 		int m_enemy_loot;
+		void EnemyUseSkill_1();
+		void EnemyUseSkill_2();
+		void EnemyUseSkill_3();
+		void EnemyUseSkill_4();
 		std::string m_enemy_name;
 		std::vector<std::string> m_enemySkills;
 		BS_Enemy*m_enemy;
 		void EnemyUseSkill();
+		
 		//temp solution to save ablitiy stats, cant come up with a better way 
 		//skill 1
 		int m_enemy_skill_1_Number;

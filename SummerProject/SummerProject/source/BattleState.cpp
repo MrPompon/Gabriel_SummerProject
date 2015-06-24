@@ -20,7 +20,7 @@ namespace spaceshooter
 		m_screen_width = 1024.0f;
 		m_screen_height = 600.0f;
 		player_saveFile = "save_file_1.txt";
-		enemy_encounter_name = "Minotaur";
+		enemy_encounter_name = "Gnoll";
 		for (unsigned int index = 0; index < ACTION_COUNT; index++)
 		{
 			m_actions[index] = false;
@@ -132,12 +132,14 @@ namespace spaceshooter
 		m_enemy_damage = m_enemy->GetDMG();
 		m_enemy_speed = m_enemy->GetSpeed();
 		m_enemy_loot = m_enemy->GetLoot();
+		m_enemy_hitrate = m_enemy->GetHitRate();
 	}
 	void BattleState::InitPlayerStats()
 	{
 		m_player_damage = m_player->GetDMG();
 		m_player_health = m_player->GetHealth();
 		m_player_speed = m_player->GetSpeed();
+		m_player_evadeRate = m_player->GetEvadeRate();
 	}
 	bool BattleState::Update(float deltatime)
 	{
@@ -254,11 +256,6 @@ namespace spaceshooter
 			m_enemy_skill_4_Name = m_skillHolder->GetSkillName();
 			break;
 		}
-		
-		
-		
-		
-		
 	}
 	void BattleState::PlayersTurn(float deltatime)
 	{
@@ -280,25 +277,143 @@ namespace spaceshooter
 	void BattleState::EnemysTurn(float deltatime)
 	{
 		enemysTurn = true;
-		//std::cout << "Enemyyyy";
-		//std::cout << "Enemies Turn" << std::endl;
+		EnemyUseSkill();
+		std::cout << "Player has " << m_player_health << " health remaining " << std::endl;
+		turnManager = TURN_PLAYER;
 		//change these for correct input(AI), add delay between turns.
 		if (m_actions[ACTION_LEFT])
 		{
 			turnManager = TURN_PLAYER;
 		}
-		if (m_actions[ACTION_FIRE])
-		{
-			currentSelectedOption++;
-			std::cout<<m_enemy_skill_1_Name<<"has "<< m_enemy_skill_1_DMG<<" DMG "<<std::endl;
-			std::cout << m_enemy_skill_2_Name << "has " << m_enemy_skill_2_DMG << " DMG " << std::endl;
-			std::cout << m_enemy_skill_3_Name << "has " << m_enemy_skill_3_DMG << " DMG " << std::endl;
-			std::cout << m_enemy_skill_4_Name << "has " << m_enemy_skill_4_DMG << " DMG " << std::endl;
-		}
+	}
+	int BattleState::Random(int min, int max)
+	{
+		return min + (rand() % (max - min + 1));
 	}
 	void BattleState::EnemyUseSkill()
 	{
-
+		//randomize behavior for now
+		int rnd = Random(0, 3);
+		switch (rnd)
+		{
+		case 0:
+			EnemyUseSkill_1();
+			break;
+		case 1:
+			EnemyUseSkill_2();
+			break;
+		case 2:
+			EnemyUseSkill_3();
+			break;
+		case 3:
+			EnemyUseSkill_4();
+			break;
+		}
+	}
+	
+	bool BattleState::CalculateSkillHit(float p_HitRate, float p_skillHitRate, float p_targetEvadeRate)
+	{
+		float totallHitRate = p_HitRate + p_skillHitRate;
+		float calculatedHitRate = totallHitRate - p_targetEvadeRate;
+		int rnd = Random(0, 100);
+		if (rnd > calculatedHitRate)
+		{
+			std::cout << "HIT";
+			return true;
+		}
+		else
+		{
+			std::cout << "MISS"<<std::endl;
+			return false;
+		}
+	}
+	float BattleState::CalculateSkillDamage(float p_DMG, float p_SkillDMG,std::string p_skillName)
+	{
+		float finalSkillDmg=0;
+		
+		finalSkillDmg=p_DMG+p_SkillDMG;
+		std::cout <<p_skillName << " DEALS " << finalSkillDmg << " DMG" << std::endl;
+		return finalSkillDmg;
+	}
+	void BattleState::EnemyUseSkill_1()
+	{
+		int amountOfHits = 0;
+		for (int i = 0; i < m_enemy_skill_1_AmountOfAttacks; i++)
+		{
+			if (CalculateSkillHit(m_enemy_hitrate, m_enemy_skill_1_HitRate, m_player_evadeRate))
+			{
+				amountOfHits++;
+				if (m_enemy_skill_1_Attribute == "Offensive")
+				{
+					m_player_health -= CalculateSkillDamage(m_enemy_damage, m_enemy_skill_1_DMG, m_enemy_skill_1_Name);
+				}
+				else if (m_enemy_skill_1_Attribute == "Defensive")
+				{
+					std::cout << "Defensive moves does not work yet AI :(";
+				}
+			}
+		}
+		std::cout << m_enemy_skill_1_Name << " Hit " << amountOfHits << " Times" << std::endl;
+	}
+	void BattleState::EnemyUseSkill_2()
+	{
+		int amountOfHits = 0;
+		for (int i = 0; i < m_enemy_skill_2_AmountOfAttacks; i++)
+		{
+			if (CalculateSkillHit(m_enemy_hitrate, m_enemy_skill_2_HitRate, m_player_evadeRate))
+			{
+				amountOfHits++;
+				if (m_enemy_skill_2_Attribute == "Offensive")
+				{
+					m_player_health -= CalculateSkillDamage(m_enemy_damage, m_enemy_skill_2_DMG, m_enemy_skill_2_Name);
+				}
+				else if (m_enemy_skill_2_Attribute == "Defensive")
+				{
+					std::cout << "Defensive moves does not work yet AI :(";
+				}
+			}
+		}
+		std::cout << m_enemy_skill_2_Name << " Hit " << amountOfHits << " Times" << std::endl;
+	}
+	void BattleState::EnemyUseSkill_3()
+	{
+		int amountOfHits = 0;
+		for (int i = 0; i < m_enemy_skill_3_AmountOfAttacks; i++)
+		{
+			if (CalculateSkillHit(m_enemy_hitrate, m_enemy_skill_3_HitRate, m_player_evadeRate))
+			{
+				amountOfHits++;
+				if (m_enemy_skill_3_Attribute == "Offensive")
+				{
+					m_player_health -= CalculateSkillDamage(m_enemy_damage, m_enemy_skill_3_DMG, m_enemy_skill_3_Name);
+				}
+				else if (m_enemy_skill_3_Attribute == "Defensive")
+				{
+					std::cout << "Defensive moves does not work yet AI :(";
+				}
+			}
+		}
+		std::cout << m_enemy_skill_3_Name << " Hit " << amountOfHits << " Times" << std::endl;
+	}
+	void BattleState::EnemyUseSkill_4()
+	{
+		int amountOfHits = 0;
+		for (int i = 0; i < m_enemy_skill_4_AmountOfAttacks; i++)
+		{
+			if (CalculateSkillHit(m_enemy_hitrate, m_enemy_skill_4_HitRate, m_player_evadeRate))
+			{
+				amountOfHits++;
+				if (m_enemy_skill_4_Attribute == "Offensive")
+				{
+					m_player_health -= CalculateSkillDamage(m_enemy_damage, m_enemy_skill_4_DMG, m_enemy_skill_4_Name);
+				}
+				else if (m_enemy_skill_4_Attribute == "Defensive")
+				{
+					std::cout << "Defensive moves does not work yet AI :(";
+				}
+			}
+		}
+		std::cout << m_enemy_skill_4_Name << " Hit " << amountOfHits << " Times" << std::endl;
 	}
 	void BattleState::UpdatePlayer(float deltatime)
 	{

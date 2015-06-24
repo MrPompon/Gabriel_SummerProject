@@ -13,6 +13,7 @@ namespace spaceshooter
 		float GetHealth();
 		float GetDMG();
 		float GetSpeed();
+		float GetEvadeRate();
 		void LoadPlayerStatus(std::string p_filename);
 	private:
 		
@@ -22,6 +23,7 @@ namespace spaceshooter
 		float m_health;
 		float m_speed;
 		float m_damage;
+		float m_evadeRate;
 	};
 } // namespace spaceshooter
 

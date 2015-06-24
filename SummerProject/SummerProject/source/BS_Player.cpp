@@ -58,12 +58,17 @@ namespace spaceshooter
 			}
 			if (parts[0] == "[DMG]")
 			{
-				m_damage = std::stof(parts[1]); //converts string to float
+				m_damage = std::stof(parts[1]); 
 				std::cout << m_damage << std::endl;
 			}
 			if (parts[0] == "[SPEED]")
 			{
-				m_speed = std::stof(parts[1]); //converts string to float
+				m_speed = std::stof(parts[1]);
+				std::cout << m_speed << std::endl;
+			}
+			if (parts[0] == "[EVADERATE]")
+			{
+				m_evadeRate = std::stof(parts[1]); 
 				std::cout << m_speed << std::endl;
 			}
 		}
@@ -80,5 +85,8 @@ namespace spaceshooter
 	{
 		return m_speed;
 	}
-
+	float BS_Player::GetEvadeRate()
+	{
+		return m_evadeRate;
+	}
 } // namespace spaceshooter

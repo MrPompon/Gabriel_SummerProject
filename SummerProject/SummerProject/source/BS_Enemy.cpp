@@ -39,7 +39,10 @@ namespace spaceshooter
 	{
 		return m_loot;
 	}
-	
+	float BS_Enemy::GetHitRate()
+	{
+		return m_hitrate;
+	}
 	std::string BS_Enemy::GetName()
 	{
 		return m_enemy_name;
@@ -101,6 +104,11 @@ namespace spaceshooter
 				m_enemySkills.push_back(parts[2]);
 				m_enemySkills.push_back(parts[3]);
 				m_enemySkills.push_back(parts[4]);
+			}
+			if (parts[0] == "[HITRATE]")
+			{
+				m_hitrate = std::stof(parts[1]);
+				std::cout << "has " << m_hitrate << " HitRate" << std::endl;
 			}
 		}
 	}

@@ -3,5 +3,6 @@
 [HP] 1000
 [DMG] 300
 [SPEED] 55
+[HITRATE] 35
 [SKILLS] Cleave Stomp Defend HeadButt
 

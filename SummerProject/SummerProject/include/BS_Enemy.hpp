@@ -15,6 +15,7 @@ namespace spaceshooter
 		float GetHealth();
 		float GetDMG();
 		float GetSpeed();
+		float GetHitRate();
 		int GetLoot();
 		std::string GetName();
 	private:
@@ -23,6 +24,7 @@ namespace spaceshooter
 		std::string m_enemy_name;
 		float m_health;
 		float m_speed;
+		float m_hitrate;
 		float m_damage;
 		int m_loot;
 		std::vector<std::string> m_enemySkills;

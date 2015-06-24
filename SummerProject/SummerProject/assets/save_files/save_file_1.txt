@@ -2,5 +2,7 @@
 [HP] 100
 [DMG] 30
 [SPEED] 5
+[EVADERATE] 30
+[HITRATE] 20
 
 

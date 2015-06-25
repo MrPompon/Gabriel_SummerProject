@@ -12,7 +12,7 @@
 #include "BS_Player.hpp"
 #include "BS_Enemy.hpp"
 #include "BS_Skills.hpp"
-
+#include "GUIWindow.hpp"
 namespace spaceshooter
 {
 	BattleState::BattleState()
@@ -38,6 +38,7 @@ namespace spaceshooter
 			InitSkillEnemy(m_enemySkills[i],i);
 		}
 		FirstStrikeDecider();
+		InitBattleHUD();
 		currentSelectedOption= 0;
 		AmountOfOptionsInMenu1;
 		AmountOfOptionsInMenu2;
@@ -140,18 +141,23 @@ namespace spaceshooter
 		m_player_health = m_player->GetHealth();
 		m_player_speed = m_player->GetSpeed();
 		m_player_evadeRate = m_player->GetEvadeRate();
+		m_playerSkills = m_player->GetPlayerSkills();
 	}
 	bool BattleState::Update(float deltatime)
 	{
-		UpdatePlayer(deltatime);
 		BattleManager(deltatime);
+		UpdateBattleHUD(deltatime);
 		return true;
 	}
 
 	void BattleState::Draw()
 	{
-
-		m_draw_manager->Draw(m_player_sprite, sf::RenderStates::Default);
+		m_draw_manager->Draw(text_player_health);
+		m_draw_manager->Draw(m_player_sprite);
+		for (unsigned int i = 0; i<AllGUIWindows.size(); i++)
+		{
+			m_draw_manager->Draw(AllGUIWindows[i]);
+		}
 	}
 
 	std::string BattleState::GetNextState()
@@ -265,6 +271,7 @@ namespace spaceshooter
 		//std::cout << "Playeeerrr";
 			if (m_actions[ACTION_RIGHT])
 			{
+				BattleStatusChecker();
 				turnManager = TURN_ENEMY;
 			}
 			if (m_actions[ACTION_FIRE])
@@ -279,6 +286,7 @@ namespace spaceshooter
 		enemysTurn = true;
 		EnemyUseSkill();
 		std::cout << "Player has " << m_player_health << " health remaining " << std::endl;
+		BattleStatusChecker();
 		turnManager = TURN_PLAYER;
 		//change these for correct input(AI), add delay between turns.
 		if (m_actions[ACTION_LEFT])
@@ -310,13 +318,12 @@ namespace spaceshooter
 			break;
 		}
 	}
-	
 	bool BattleState::CalculateSkillHit(float p_HitRate, float p_skillHitRate, float p_targetEvadeRate)
 	{
 		float totallHitRate = p_HitRate + p_skillHitRate;
 		float calculatedHitRate = totallHitRate - p_targetEvadeRate;
 		int rnd = Random(0, 100);
-		if (rnd > calculatedHitRate)
+		if (rnd < calculatedHitRate)
 		{
 			std::cout << "HIT";
 			return true;
@@ -415,51 +422,38 @@ namespace spaceshooter
 		}
 		std::cout << m_enemy_skill_4_Name << " Hit " << amountOfHits << " Times" << std::endl;
 	}
-	void BattleState::UpdatePlayer(float deltatime)
+	void BattleState::BattleStatusChecker()
 	{
-		// note(tommi): these will not be hardcoded
-		const float playerHalfWidth = m_player_texture->getSize().x * 0.5f;
-		const float playerHalfHeight = m_player_texture->getSize().y * 0.5f;
-		const float screenWidth = m_screen_width - playerHalfWidth;
-		const float screenHeight = m_screen_height - playerHalfHeight;
-		const float playerSpeed = 400.0f;
-
-		bool playerMove = false;
-		sf::Vector2f playerAcceleration = { 0.0f, 0.0f };
-
-		if (m_actions[ACTION_UP])
+		if (m_enemy_health < 0)
 		{
-			playerMove = true;
-			if (m_player_position.y > playerHalfHeight)
-			{
-				playerAcceleration.y = -1.0f;
-			}
+			//change state or screen 
+			std::cout << "PLAYER WON FIGHT" << std::endl;
 		}
-		if (m_actions[ACTION_DOWN])
+		else if(m_player_health < 0)
 		{
-			playerMove = true;
-			if (m_player_position.y < screenHeight)
-			{
-				playerAcceleration.y = 1.0f;
-			}
-		}
-		if (m_actions[ACTION_LEFT])
-		{
-			playerMove = true;
-			if (m_player_position.x > playerHalfWidth)
-			{
-				playerAcceleration.x = -1.0f;
-			}
-		}
-		if (m_actions[ACTION_RIGHT])
-		{
-			playerMove = true;
-			if (m_player_position.x < screenWidth)
-			{
-				playerAcceleration.x = 1.0f;
-			}
-		}
-		m_player_sprite.setPosition(m_player_position);
+			//change state to game over
+			std::cout << "ENEMY WON FIGHT" << std::endl;
+		} 
 	}
-
+	void BattleState::InitBattleHUD()
+	{
+		GUIWindow *gUIWindow = new GUIWindow(300, 300, 50, 50, 20, 4, 4);
+		AllGUIWindows.push_back(*gUIWindow);
+		if (!hudBattleFont.loadFromFile("../assets/Fonts/SuperMario256.ttf"))
+		{
+			std::cout << "Failed to load font" << std::endl;
+		}
+		text_player_health.setFont(hudBattleFont);
+		text_player_health.setPosition(300.0f, m_screen_height * 0.5f);
+		text_player_health.setColor(sf::Color::White);
+		text_player_health.setCharacterSize(39);
+		text_player_health.setStyle(sf::Text::Bold | sf::Text::Italic);
+		// Make class that makes text menus or whatever, gg this will be great
+	}
+	void BattleState::UpdateBattleHUD(float deltatime)
+	{
+		std::stringstream ss;
+		ss << m_player_health;
+		text_player_health.setString(ss.str());
+	}
 } // namespace spaceshooter

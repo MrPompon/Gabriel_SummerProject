@@ -11,6 +11,7 @@ namespace spaceshooter
 	class BS_Player;
 	class BS_Enemy;
 	class BS_Skills;
+	class GUIWindow;
 	class BattleState : public AbstractState
 	{
 	public:
@@ -22,15 +23,24 @@ namespace spaceshooter
 		virtual bool Update(float deltatime);
 		virtual void Draw();
 		virtual std::string GetNextState();
-
+	private:
+		//All Combat font
+		//player
+		sf::Text text_player_health, text_player_damage;
+		//enemy
+		sf::Text text_enemy_health, text_enemy_damage; 
 	private:
 		void OnAction(const std::string& action, bool state);
 		//Overall and skills
 		void InitSkillEnemy(std::string skillname, int skillNumber);
 		void BattleManager(float deltatime);
+		void BattleStatusChecker();
+		void UpdateBattleHUD(float deltatime);
+		void InitBattleHUD();
+		bool CalculateSkillHit(float enemyHitRate, float skillHitRate, float playerEvadeRate);
+		float CalculateSkillDamage(float DMG, float SkillDMG, std::string p_skillName);
 		
 		//player funtions
-		void UpdatePlayer(float deltatime);
 		void PlayersTurn(float deltatime);
 		void InitPlayerStats();
 		void FirstStrikeDecider();
@@ -38,10 +48,12 @@ namespace spaceshooter
 		void EnemysTurn(float deltatime);
 		void InitEnemyStats();
 	private:
+		std::vector<GUIWindow> AllGUIWindows;
 		DrawManager* m_draw_manager;
 		int Random(int min, int max);
 		float m_screen_width;
 		float m_screen_height;
+		sf::Font hudBattleFont;
 		//textures pointers etc 
 		// player
 		sf::Texture* m_player_texture;
@@ -58,8 +70,6 @@ namespace spaceshooter
 
 		//battle stats
 		BS_Skills* m_skillHolder;
-		bool CalculateSkillHit(float enemyHitRate, float skillHitRate, float playerEvadeRate);
-		float CalculateSkillDamage(float DMG, float SkillDMG,std::string p_skillName);
 		int currentSelectedOption;
 		int AmountOfOptionsInMenu1;
 		int AmountOfOptionsInMenu2;
@@ -70,6 +80,7 @@ namespace spaceshooter
 		float m_player_speed;
 		float m_player_evadeRate;
 		std::string m_player_name;
+		std::vector<std::string> m_playerSkills;
 		//enemy
 		float m_enemy_health;
 		float m_enemy_damage;

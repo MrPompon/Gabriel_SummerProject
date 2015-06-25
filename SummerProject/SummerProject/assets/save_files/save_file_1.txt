@@ -1,8 +1,8 @@
 [NAME] Char
-[HP] 100
+[HP] 1000
 [DMG] 30
 [SPEED] 5
 [EVADERATE] 30
 [HITRATE] 20
-
+[SKILLS] RazorDaggers HeadButt Stomp Smash
 

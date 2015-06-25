@@ -7,9 +7,6 @@ namespace spaceshooter
 {
 	class DrawManager
 	{
-		// note(tommi): making the copy constructor and 
-		// assignment operator private we make the class
-		// non-copyable
 		DrawManager(const DrawManager&);
 		DrawManager& operator=(const DrawManager&);
 
@@ -20,8 +17,8 @@ namespace spaceshooter
 		bool Initialize();
 		void Shutdown();
 
-		void Draw(const sf::Drawable& drawable, const sf::RenderStates& states);
-
+		void Draw(const sf::Drawable& drawable, const sf::RenderStates& states = sf::RenderStates::Default);
+		sf::RenderWindow* getWindow() const;
 	private:
 		sf::RenderWindow* m_window;
 	};

@@ -2,7 +2,6 @@
 
 #include "stdafx.h"
 #include "DrawManager.hpp"
-
 namespace spaceshooter
 {
 	DrawManager::DrawManager(sf::RenderWindow* window)
@@ -28,4 +27,9 @@ namespace spaceshooter
 	{
 		m_window->draw(drawable, states);
 	}
+	sf::RenderWindow* DrawManager::getWindow() const
+	{
+		return m_window;
+	}
+
 } // namespace spaceshooter

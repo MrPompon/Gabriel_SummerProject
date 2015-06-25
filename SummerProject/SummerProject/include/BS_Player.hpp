@@ -14,11 +14,11 @@ namespace spaceshooter
 		float GetDMG();
 		float GetSpeed();
 		float GetEvadeRate();
+		std::vector<std::string> GetPlayerSkills();
 		void LoadPlayerStatus(std::string p_filename);
 	private:
-		
-
 		//stats
+		std::vector<std::string> m_playerSkills;
 		std::string m_character_name;
 		float m_health;
 		float m_speed;

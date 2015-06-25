@@ -98,6 +98,7 @@
     <ClInclude Include="..\include\CollisionShapes.hpp" />
     <ClInclude Include="..\include\CollisionTestState.hpp" />
     <ClInclude Include="..\include\Drawable.hpp" />
+    <ClInclude Include="..\include\GUIWindow.hpp" />
     <ClInclude Include="..\include\Updatable.hpp" />
     <ClInclude Include="..\include\AbstractState.hpp" />
     <ClInclude Include="..\include\Action.hpp" />
@@ -135,6 +136,7 @@
     <ClCompile Include="..\source\Drawable.cpp" />
     <ClCompile Include="..\source\DrawManager.cpp" />
     <ClCompile Include="..\source\Engine.cpp" />
+    <ClCompile Include="..\source\GUIWindow.cpp" />
     <ClCompile Include="..\source\Updatable.cpp" />
     <ClCompile Include="..\source\InputManager.cpp" />
     <ClCompile Include="..\source\Math.cpp" />

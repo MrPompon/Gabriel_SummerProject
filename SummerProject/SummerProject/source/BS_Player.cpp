@@ -71,6 +71,13 @@ namespace spaceshooter
 				m_evadeRate = std::stof(parts[1]); 
 				std::cout << m_speed << std::endl;
 			}
+			if (parts[0] == "[SKILLS]")
+			{
+				for (unsigned int i = 1; i < parts.size(); i++)
+				{
+					m_playerSkills.push_back(parts[i]);
+				}
+			}
 		}
 	}
 	float BS_Player::GetDMG()
@@ -88,5 +95,9 @@ namespace spaceshooter
 	float BS_Player::GetEvadeRate()
 	{
 		return m_evadeRate;
+	}
+	std::vector<std::string> BS_Player::GetPlayerSkills()
+	{
+		return m_playerSkills;
 	}
 } // namespace spaceshooter

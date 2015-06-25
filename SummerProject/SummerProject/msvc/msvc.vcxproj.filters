@@ -37,6 +37,12 @@
     <Filter Include="Source Files\BSFolder">
       <UniqueIdentifier>{7bc7c7f2-a7c7-415b-a156-e2f720f98a2a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\HUD">
+      <UniqueIdentifier>{6cb3cbbf-2a84-488c-9072-7c9e436d2f35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\HUD">
+      <UniqueIdentifier>{35572b13-8230-44fe-bd70-adcc48cf65cf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="../include/stdafx.h">
@@ -111,6 +117,9 @@
     <ClInclude Include="..\include\BS_Skills.hpp">
       <Filter>Header Files\BattleScreenFolder</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\GUIWindow.hpp">
+      <Filter>Header Files\HUD</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="../source/main.cpp">
@@ -181,6 +190,9 @@
     </ClCompile>
     <ClCompile Include="..\source\BS_Skills.cpp">
       <Filter>Source Files\BSFolder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\GUIWindow.cpp">
+      <Filter>Source Files\HUD</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

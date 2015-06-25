@@ -44,10 +44,12 @@ namespace spaceshooter
 		void PlayersTurn(float deltatime);
 		void InitPlayerStats();
 		void FirstStrikeDecider();
+		void CheckMousePosition(float deltatime);
 		//enemy functions
 		void EnemysTurn(float deltatime);
 		void InitEnemyStats();
 	private:
+		sf::Mouse m_mouse;
 		std::vector<GUIWindow> AllGUIWindows;
 		DrawManager* m_draw_manager;
 		int Random(int min, int max);
@@ -69,6 +71,7 @@ namespace spaceshooter
 		bool enemysTurn;
 
 		//battle stats
+		sf::Vector2f mousePosition;
 		BS_Skills* m_skillHolder;
 		int currentSelectedOption;
 		int AmountOfOptionsInMenu1;

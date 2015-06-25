@@ -64,7 +64,7 @@ namespace spaceshooter
 		input_manager->RegisterKeyActionListener(Action::SELECT3, this, &BattleState::OnAction);
 		input_manager->RegisterKeyActionListener(Action::SELECT4, this, &BattleState::OnAction);
 
-		
+		m_mouse = input_manager->GetMouse();
 		m_player_position = { 300.0f, m_screen_height * 0.5f };
 		m_player_velocity = { 0.0f, 0.0f };
 
@@ -89,6 +89,26 @@ namespace spaceshooter
 		m_draw_manager = ServiceLocator<DrawManager>::GetService();
 
 		return true;
+	}
+	void BattleState::CheckMousePosition(float deltatime)
+	{
+		//checks each seperate word in the GUIWindowToSeeIfItIsHovered
+		mousePosition = m_draw_manager->getWindow()->mapPixelToCoords(m_mouse.getPosition(*m_draw_manager->getWindow()));
+		for (unsigned int i = 0; i < AllGUIWindows.size(); i++)
+		{
+			if (AllGUIWindows[i].GetWindowVisible())
+			{
+				for (unsigned int j = 0; j < AllGUIWindows[i].GetWordVector().size(); j++)
+				{
+					sf::FloatRect Intersection;
+					if (AllGUIWindows[i].GetWordVector()[j].GetSFWordText().getGlobalBounds().contains(mousePosition))
+					{
+						std::cout << "Text is hovered";
+						AllGUIWindows[i].GetWordVector()[j].SetHovered(true);
+					}
+				}
+			}
+		}
 	}
 	void BattleState::FirstStrikeDecider()
 	{
@@ -147,6 +167,7 @@ namespace spaceshooter
 	{
 		BattleManager(deltatime);
 		UpdateBattleHUD(deltatime);
+		CheckMousePosition(deltatime);
 		return true;
 	}
 
@@ -437,8 +458,10 @@ namespace spaceshooter
 	}
 	void BattleState::InitBattleHUD()
 	{
-		GUIWindow *gUIWindow = new GUIWindow(300, 300, 50, 50, 20, 4, 4);
+		GUIWindow *gUIWindow = new GUIWindow("OptionsMenu",m_screen_width*0.7, m_screen_height*0.7, 50.0f, 50.0f, 130.0f,30.0f, 20, 2, 2);
 		AllGUIWindows.push_back(*gUIWindow);
+		/*gUIWindow = new GUIWindow("SkillMenu",m_screen_width*0.3, m_screen_height*0.7, 50.0f, 50.0f, 130.0f, 30.0f, 20, 2, 2);
+		AllGUIWindows.push_back(*gUIWindow);*/
 		if (!hudBattleFont.loadFromFile("../assets/Fonts/SuperMario256.ttf"))
 		{
 			std::cout << "Failed to load font" << std::endl;
@@ -452,6 +475,10 @@ namespace spaceshooter
 	}
 	void BattleState::UpdateBattleHUD(float deltatime)
 	{
+		for (unsigned int i = 0; i<AllGUIWindows.size(); i++)
+		{
+			AllGUIWindows[i].Update(deltatime);
+		}
 		std::stringstream ss;
 		ss << m_player_health;
 		text_player_health.setString(ss.str());

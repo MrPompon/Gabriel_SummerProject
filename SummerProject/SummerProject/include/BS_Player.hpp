@@ -1,7 +1,7 @@
 // BS_Player.hpp
 
-#ifndef DRAWABLE_HPP_INCLUDED
-#define DRAWABLE_HPP_INCLUDED
+#ifndef BS_Player_HPP_INCLUDED
+#define BS_Player_HPP_INCLUDED
 
 namespace spaceshooter
 {

@@ -59,6 +59,7 @@ namespace spaceshooter
 		bool Initialize();
 		void Shutdown();
 
+		sf::Mouse GetMouse();
 		void MapKeyToAction(sf::Keyboard::Key key, const std::string& action);
 		void UnregisterKeyActionListener(const std::string& action, void* object);
 
@@ -72,6 +73,7 @@ namespace spaceshooter
 		void OnKeyboard(sf::Keyboard::Key key, bool state);
 
 	private:
+		sf::Mouse mouse;
 		std::map<sf::Keyboard::Key, std::string> m_keymapping;
 		std::map<std::string, CallbackArray> m_actioncallbacks;
 	};

@@ -29,7 +29,10 @@ namespace spaceshooter
 
 		return true;
 	}
-
+	sf::Mouse InputManager::GetMouse()
+	{
+		return mouse;
+	}
 	void InputManager::Shutdown()
 	{
 		m_keymapping.clear();

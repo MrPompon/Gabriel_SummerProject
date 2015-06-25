@@ -1,7 +1,7 @@
 // BS_Enemy.hpp
 
-#ifndef BS_Enemy_HPP_INCLUDED
-#define BS_Enemy_HPP_INCLUDED
+#ifndef BS_ENEMY_HPP_INCLUDED
+#define BS_ENEMY_HPP_INCLUDED
 
 namespace spaceshooter
 {

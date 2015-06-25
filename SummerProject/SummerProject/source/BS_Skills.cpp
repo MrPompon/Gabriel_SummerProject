@@ -53,6 +53,7 @@ namespace spaceshooter
 				m_skillDMG = std::stof(parts[3]);
 				m_skillHitRate =std::stof(parts[4]);
 				m_skillTimesHit = std::stoi(parts[5]);
+				m_skillProc = parts[6];
 			}
 			
 		}

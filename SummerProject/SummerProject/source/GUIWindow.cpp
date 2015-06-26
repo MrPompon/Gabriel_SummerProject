@@ -7,7 +7,7 @@
 #include <iostream>
 namespace spaceshooter
 {
-	GUIWindow::GUIWindow(std::string p_windowName, float p_originX, float p_originY, float firstWordX, float firstWordY, float p_wordDistanceWidth, float p_wordDistanceHeight,int p_fontSize, int p_rows, int p_colums)
+	GUIWindow::GUIWindow(BS_Player *m_player, BS_Enemy *m_enemy,std::string p_windowName, float p_originX, float p_originY, float firstWordX, float firstWordY, float p_wordDistanceWidth, float p_wordDistanceHeight, int p_fontSize, int p_rows, int p_colums)
 	{
 		InitVariables(p_windowName, p_originX, p_originY);
 		InitializeFont();

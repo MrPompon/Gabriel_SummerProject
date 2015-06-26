@@ -3,10 +3,11 @@
 #define GUIWindow_HPP_INCLUDED
 
 #include <SFML\Graphics.hpp>
-class BS_Player;
-class BS_Enemy;
+
 namespace spaceshooter
 {
+class BS_Player;
+class BS_Enemy;
 	struct Word:public sf::Transformable
 	{
 		sf::Vector2f position;
@@ -24,7 +25,7 @@ namespace spaceshooter
 		
 	public:
 		GUIWindow();
-		GUIWindow(std::string windowName,float p_originX, float p_originY, float firstWordX, float firstWordY, float p_wordDistanceWidth, float p_wordDistanceHeight, int p_fontSize, int p_rows, int p_colums);
+		GUIWindow(BS_Player *m_player,BS_Enemy *m_enemy,std::string windowName,float p_originX, float p_originY, float firstWordX, float firstWordY, float p_wordDistanceWidth, float p_wordDistanceHeight, int p_fontSize, int p_rows, int p_colums);
 		~GUIWindow();
 		void Update(float deltatime);
 		void InitializeFont();

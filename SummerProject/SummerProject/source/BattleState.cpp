@@ -470,7 +470,7 @@ namespace spaceshooter
 	}
 	void BattleState::InitBattleHUD()
 	{
-		GUIWindow *gUIWindow = new GUIWindow("OptionsMenu",m_screen_width*0.7, m_screen_height*0.7, 50.0f, 50.0f, 130.0f,30.0f, 20, 2, 2);
+		GUIWindow *gUIWindow = new GUIWindow(m_player,m_enemy,"OptionsMenu",m_screen_width*0.7, m_screen_height*0.7, 50.0f, 50.0f, 130.0f,30.0f, 20, 2, 2);
 		AllGUIWindows.push_back(*gUIWindow);
 		/*gUIWindow = new GUIWindow("SkillMenu",m_screen_width*0.3, m_screen_height*0.7, 50.0f, 50.0f, 130.0f, 30.0f, 20, 2, 2);
 		AllGUIWindows.push_back(*gUIWindow);*/

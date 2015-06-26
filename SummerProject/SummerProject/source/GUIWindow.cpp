@@ -4,11 +4,17 @@
 #include "GUIWindow.hpp"
 #include "BS_Player.hpp"
 #include "BS_Enemy.hpp"
+#include "DrawManager.hpp"
+#include "InputManager.hpp"
+#include "ServiceLocator.hpp"
 #include <iostream>
 namespace spaceshooter
 {
 	GUIWindow::GUIWindow(BS_Player *m_player, BS_Enemy *m_enemy,std::string p_windowName, float p_originX, float p_originY, float firstWordX, float firstWordY, float p_wordDistanceWidth, float p_wordDistanceHeight, int p_fontSize, int p_rows, int p_colums)
 	{
+		InputManager* input_manager = ServiceLocator<InputManager>::GetService();
+		m_draw_manager = ServiceLocator<DrawManager>::GetService();
+		m_mouse = m_input_manager->GetMouse();
 		InitVariables(p_windowName, p_originX, p_originY);
 		InitializeFont();
 		for (unsigned int r = 0; r < p_rows; r++)
@@ -78,14 +84,28 @@ namespace spaceshooter
 	
 	void GUIWindow::Update(float deltatime)
 	{
-		//Should get and update text string so that they are updated(duh)
-		for (unsigned int i = 0; i < wordVector.size(); i++)
-		{
-			if (wordVector[i].GetHovered()==true)
+		sf::Vector2f mousePosition = m_draw_manager->getWindow()->mapPixelToCoords(m_mouse.getPosition(*m_draw_manager->getWindow()));
+			if (m_visible)
 			{
-				wordVector[i].GetSFWordText().setColor(sf::Color::Green);
+				for (unsigned int i = 0; i < wordVector.size(); i++)
+				{
+					sf::FloatRect Intersection;
+					if (wordVector[i].GetSFWordText().getGlobalBounds().contains(mousePosition))
+					{
+						std::cout << "Text is hovered";
+						wordVector[i].SetHovered(true);
+					}
+					else
+					{
+						if (wordVector[i].isHovered)
+						{
+							wordVector[i].SetHovered(false);
+						}
+					}
+					wordVector[i].Update(deltatime);
+				
+				}
 			}
-		}
 	}
 
 	void GUIWindow::draw(sf::RenderTarget &target, sf::RenderStates states) const
@@ -98,6 +118,14 @@ namespace spaceshooter
 				target.draw(wordVector[i].word_text, states);
 			}
 		}
+	}
+	void Word::SetSFWordText(std::string p_sfWordText)
+	{
+		word_text.setString(p_sfWordText);
+	}
+	void Word::SetWordText(std::string p_WordText)
+	{
+		
 	}
 	std::vector<Word>GUIWindow::GetWordVector()
 	{
@@ -118,5 +146,21 @@ namespace spaceshooter
 	sf::Text Word::GetSFWordText()
 	{
 		return word_text;
+	}
+	void Word::Update(float deltatime)
+	{
+		if (isHovered)
+		{
+			//wordVector[i].GetSFWordText().setColor(sf::Color::Green);
+			std::cout << "I have been hovered";
+			word_text.setColor(sf::Color::Green);
+		}
+		else if (!isHovered)
+		{
+			if (word_text.getColor() != sf::Color::White)
+			{
+				word_text.setColor(sf::Color::White);
+			}
+		}
 	}
 }// namespace spaceshooter

@@ -8,15 +8,20 @@ namespace spaceshooter
 {
 class BS_Player;
 class BS_Enemy;
+class DrawManager;
+class InputManager;
 	struct Word:public sf::Transformable
 	{
 		sf::Vector2f position;
 		sf::Text word_text;
 		std::string GetWordText();
 		sf::Text GetSFWordText();
+		void SetSFWordText(std::string p_sfWordText);
+		void SetWordText(std::string p_WordText);
 		void SetHovered(bool trueOrFalse);
 		bool GetHovered();
 		bool isHovered;
+		void Update(float deltatime);
 	private:
 		
 	};
@@ -38,6 +43,9 @@ class BS_Enemy;
 	private:
 		void InitVariables(std::string m_windowName, float windowOriginX, float windowOriginY);
 	private:
+		DrawManager *m_draw_manager;
+		InputManager *m_input_manager;
+		sf::Mouse m_mouse;
 		sf::Vector2f m_windowOrigin;
 		bool m_visible;
 		std::string m_windowName;

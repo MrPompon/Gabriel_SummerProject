@@ -94,21 +94,7 @@ namespace spaceshooter
 	{
 		//checks each seperate word in the GUIWindowToSeeIfItIsHovered
 		mousePosition = m_draw_manager->getWindow()->mapPixelToCoords(m_mouse.getPosition(*m_draw_manager->getWindow()));
-		for (unsigned int i = 0; i < AllGUIWindows.size(); i++)
-		{
-			if (AllGUIWindows[i].GetWindowVisible())
-			{
-				for (unsigned int j = 0; j < AllGUIWindows[i].GetWordVector().size(); j++)
-				{
-					sf::FloatRect Intersection;
-					if (AllGUIWindows[i].GetWordVector()[j].GetSFWordText().getGlobalBounds().contains(mousePosition))
-					{
-						std::cout << "Text is hovered";
-						AllGUIWindows[i].GetWordVector()[j].SetHovered(true);
-					}
-				}
-			}
-		}
+	
 	}
 	void BattleState::ManageWindow(std::string windowName, bool trueOrFalse)
 	{

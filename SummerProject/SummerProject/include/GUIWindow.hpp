@@ -14,13 +14,15 @@ class InputManager;
 	{
 		sf::Vector2f position;
 		sf::Text word_text;
+		bool isHovered;
+		bool isClickable;
+		bool isHightlightable;
 		std::string GetWordText();
 		sf::Text GetSFWordText();
 		void SetSFWordText(std::string p_sfWordText);
 		void SetWordText(std::string p_WordText);
 		void SetHovered(bool trueOrFalse);
 		bool GetHovered();
-		bool isHovered;
 		void Update(float deltatime);
 	private:
 		
@@ -35,7 +37,8 @@ class InputManager;
 		void Update(float deltatime);
 		void InitializeFont();
 		void draw(sf::RenderTarget &target, sf::RenderStates states) const;
-		void CreateWord(std::string p_wordText, float p_posX, float p_posY, int p_fontsize);
+		void CreateWord(std::string p_wordText, bool p_clickable, bool p_hightlightable, float p_posX, float p_posY, int p_fontsize);
+		void CreateWindow(std::string p_windowName, float p_originX, float p_originY, float firstWordX, float firstWordY, float p_wordDistanceWidth, float p_wordDistanceHeight, int p_fontSize, int p_rows, int p_colums);
 		void SetWindowVisible(bool trueOrFalse);
 		bool GetWindowVisible();
 		std::string GetWindowName();

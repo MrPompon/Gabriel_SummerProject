@@ -32,6 +32,7 @@ namespace spaceshooter
 	private:
 		void OnAction(const std::string& action, bool state);
 		//Overall and skills
+		void ManageWindow(std::string windowName, bool trueOrFalse);
 		void InitSkillEnemy(std::string skillname, int skillNumber);
 		void BattleManager(float deltatime);
 		void BattleStatusChecker();

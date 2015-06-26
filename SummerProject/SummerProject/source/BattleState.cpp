@@ -110,6 +110,16 @@ namespace spaceshooter
 			}
 		}
 	}
+	void BattleState::ManageWindow(std::string windowName, bool trueOrFalse)
+	{
+		for (unsigned int i = 0; i < AllGUIWindows.size(); i++)
+		{
+			if (AllGUIWindows[i].GetWindowName() == windowName)
+			{
+				AllGUIWindows[i].SetWindowVisible(trueOrFalse);
+			}
+		}
+	}
 	void BattleState::FirstStrikeDecider()
 	{
 		//determines whos turn it is first 
@@ -297,6 +307,7 @@ namespace spaceshooter
 			}
 			if (m_actions[ACTION_FIRE])
 			{
+				ManageWindow("OptionsMenu", true);
 				currentSelectedOption++;
 				std::cout << "MenuOptionIsAt " << currentSelectedOption << std::endl;
 			}
@@ -304,6 +315,7 @@ namespace spaceshooter
 	}
 	void BattleState::EnemysTurn(float deltatime)
 	{
+		ManageWindow("OptionsMenu", false);
 		enemysTurn = true;
 		EnemyUseSkill();
 		std::cout << "Player has " << m_player_health << " health remaining " << std::endl;

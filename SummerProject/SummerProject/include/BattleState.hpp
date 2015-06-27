@@ -12,8 +12,10 @@ namespace spaceshooter
 	class BS_Enemy;
 	class BS_Skills;
 	class GUIWindow;
+	
 	class BattleState : public AbstractState
 	{
+		friend class GUIWindow;
 	public:
 		BattleState();
 		~BattleState();
@@ -34,6 +36,7 @@ namespace spaceshooter
 		//Overall and skills
 		void ManageWindow(std::string windowName, bool trueOrFalse);
 		void InitSkillEnemy(std::string skillname, int skillNumber);
+		void InitSkillPlayer(std::string skillname, int skillNumber);
 		void BattleManager(float deltatime);
 		void BattleStatusChecker();
 		void UpdateBattleHUD(float deltatime);
@@ -84,8 +87,37 @@ namespace spaceshooter
 		float m_player_speed;
 		float m_player_evadeRate;
 		std::string m_player_name;
+		//playerSkills
+		int m_player_skill_1_Number;
+		float m_player_skill_1_DMG;
+		float m_player_skill_1_HitRate;
+		int m_player_skill_1_AmountOfAttacks;
+		std::string m_player_skill_1_Attribute;
+		std::string m_player_skill_1_Name;
+		//skill 2
+		int m_player_skill_2_Number;
+		float m_player_skill_2_DMG;
+		float m_player_skill_2_HitRate;
+		int m_player_skill_2_AmountOfAttacks;
+		std::string m_player_skill_2_Attribute;
+		std::string m_player_skill_2_Name;
+		//skill 3
+		int m_player_skill_3_Number;
+		float m_player_skill_3_DMG;
+		float m_player_skill_3_HitRate;
+		int m_player_skill_3_AmountOfAttacks;
+		std::string m_player_skill_3_Attribute;
+		std::string m_player_skill_3_Name;
+		//skill 4 
+		int m_player_skill_4_Number;
+		float m_player_skill_4_DMG;
+		float m_player_skill_4_HitRate;
+		int m_player_skill_4_AmountOfAttacks;
+		std::string m_player_skill_4_Attribute;
+		std::string m_player_skill_4_Name;
 		std::vector<std::string> m_playerSkills;
 		//enemy
+
 		float m_enemy_health;
 		float m_enemy_damage;
 		float m_enemy_speed;

@@ -37,6 +37,10 @@ namespace spaceshooter
 		{
 			InitSkillEnemy(m_enemySkills[i],i);
 		}
+		for (int i = 0; i < m_playerSkills.size(); i++)
+		{
+			InitSkillPlayer(m_playerSkills[i], i);
+		}
 		FirstStrikeDecider();
 		InitBattleHUD();
 		currentSelectedOption= 0;
@@ -238,6 +242,46 @@ namespace spaceshooter
 		if (turnManager == TURN_PLAYER)
 		{
 			PlayersTurn(deltatime);
+		}
+	}
+	void BattleState::InitSkillPlayer(std::string p_skillname, int skillNumber)
+	{
+		m_skillHolder->LoadSkill("skill_file", p_skillname);
+		//loads the specific skill, need to store the values somewhere. 
+		switch (skillNumber)
+		{
+		case 0:
+			m_player_skill_1_Number = skillNumber;
+			m_player_skill_1_DMG = m_skillHolder->GetSkillDMG();
+			m_player_skill_1_HitRate = m_skillHolder->GetSkillHitRate();
+			m_player_skill_1_AmountOfAttacks = m_skillHolder->GetSkillAmountOfAttacks();
+			m_player_skill_1_Attribute = m_skillHolder->GetSkillAttribute();
+			m_player_skill_1_Name = m_skillHolder->GetSkillName();
+			break;
+		case 1:
+			m_player_skill_2_Number = skillNumber;
+			m_player_skill_2_DMG = m_skillHolder->GetSkillDMG();
+			m_player_skill_2_HitRate = m_skillHolder->GetSkillHitRate();
+			m_player_skill_2_AmountOfAttacks = m_skillHolder->GetSkillAmountOfAttacks();
+			m_player_skill_2_Attribute = m_skillHolder->GetSkillAttribute();
+			m_player_skill_2_Name = m_skillHolder->GetSkillName();
+			break;
+		case 2:
+			m_player_skill_3_Number = skillNumber;
+			m_player_skill_3_DMG = m_skillHolder->GetSkillDMG();
+			m_player_skill_3_HitRate = m_skillHolder->GetSkillHitRate();
+			m_player_skill_3_AmountOfAttacks = m_skillHolder->GetSkillAmountOfAttacks();
+			m_player_skill_3_Attribute = m_skillHolder->GetSkillAttribute();
+			m_player_skill_3_Name = m_skillHolder->GetSkillName();
+			break;
+		case 3:
+			m_player_skill_4_Number = skillNumber;
+			m_player_skill_4_DMG = m_skillHolder->GetSkillDMG();
+			m_player_skill_4_HitRate = m_skillHolder->GetSkillHitRate();
+			m_player_skill_4_AmountOfAttacks = m_skillHolder->GetSkillAmountOfAttacks();
+			m_player_skill_4_Attribute = m_skillHolder->GetSkillAttribute();
+			m_player_skill_4_Name = m_skillHolder->GetSkillName();
+			break;
 		}
 	}
 	void BattleState::InitSkillEnemy(std::string p_skillname,int skillNumber)
@@ -456,9 +500,9 @@ namespace spaceshooter
 	}
 	void BattleState::InitBattleHUD()
 	{
-		GUIWindow *gUIWindow = new GUIWindow(m_player,m_enemy,"OptionsMenu",m_screen_width*0.7, m_screen_height*0.7, 50.0f, 50.0f, 130.0f,30.0f, 20, 2, 2);
+		GUIWindow *gUIWindow = new GUIWindow(this,m_player,m_enemy,"OptionsMenu",m_screen_width*0.7, m_screen_height*0.7, 50.0f, 50.0f, 130.0f,30.0f, 20, 2, 2);
 		AllGUIWindows.push_back(*gUIWindow);
-		gUIWindow = new GUIWindow(m_player,m_enemy,"SkillMenu",m_screen_width*0.3, m_screen_height*0.7, 50.0f, 50.0f, 130.0f, 30.0f, 20, 2, 2);
+		gUIWindow = new GUIWindow(this,m_player,m_enemy,"SkillMenu",m_screen_width*0.3, m_screen_height*0.7, 50.0f, 50.0f, 130.0f, 30.0f, 20, 2, 2);
 		AllGUIWindows.push_back(*gUIWindow);
 		if (!hudBattleFont.loadFromFile("../assets/Fonts/SuperMario256.ttf"))
 		{

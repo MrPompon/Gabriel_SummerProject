@@ -4,19 +4,21 @@
 #include "GUIWindow.hpp"
 #include "BS_Player.hpp"
 #include "BS_Enemy.hpp"
+#include "BattleState.hpp"
 #include "DrawManager.hpp"
 #include "InputManager.hpp"
 #include "ServiceLocator.hpp"
 #include <iostream>
 namespace spaceshooter
 {
-	GUIWindow::GUIWindow(BS_Player *p_player, BS_Enemy *p_enemy,std::string p_windowName, float p_originX, float p_originY, float firstWordX, float firstWordY, float p_wordDistanceWidth, float p_wordDistanceHeight, int p_fontSize, int p_rows, int p_colums)
+	GUIWindow::GUIWindow(BattleState* p_battlestate, BS_Player *p_player, BS_Enemy *p_enemy, std::string p_windowName, float p_originX, float p_originY, float firstWordX, float firstWordY, float p_wordDistanceWidth, float p_wordDistanceHeight, int p_fontSize, int p_rows, int p_colums)
 	{
 		InputManager* input_manager = ServiceLocator<InputManager>::GetService();
 		m_draw_manager = ServiceLocator<DrawManager>::GetService();
 		m_mouse = m_input_manager->GetMouse();
 		m_player = p_player;
 		m_enemy = p_enemy;
+		m_battleState = p_battlestate;
 		InitVariables(p_windowName, p_originX, p_originY);
 		InitializeFont();
 		CreateWindow(p_windowName,p_originX,p_originY,firstWordX,firstWordY,p_wordDistanceWidth,p_wordDistanceHeight,p_fontSize,p_rows,p_colums);
@@ -126,7 +128,32 @@ namespace spaceshooter
 						wordVector[i].SetHovered(true);
 						if (m_mouse.isButtonPressed(m_mouse.Left) && wordVector[i].isClickable)
 						{
-							std::cout << "YOU ARE CLICKING TEXT";
+							sf::Text compareText = wordVector[i].word_text;
+								for (unsigned int j = 0; j <m_playerSkills.size(); j++)
+								{
+									if (compareText.getString() == m_playerSkills[j])
+									{
+										if (m_playerSkills[j] == m_battleState->m_player_skill_1_Name)
+										{
+											std::cout << "You are clicking skill number 1";
+										}
+										else if (m_playerSkills[j] == m_battleState->m_player_skill_2_Name)
+										{
+											std::cout << "You are clicking skill number 2";
+										}
+										else if (m_playerSkills[j] == m_battleState->m_player_skill_3_Name)
+										{
+											std::cout << "You are clicking skill number 3";
+										}
+										else if (m_playerSkills[j] == m_battleState->m_player_skill_4_Name)
+										{
+											std::cout << "You are clicking skill number 4";
+										}
+										//std::cout << "You are clicking skill text";
+									}
+								}
+							
+				
 						}
 					}
 					else

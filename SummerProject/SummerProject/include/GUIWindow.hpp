@@ -10,6 +10,7 @@ class BS_Player;
 class BS_Enemy;
 class DrawManager;
 class InputManager;
+class BattleState;
 	struct Word:public sf::Transformable
 	{
 		sf::Vector2f position;
@@ -32,7 +33,7 @@ class InputManager;
 		
 	public:
 		GUIWindow();
-		GUIWindow(BS_Player *m_player,BS_Enemy *m_enemy,std::string windowName,float p_originX, float p_originY, float firstWordX, float firstWordY, float p_wordDistanceWidth, float p_wordDistanceHeight, int p_fontSize, int p_rows, int p_colums);
+		GUIWindow(BattleState* p_battlestate, BS_Player *m_player, BS_Enemy *m_enemy, std::string windowName, float p_originX, float p_originY, float firstWordX, float firstWordY, float p_wordDistanceWidth, float p_wordDistanceHeight, int p_fontSize, int p_rows, int p_colums);
 		~GUIWindow();
 		void Update(float deltatime);
 		void InitializeFont();
@@ -55,6 +56,7 @@ class InputManager;
 		std::vector<std::string> m_playerSkills;
 		BS_Player *m_player;
 		BS_Enemy *m_enemy;
+		BattleState *m_battleState;
 		std::vector<Word> wordVector;
 		sf::Font hudBattleFont;
 		sf::Texture m_texture;

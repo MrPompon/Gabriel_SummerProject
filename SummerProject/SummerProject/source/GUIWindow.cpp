@@ -135,18 +135,26 @@ namespace spaceshooter
 									{
 										if (m_playerSkills[j] == m_battleState->m_player_skill_1_Name)
 										{
+											m_battleState->PlayerUseSkill(0);
+											m_battleState->ChangeTurn();
 											std::cout << "You are clicking skill number 1";
 										}
 										else if (m_playerSkills[j] == m_battleState->m_player_skill_2_Name)
 										{
+											m_battleState->PlayerUseSkill(1);
+											m_battleState->ChangeTurn();
 											std::cout << "You are clicking skill number 2";
 										}
 										else if (m_playerSkills[j] == m_battleState->m_player_skill_3_Name)
 										{
+											m_battleState->PlayerUseSkill(2);
+											m_battleState->ChangeTurn();
 											std::cout << "You are clicking skill number 3";
 										}
 										else if (m_playerSkills[j] == m_battleState->m_player_skill_4_Name)
 										{
+											m_battleState->PlayerUseSkill(3);
+											m_battleState->ChangeTurn();
 											std::cout << "You are clicking skill number 4";
 										}
 										//std::cout << "You are clicking skill text";

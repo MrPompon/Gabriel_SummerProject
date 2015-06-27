@@ -4,5 +4,5 @@
 [SPEED] 5
 [EVADERATE] 30
 [HITRATE] 20
-[SKILLS] RazorDaggers HeadButt Stomp Smash
+[SKILLS] RazorDaggers Cleave Stomp Smash
 

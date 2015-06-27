@@ -51,6 +51,10 @@ namespace spaceshooter
 	{
 		return m_speed;
 	}
+	float BS_Enemy::GetEvadeRate()
+	{
+		return m_evadeRate;
+	}
 	BS_Enemy::~BS_Enemy()
 	{
 	}
@@ -109,6 +113,10 @@ namespace spaceshooter
 			{
 				m_hitrate = std::stof(parts[1]);
 				std::cout << "has " << m_hitrate << " HitRate" << std::endl;
+			}
+			if (parts[0] == "[EVADERATE]")
+			{
+				m_evadeRate = std::stof(parts[1]);
 			}
 		}
 	}

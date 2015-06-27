@@ -43,12 +43,13 @@ namespace spaceshooter
 		void InitBattleHUD();
 		bool CalculateSkillHit(float enemyHitRate, float skillHitRate, float playerEvadeRate);
 		float CalculateSkillDamage(float DMG, float SkillDMG, std::string p_skillName);
-		
+		void ChangeTurn();
 		//player funtions
 		void PlayersTurn(float deltatime);
 		void InitPlayerStats();
 		void FirstStrikeDecider();
 		void CheckMousePosition(float deltatime);
+		void PlayerUseSkill(int p_skillNumber);
 		//enemy functions
 		void EnemysTurn(float deltatime);
 		void InitEnemyStats();
@@ -86,6 +87,7 @@ namespace spaceshooter
 		float m_player_damage;
 		float m_player_speed;
 		float m_player_evadeRate;
+		float m_player_hitrate;
 		std::string m_player_name;
 		//playerSkills
 		int m_player_skill_1_Number;
@@ -122,6 +124,7 @@ namespace spaceshooter
 		float m_enemy_damage;
 		float m_enemy_speed;
 		float m_enemy_hitrate;
+		float m_enemy_evadeRate;
 		int m_enemy_loot;
 		void EnemyUseSkill_1();
 		void EnemyUseSkill_2();

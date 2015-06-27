@@ -154,6 +154,7 @@ namespace spaceshooter
 		m_enemy_speed = m_enemy->GetSpeed();
 		m_enemy_loot = m_enemy->GetLoot();
 		m_enemy_hitrate = m_enemy->GetHitRate();
+		m_enemy_evadeRate = m_enemy->GetEvadeRate();
 	}
 	void BattleState::InitPlayerStats()
 	{
@@ -162,6 +163,7 @@ namespace spaceshooter
 		m_player_speed = m_player->GetSpeed();
 		m_player_evadeRate = m_player->GetEvadeRate();
 		m_playerSkills = m_player->GetPlayerSkills();
+		m_player_hitrate = m_player->GetHitRate();
 	}
 	bool BattleState::Update(float deltatime)
 	{
@@ -174,6 +176,7 @@ namespace spaceshooter
 	void BattleState::Draw()
 	{
 		m_draw_manager->Draw(text_player_health);
+		m_draw_manager->Draw(text_enemy_health);
 		m_draw_manager->Draw(m_player_sprite);
 		for (unsigned int i = 0; i<AllGUIWindows.size(); i++)
 		{
@@ -485,6 +488,89 @@ namespace spaceshooter
 		}
 		std::cout << m_enemy_skill_4_Name << " Hit " << amountOfHits << " Times" << std::endl;
 	}
+	void BattleState::PlayerUseSkill(int p_skillNumber)
+	{
+		switch (p_skillNumber)
+		{
+			int amountOfHits;
+		case 0:
+			amountOfHits = 0;
+			for (int i = 0; i < m_player_skill_1_AmountOfAttacks; i++)
+			{
+				if (CalculateSkillHit(m_player_hitrate, m_player_skill_1_HitRate, m_enemy_evadeRate))
+				{
+					amountOfHits++;
+					if (m_player_skill_1_Attribute == "Offensive")
+					{
+						m_enemy_health -= CalculateSkillDamage(m_player_damage, m_player_skill_1_DMG, m_player_skill_1_Name);
+					}
+					else if (m_player_skill_1_Attribute == "Defensive")
+					{
+						std::cout << "Defensive moves does not work yet AI :(";
+					}
+				}
+			}
+			std::cout << m_player_skill_1_Name << " Hit " << amountOfHits << " Times" << std::endl;
+			break;
+		case 1: 
+			amountOfHits = 0;
+			for (int i = 0; i < m_player_skill_2_AmountOfAttacks; i++)
+			{
+				if (CalculateSkillHit(m_player_hitrate, m_player_skill_2_HitRate, m_enemy_evadeRate))
+				{
+					amountOfHits++;
+					if (m_player_skill_2_Attribute == "Offensive")
+					{
+						m_enemy_health -= CalculateSkillDamage(m_player_damage, m_player_skill_2_DMG, m_player_skill_2_Name);
+					}
+					else if (m_player_skill_2_Attribute == "Defensive")
+					{
+						std::cout << "Defensive moves does not work yet AI :(";
+					}
+				}
+			}
+			std::cout << m_player_skill_2_Name << " Hit " << amountOfHits << " Times" << std::endl;
+			break;
+		case 2:
+			amountOfHits = 0;
+			for (int i = 0; i < m_player_skill_3_AmountOfAttacks; i++)
+			{
+				if (CalculateSkillHit(m_player_hitrate, m_player_skill_3_HitRate, m_enemy_evadeRate))
+				{
+					amountOfHits++;
+					if (m_player_skill_3_Attribute == "Offensive")
+					{
+						m_enemy_health -= CalculateSkillDamage(m_player_damage, m_player_skill_3_DMG, m_player_skill_3_Name);
+					}
+					else if (m_player_skill_3_Attribute == "Defensive")
+					{
+						std::cout << "Defensive moves does not work yet AI :(";
+					}
+				}
+			}
+			std::cout << m_player_skill_3_Name << " Hit " << amountOfHits << " Times" << std::endl;
+			break;
+		case 3:
+			amountOfHits = 0;
+			for (int i = 0; i < m_player_skill_4_AmountOfAttacks; i++)
+			{
+				if (CalculateSkillHit(m_player_hitrate, m_player_skill_4_HitRate, m_enemy_evadeRate))
+				{
+					amountOfHits++;
+					if (m_player_skill_4_Attribute == "Offensive")
+					{
+						m_enemy_health -= CalculateSkillDamage(m_player_damage, m_player_skill_4_DMG, m_player_skill_4_Name);
+					}
+					else if (m_player_skill_4_Attribute == "Defensive")
+					{
+						std::cout << "Defensive moves does not work yet AI :(";
+					}
+				}
+			}
+			std::cout << m_player_skill_4_Name << " Hit " << amountOfHits << " Times" << std::endl;
+			break;
+		}
+	}
 	void BattleState::BattleStatusChecker()
 	{
 		if (m_enemy_health < 0)
@@ -508,12 +594,18 @@ namespace spaceshooter
 		{
 			std::cout << "Failed to load font" << std::endl;
 		}
+		//players health displayed
 		text_player_health.setFont(hudBattleFont);
 		text_player_health.setPosition(300.0f, m_screen_height * 0.5f);
 		text_player_health.setColor(sf::Color::White);
 		text_player_health.setCharacterSize(39);
 		text_player_health.setStyle(sf::Text::Bold | sf::Text::Italic);
-		// Make class that makes text menus or whatever, gg this will be great
+		//enemies health displayed
+		text_enemy_health.setFont(hudBattleFont);
+		text_enemy_health.setPosition(300.0f, m_screen_height * 0.2f);
+		text_enemy_health.setColor(sf::Color::White);
+		text_enemy_health.setCharacterSize(39);
+		text_enemy_health.setStyle(sf::Text::Bold | sf::Text::Italic);
 	}
 	void BattleState::UpdateBattleHUD(float deltatime)
 	{
@@ -524,5 +616,19 @@ namespace spaceshooter
 		std::stringstream ss;
 		ss << m_player_health;
 		text_player_health.setString(ss.str());
+		ss.str("");
+		ss << m_enemy_health;
+		text_enemy_health.setString(ss.str());
+	}
+	void BattleState::ChangeTurn()
+	{
+		if (turnManager == TURN_PLAYER)
+		{
+			turnManager = TURN_ENEMY;
+		}
+		else if (turnManager == TURN_ENEMY)
+		{
+			turnManager = TURN_PLAYER;
+		}
 	}
 } // namespace spaceshooter

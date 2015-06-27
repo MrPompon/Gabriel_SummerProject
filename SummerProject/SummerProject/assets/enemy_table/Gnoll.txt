@@ -4,5 +4,6 @@
 [DMG] 5
 [SPEED] 15
 [HITRATE] 15
+[EVADERATE] 15
 [SKILLS] RazorDaggers Smash Cleave HeadButt
 

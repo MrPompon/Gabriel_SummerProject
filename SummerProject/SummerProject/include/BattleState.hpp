@@ -12,10 +12,12 @@ namespace spaceshooter
 	class BS_Enemy;
 	class BS_Skills;
 	class GUIWindow;
-	
+	class BS_LifeBar;
+
 	class BattleState : public AbstractState
 	{
 		friend class GUIWindow;
+		friend class BS_LifeBar;
 	public:
 		BattleState();
 		~BattleState();
@@ -25,6 +27,10 @@ namespace spaceshooter
 		virtual bool Update(float deltatime);
 		virtual void Draw();
 		virtual std::string GetNextState();
+	private: //battle background stuff
+		sf::Texture m_tex_battleBackground;
+		sf::Sprite m_spr_battleBackground;
+		void InitBackground();
 	private:
 		//All Combat font
 		//player
@@ -41,6 +47,7 @@ namespace spaceshooter
 		void BattleStatusChecker();
 		void UpdateBattleHUD(float deltatime);
 		void InitBattleHUD();
+		void InitLifeBars();
 		bool CalculateSkillHit(float enemyHitRate, float skillHitRate, float playerEvadeRate);
 		float CalculateSkillDamage(float DMG, float SkillDMG, std::string p_skillName);
 		void ChangeTurn();
@@ -56,6 +63,7 @@ namespace spaceshooter
 	private:
 		sf::Mouse m_mouse;
 		std::vector<GUIWindow> AllGUIWindows;
+		std::vector<BS_LifeBar> AllLifeBars;
 		DrawManager* m_draw_manager;
 		int Random(int min, int max);
 		float m_screen_width;
@@ -166,8 +174,6 @@ namespace spaceshooter
 		std::string m_enemy_skill_4_Name;
 		// sound
 		sf::Sound m_sound;
-		// note(tommi): code for actions will be refactored
-		// into a player controller class
 		enum TurnManager
 		{
 			TURN_PLAYER,

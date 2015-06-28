@@ -120,6 +120,9 @@
     <ClInclude Include="..\include\GUIWindow.hpp">
       <Filter>Header Files\HUD</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\BS_LifeBar.hpp">
+      <Filter>Header Files\BattleScreenFolder</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="../source/main.cpp">
@@ -193,6 +196,9 @@
     </ClCompile>
     <ClCompile Include="..\source\GUIWindow.cpp">
       <Filter>Source Files\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\BS_LifeBar.cpp">
+      <Filter>Source Files\BSFolder</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

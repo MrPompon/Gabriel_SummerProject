@@ -92,6 +92,7 @@
     <ClInclude Include="../include/stdafx.h" />
     <ClInclude Include="..\include\BattleState.hpp" />
     <ClInclude Include="..\include\BS_Enemy.hpp" />
+    <ClInclude Include="..\include\BS_LifeBar.hpp" />
     <ClInclude Include="..\include\BS_Player.hpp" />
     <ClInclude Include="..\include\BS_Skills.hpp" />
     <ClInclude Include="..\include\Collidable.hpp" />
@@ -126,6 +127,7 @@
     <ClCompile Include="..\source\AudioManager.cpp" />
     <ClCompile Include="..\source\BattleState.cpp" />
     <ClCompile Include="..\source\BS_Enemy.cpp" />
+    <ClCompile Include="..\source\BS_LifeBar.cpp" />
     <ClCompile Include="..\source\BS_Player.cpp" />
     <ClCompile Include="..\source\BS_Skills.cpp" />
     <ClCompile Include="..\source\Collidable.cpp" />

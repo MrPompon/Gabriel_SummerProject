@@ -13,6 +13,7 @@
 #include "BS_Enemy.hpp"
 #include "BS_Skills.hpp"
 #include "GUIWindow.hpp"
+#include "BS_LifeBar.hpp"
 namespace spaceshooter
 {
 	BattleState::BattleState()
@@ -43,6 +44,8 @@ namespace spaceshooter
 		}
 		FirstStrikeDecider();
 		InitBattleHUD();
+		InitLifeBars();
+		InitBackground();
 		currentSelectedOption= 0;
 		AmountOfOptionsInMenu1;
 		AmountOfOptionsInMenu2;
@@ -175,9 +178,14 @@ namespace spaceshooter
 
 	void BattleState::Draw()
 	{
+		m_draw_manager->Draw(m_spr_battleBackground);
 		m_draw_manager->Draw(text_player_health);
 		m_draw_manager->Draw(text_enemy_health);
 		m_draw_manager->Draw(m_player_sprite);
+		for (unsigned int i = 0; i < AllLifeBars.size(); i++)
+		{
+			m_draw_manager->Draw(AllLifeBars[i]);
+		}
 		for (unsigned int i = 0; i<AllGUIWindows.size(); i++)
 		{
 			m_draw_manager->Draw(AllGUIWindows[i]);
@@ -584,6 +592,21 @@ namespace spaceshooter
 			std::cout << "ENEMY WON FIGHT" << std::endl;
 		} 
 	}
+	void BattleState::InitBackground()
+	{
+		if (!m_tex_battleBackground.loadFromFile("../assets/Sprites/Backgrounds/BattleBackground.png"))
+		{
+			std::cout << "failed to load the battlebackground";
+		}
+		m_spr_battleBackground.setTexture(m_tex_battleBackground);
+	}
+	void BattleState::InitLifeBars()
+	{
+		BS_LifeBar *m_playerLifeBar = new BS_LifeBar(this,m_player,sf::Vector2f(m_screen_width*0.7,m_screen_height*0.8));
+		BS_LifeBar *m_enemyLifeBar = new BS_LifeBar(this,m_enemy,sf::Vector2f(100.0f, 100.0f));
+		AllLifeBars.push_back(*m_playerLifeBar);
+		AllLifeBars.push_back(*m_enemyLifeBar);
+	}
 	void BattleState::InitBattleHUD()
 	{
 		GUIWindow *gUIWindow = new GUIWindow(this,m_player,m_enemy,"OptionsMenu",m_screen_width*0.7, m_screen_height*0.7, 50.0f, 50.0f, 130.0f,30.0f, 20, 2, 2);
@@ -612,6 +635,10 @@ namespace spaceshooter
 		for (unsigned int i = 0; i<AllGUIWindows.size(); i++)
 		{
 			AllGUIWindows[i].Update(deltatime);
+		}
+		for (unsigned int i = 0; i < AllLifeBars.size(); i++)
+		{
+			AllLifeBars[i].Update(deltatime);
 		}
 		std::stringstream ss;
 		ss << m_player_health;

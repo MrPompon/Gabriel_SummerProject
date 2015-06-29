@@ -4,6 +4,8 @@
 #include "BS_Enemy.hpp"
 #include "BS_Player.hpp"
 #include "BattleState.hpp"
+#include "TextureManager.hpp"
+#include "ServiceLocator.hpp"
 #include <iostream>
 namespace spaceshooter
 {
@@ -20,6 +22,7 @@ namespace spaceshooter
 	}
 	BS_LifeBar::BS_LifeBar(BattleState *p_battleState,BS_Player*p_player,sf::Vector2f p_position)
 	{
+		
 		m_battleState = p_battleState;
 		playersLifeBar = true;
 		enemysLifeBar = false;
@@ -35,16 +38,11 @@ namespace spaceshooter
 	}
 	void BS_LifeBar::InitLifeBar()
 	{
-		if (!m_lifebarTexture.loadFromFile("../assets/Sprites/BS_LifeBar/BS_LifeBar.png"))
-		{
-			std::cout << "Failed to load lifebarFile" << std::endl;
-		}
-		m_lifebar.setTexture(m_lifebarTexture);
-		if (!m_tex_lifebarBackground.loadFromFile("../assets/Sprites/BS_LifeBar/BS_LifeBarBackground.png"))
-		{
-			std::cout << "Failed to load lifebarBackgroundFile" << std::endl;
-		}
-		m_spr_lifebarBackground.setTexture(m_tex_lifebarBackground);
+		TextureManager* texture_manager = ServiceLocator<TextureManager>::GetService();
+		m_lifebarTexture = texture_manager->CreateTextureFromFile(("../assets/Sprites/BS_LifeBar/BS_LifeBar.png"));
+		m_lifebar.setTexture(*m_lifebarTexture);
+		m_tex_lifebarBackground = texture_manager->CreateTextureFromFile("../assets/Sprites/BS_LifeBar/BS_LifeBarBackground.png");
+		m_spr_lifebarBackground.setTexture(*m_tex_lifebarBackground);
 	}
 	void BS_LifeBar::Update(float deltatime)
 	{
@@ -63,9 +61,9 @@ namespace spaceshooter
 	}
 	void BS_LifeBar::draw(sf::RenderTarget &target, sf::RenderStates states) const
 	{
-			states.texture = &m_tex_lifebarBackground;
+			states.texture = m_tex_lifebarBackground;
 			target.draw(m_spr_lifebarBackground, states);
-			states.texture = &m_lifebarTexture;
+			states.texture = m_lifebarTexture;
 			target.draw(m_lifebar, states);
 			
 	}

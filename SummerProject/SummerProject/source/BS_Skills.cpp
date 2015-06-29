@@ -54,6 +54,7 @@ namespace spaceshooter
 				m_skillHitRate =std::stof(parts[4]);
 				m_skillTimesHit = std::stoi(parts[5]);
 				m_skillProc = parts[6];
+				m_skillAnimationTime = std::stof(parts[7]);
 			}
 			
 		}
@@ -78,5 +79,8 @@ namespace spaceshooter
 	{
 		return m_skillName;
 	}
-
+	float BS_Skills::GetSkillAnimationTime()
+	{
+		return m_skillAnimationTime;
+	}
 } // namespace spaceshooter

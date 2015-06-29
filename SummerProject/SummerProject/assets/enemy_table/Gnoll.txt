@@ -1,9 +1,9 @@
 [NAME] Gnoll
 [LOOT] 10
-[HP] 50
-[DMG] 5
+[HP] 500
+[DMG] 15
 [SPEED] 15
-[HITRATE] 15
+[HITRATE] 25
 [EVADERATE] 15
-[SKILLS] RazorDaggers Smash Cleave HeadButt
+[SKILLS] Razor Smash Cleave HeadButt
 

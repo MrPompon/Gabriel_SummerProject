@@ -15,7 +15,7 @@ namespace spaceshooter
 		float GetSkillDMG();
 		float GetSkillHitRate();
 		float GetSkillAmountOfAttacks();
-		
+		float GetSkillAnimationTime();
 
 		void LoadSkill(std::string p_filename, std::string skillname);
 	private:
@@ -31,6 +31,7 @@ namespace spaceshooter
 		std::string m_character_name;
 		std::string m_skillName;
 		std::string m_skillEffect;
+		float m_skillAnimationTime;
 		float m_skillDMG;
 		float m_skillHitRate;
 		int m_skillTimesHit;

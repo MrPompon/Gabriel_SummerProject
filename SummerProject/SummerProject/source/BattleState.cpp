@@ -27,9 +27,10 @@ namespace spaceshooter
 			m_actions[index] = false;
 		}
 		m_player = new BS_Player(player_saveFile);
-		m_enemy = new BS_Enemy(enemy_encounter_name);
+		m_enemy = new BS_Enemy(enemy_encounter_name,this);
 		m_skillHolder = new BS_Skills();
-
+		m_playerVector.push_back(*m_player);
+		m_enemyVector.push_back(*m_enemy);
 		InitEnemyStats();
 		InitPlayerStats();
 		//Init all 4 enemy skills
@@ -72,11 +73,10 @@ namespace spaceshooter
 		input_manager->RegisterKeyActionListener(Action::SELECT4, this, &BattleState::OnAction);
 
 		m_mouse = input_manager->GetMouse();
-		m_player_position = { 300.0f, m_screen_height * 0.5f };
-		m_player_velocity = { 0.0f, 0.0f };
+		m_player_position = { m_screen_width*0.2f, m_screen_height * 0.8f };
 
 		TextureManager* texture_manager = ServiceLocator<TextureManager>::GetService();
-		m_player_texture = texture_manager->CreateTextureFromFile("../assets/player.png");
+		m_player_texture = texture_manager->CreateTextureFromFile("../assets/Sprites/Player_BS/Character_1_BS.png");
 		m_player_texture->setSmooth(false);
 		m_player_sprite.setTexture(*m_player_texture);
 		m_player_sprite.setPosition(m_player_position);
@@ -84,18 +84,28 @@ namespace spaceshooter
 			static_cast<float>(m_player_sprite.getTextureRect().width) * 0.5f,
 			static_cast<float>(m_player_sprite.getTextureRect().height) * 0.5f);
 
-
-		AudioManager* audio_manager = ServiceLocator<AudioManager>::GetService();
-		sf::SoundBuffer* sound_buffer = audio_manager->CreateSoundFromFile("../assets/audio/gunfire.ogg");
-		m_sound.setBuffer(*sound_buffer);
-		m_sound.setLoop(false);
-		m_sound.setVolume(60.0f);
-
+		InitAudio("DarkGround");
 
 		// better to have a local pointer than to access it through the service locator
 		m_draw_manager = ServiceLocator<DrawManager>::GetService();
 
 		return true;
+	}
+	void BattleState::InitAudio(std::string p_battleTheme)
+	{
+		m_music_victoryPlaying = false;
+		AudioManager* audio_manager = ServiceLocator<AudioManager>::GetService();
+		sf::SoundBuffer* sound_buffer = audio_manager->CreateSoundFromFile("../assets/audio/gunfire.ogg");
+		
+		m_sound.setBuffer(*sound_buffer);
+		m_sound.setLoop(false);
+		m_sound.setVolume(60.0f);
+		sf::Music* BS_Music = audio_manager->CreateMusicFromFile("../assets/audio/Music/BS/" + p_battleTheme + ".ogg");
+		sf::Music* BS_Music_Victory = audio_manager->CreateMusicFromFile("../assets/audio/Music/BS/VictoryTheme.ogg");
+		m_music = BS_Music;
+		m_music_victory = BS_Music_Victory;
+		m_music->play();
+		
 	}
 	void BattleState::CheckMousePosition(float deltatime)
 	{
@@ -120,7 +130,7 @@ namespace spaceshooter
 		{
 			turnManager = TURN_PLAYER;
 		}
-		else
+		else 
 		{
 			turnManager = TURN_ENEMY;
 		}
@@ -151,6 +161,7 @@ namespace spaceshooter
 
 	void BattleState::InitEnemyStats()
 	{
+		m_enemyWon = false;
 		m_enemy_name = m_enemy->GetName();
 		m_enemy_health = m_enemy->GetHealth();
 		m_enemy_damage = m_enemy->GetDMG();
@@ -161,6 +172,7 @@ namespace spaceshooter
 	}
 	void BattleState::InitPlayerStats()
 	{
+		m_playerWon = false;
 		m_player_damage = m_player->GetDMG();
 		m_player_health = m_player->GetHealth();
 		m_player_speed = m_player->GetSpeed();
@@ -172,7 +184,9 @@ namespace spaceshooter
 	{
 		BattleManager(deltatime);
 		UpdateBattleHUD(deltatime);
+		m_turnDelayTime -= deltatime;
 		CheckMousePosition(deltatime);
+		m_enemyVector[0].Update(deltatime);
 		return true;
 	}
 
@@ -182,6 +196,8 @@ namespace spaceshooter
 		m_draw_manager->Draw(text_player_health);
 		m_draw_manager->Draw(text_enemy_health);
 		m_draw_manager->Draw(m_player_sprite);
+		m_draw_manager->Draw(m_enemyVector[0]);
+		//m_draw_manager->Draw(m_playerVector[0]);
 		for (unsigned int i = 0; i < AllLifeBars.size(); i++)
 		{
 			m_draw_manager->Draw(AllLifeBars[i]);
@@ -254,6 +270,16 @@ namespace spaceshooter
 		{
 			PlayersTurn(deltatime);
 		}
+		if (turnManager == TURN_OVER)
+		{
+			if (!m_music_victoryPlaying)
+			{	m_music->stop();
+				m_music_victory->play();
+				m_music_victoryPlaying = true;
+			//do victory stuff
+			}
+			
+		}
 	}
 	void BattleState::InitSkillPlayer(std::string p_skillname, int skillNumber)
 	{
@@ -268,6 +294,7 @@ namespace spaceshooter
 			m_player_skill_1_AmountOfAttacks = m_skillHolder->GetSkillAmountOfAttacks();
 			m_player_skill_1_Attribute = m_skillHolder->GetSkillAttribute();
 			m_player_skill_1_Name = m_skillHolder->GetSkillName();
+			m_player_skill_1_animTime = m_skillHolder->GetSkillAnimationTime();
 			break;
 		case 1:
 			m_player_skill_2_Number = skillNumber;
@@ -276,6 +303,7 @@ namespace spaceshooter
 			m_player_skill_2_AmountOfAttacks = m_skillHolder->GetSkillAmountOfAttacks();
 			m_player_skill_2_Attribute = m_skillHolder->GetSkillAttribute();
 			m_player_skill_2_Name = m_skillHolder->GetSkillName();
+			m_player_skill_2_animTime = m_skillHolder->GetSkillAnimationTime();
 			break;
 		case 2:
 			m_player_skill_3_Number = skillNumber;
@@ -284,6 +312,7 @@ namespace spaceshooter
 			m_player_skill_3_AmountOfAttacks = m_skillHolder->GetSkillAmountOfAttacks();
 			m_player_skill_3_Attribute = m_skillHolder->GetSkillAttribute();
 			m_player_skill_3_Name = m_skillHolder->GetSkillName();
+			m_player_skill_3_animTime = m_skillHolder->GetSkillAnimationTime();
 			break;
 		case 3:
 			m_player_skill_4_Number = skillNumber;
@@ -292,6 +321,7 @@ namespace spaceshooter
 			m_player_skill_4_AmountOfAttacks = m_skillHolder->GetSkillAmountOfAttacks();
 			m_player_skill_4_Attribute = m_skillHolder->GetSkillAttribute();
 			m_player_skill_4_Name = m_skillHolder->GetSkillName();
+			m_player_skill_4_animTime = m_skillHolder->GetSkillAnimationTime();
 			break;
 		}
 	}
@@ -308,6 +338,7 @@ namespace spaceshooter
 			m_enemy_skill_1_AmountOfAttacks = m_skillHolder->GetSkillAmountOfAttacks();
 			m_enemy_skill_1_Attribute = m_skillHolder->GetSkillAttribute();
 			m_enemy_skill_1_Name = m_skillHolder->GetSkillName();
+			m_enemy_skill_1_animTime = m_skillHolder->GetSkillAnimationTime();
 			break;
 		case 1:
 			m_enemy_skill_2_Number = skillNumber;
@@ -316,6 +347,7 @@ namespace spaceshooter
 			m_enemy_skill_2_AmountOfAttacks = m_skillHolder->GetSkillAmountOfAttacks();
 			m_enemy_skill_2_Attribute = m_skillHolder->GetSkillAttribute();
 			m_enemy_skill_2_Name = m_skillHolder->GetSkillName();
+			m_enemy_skill_2_animTime = m_skillHolder->GetSkillAnimationTime();
 			break;
 		case 2:
 			m_enemy_skill_3_Number = skillNumber;
@@ -324,6 +356,7 @@ namespace spaceshooter
 			m_enemy_skill_3_AmountOfAttacks = m_skillHolder->GetSkillAmountOfAttacks();
 			m_enemy_skill_3_Attribute = m_skillHolder->GetSkillAttribute();
 			m_enemy_skill_3_Name = m_skillHolder->GetSkillName();
+			m_enemy_skill_3_animTime = m_skillHolder->GetSkillAnimationTime();
 			break;
 		case 3:
 			m_enemy_skill_4_Number = skillNumber;
@@ -332,15 +365,23 @@ namespace spaceshooter
 			m_enemy_skill_4_AmountOfAttacks = m_skillHolder->GetSkillAmountOfAttacks();
 			m_enemy_skill_4_Attribute = m_skillHolder->GetSkillAttribute();
 			m_enemy_skill_4_Name = m_skillHolder->GetSkillName();
+			m_enemy_skill_4_animTime = m_skillHolder->GetSkillAnimationTime();
 			break;
 		}
 	}
 	void BattleState::PlayersTurn(float deltatime)
 	{
-		playersTurn = true;
-		//std::cout << "Players Turn" << std::endl;
-		//change these for correct input, add delay between turns.
-		//std::cout << "Playeeerrr";
+		if (m_turnDelayTime <= 0)
+		{
+			if (enemysTurn == true)
+			{
+				//activate windows for players turn here
+				ManageWindow("SkillMenu", true);
+			}
+			enemysTurn = false;
+			//std::cout << "Players Turn" << std::endl;
+			//change these for correct input, add delay between turns.
+			//std::cout << "Playeeerrr";
 			if (m_actions[ACTION_RIGHT])
 			{
 				BattleStatusChecker();
@@ -352,21 +393,21 @@ namespace spaceshooter
 				currentSelectedOption++;
 				std::cout << "MenuOptionIsAt " << currentSelectedOption << std::endl;
 			}
-		
+		}
 	}
 	void BattleState::EnemysTurn(float deltatime)
 	{
+		//deactivate GUIWhen its players turn
 		ManageWindow("OptionsMenu", false);
+		ManageWindow("SkillMenu", false);
 		enemysTurn = true;
-		EnemyUseSkill();
-		std::cout << "Player has " << m_player_health << " health remaining " << std::endl;
-		BattleStatusChecker();
-		turnManager = TURN_PLAYER;
-		//change these for correct input(AI), add delay between turns.
-		if (m_actions[ACTION_LEFT])
+		if (m_turnDelayTime <= 0)
 		{
-			turnManager = TURN_PLAYER;
+			EnemyUseSkill();
+			std::cout << "Player has " << m_player_health << " health remaining " << std::endl;
+			BattleStatusChecker();
 		}
+		
 	}
 	int BattleState::Random(int min, int max)
 	{
@@ -380,15 +421,19 @@ namespace spaceshooter
 		{
 		case 0:
 			EnemyUseSkill_1();
+			ChangeTurn(m_enemy_skill_1_animTime);
 			break;
 		case 1:
 			EnemyUseSkill_2();
+			ChangeTurn(m_enemy_skill_2_animTime);
 			break;
 		case 2:
 			EnemyUseSkill_3();
+			ChangeTurn(m_enemy_skill_3_animTime);
 			break;
 		case 3:
 			EnemyUseSkill_4();
+			ChangeTurn(m_enemy_skill_4_animTime);
 			break;
 		}
 	}
@@ -581,15 +626,19 @@ namespace spaceshooter
 	}
 	void BattleState::BattleStatusChecker()
 	{
-		if (m_enemy_health < 0)
+		if (m_enemy_health <= 0)
 		{
 			//change state or screen 
 			std::cout << "PLAYER WON FIGHT" << std::endl;
+			m_enemyWon = true;
+			turnManager = TURN_OVER;
 		}
-		else if(m_player_health < 0)
+		else if(m_player_health <= 0)
 		{
 			//change state to game over
 			std::cout << "ENEMY WON FIGHT" << std::endl;
+			m_playerWon = true;
+			turnManager = TURN_OVER;
 		} 
 	}
 	void BattleState::InitBackground()
@@ -647,15 +696,18 @@ namespace spaceshooter
 		ss << m_enemy_health;
 		text_enemy_health.setString(ss.str());
 	}
-	void BattleState::ChangeTurn()
+	void BattleState::ChangeTurn(float p_turnDelayTime)
 	{
-		if (turnManager == TURN_PLAYER)
-		{
-			turnManager = TURN_ENEMY;
-		}
-		else if (turnManager == TURN_ENEMY)
-		{
-			turnManager = TURN_PLAYER;
-		}
+		m_turnDelayTime = p_turnDelayTime;
+		
+			if (turnManager == TURN_PLAYER)
+			{
+				turnManager = TURN_ENEMY;
+			}
+			else if (turnManager == TURN_ENEMY)
+			{
+				turnManager = TURN_PLAYER;
+			}
 	}
-} // namespace spaceshooter
+}
+ // namespace spaceshooter

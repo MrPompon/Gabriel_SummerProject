@@ -10,6 +10,7 @@ namespace spaceshooter
 	class BS_Player;
 	class BS_Enemy;
 	class BattleState;
+	class TextureManager;
 	class BS_LifeBar :public sf::Transformable, public sf::Drawable
 	{
 	public:
@@ -27,9 +28,9 @@ namespace spaceshooter
 		bool enemysLifeBar;
 		bool playersLifeBar;
 		sf::Sprite m_lifebar;
-		sf::Texture m_lifebarTexture;
+		sf::Texture *m_lifebarTexture;
 		sf::Sprite m_spr_lifebarBackground;
-		sf::Texture m_tex_lifebarBackground;
+		sf::Texture *m_tex_lifebarBackground;
 		float maximumLife;
 		float currentLife;
 	};

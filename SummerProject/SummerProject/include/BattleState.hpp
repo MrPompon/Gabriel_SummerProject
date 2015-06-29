@@ -18,6 +18,7 @@ namespace spaceshooter
 	{
 		friend class GUIWindow;
 		friend class BS_LifeBar;
+		friend class BS_Enemy;
 	public:
 		BattleState();
 		~BattleState();
@@ -39,6 +40,11 @@ namespace spaceshooter
 		sf::Text text_enemy_health, text_enemy_damage; 
 	private:
 		void OnAction(const std::string& action, bool state);
+		//audio stuff
+		void InitAudio(std::string p_battleTheme);
+		sf::Music *m_music;
+		sf::Music *m_music_victory;
+		bool m_music_victoryPlaying;
 		//Overall and skills
 		void ManageWindow(std::string windowName, bool trueOrFalse);
 		void InitSkillEnemy(std::string skillname, int skillNumber);
@@ -50,7 +56,7 @@ namespace spaceshooter
 		void InitLifeBars();
 		bool CalculateSkillHit(float enemyHitRate, float skillHitRate, float playerEvadeRate);
 		float CalculateSkillDamage(float DMG, float SkillDMG, std::string p_skillName);
-		void ChangeTurn();
+		void ChangeTurn(float p_turnDelayTime);
 		//player funtions
 		void PlayersTurn(float deltatime);
 		void InitPlayerStats();
@@ -65,17 +71,18 @@ namespace spaceshooter
 		std::vector<GUIWindow> AllGUIWindows;
 		std::vector<BS_LifeBar> AllLifeBars;
 		DrawManager* m_draw_manager;
+		float m_turnDelayTime;
 		int Random(int min, int max);
 		float m_screen_width;
 		float m_screen_height;
 		sf::Font hudBattleFont;
+		bool m_enemyWon;
+		bool m_playerWon;
 		//textures pointers etc 
 		// player
 		sf::Texture* m_player_texture;
 		sf::Sprite m_player_sprite;
 		sf::Vector2f m_player_position;
-		sf::Vector2f m_player_velocity;
-		sf::Vector2f m_player_direction;
 		std::string player_saveFile;
 		std::string enemy_encounter_name;
 		bool playersTurn;
@@ -104,6 +111,7 @@ namespace spaceshooter
 		int m_player_skill_1_AmountOfAttacks;
 		std::string m_player_skill_1_Attribute;
 		std::string m_player_skill_1_Name;
+		float m_player_skill_1_animTime;
 		//skill 2
 		int m_player_skill_2_Number;
 		float m_player_skill_2_DMG;
@@ -111,6 +119,7 @@ namespace spaceshooter
 		int m_player_skill_2_AmountOfAttacks;
 		std::string m_player_skill_2_Attribute;
 		std::string m_player_skill_2_Name;
+		float m_player_skill_2_animTime;
 		//skill 3
 		int m_player_skill_3_Number;
 		float m_player_skill_3_DMG;
@@ -118,6 +127,7 @@ namespace spaceshooter
 		int m_player_skill_3_AmountOfAttacks;
 		std::string m_player_skill_3_Attribute;
 		std::string m_player_skill_3_Name;
+		float m_player_skill_3_animTime;
 		//skill 4 
 		int m_player_skill_4_Number;
 		float m_player_skill_4_DMG;
@@ -125,7 +135,9 @@ namespace spaceshooter
 		int m_player_skill_4_AmountOfAttacks;
 		std::string m_player_skill_4_Attribute;
 		std::string m_player_skill_4_Name;
+		std::vector<BS_Player> m_playerVector;
 		std::vector<std::string> m_playerSkills;
+		float m_player_skill_4_animTime;
 		//enemy
 
 		float m_enemy_health;
@@ -139,6 +151,7 @@ namespace spaceshooter
 		void EnemyUseSkill_3();
 		void EnemyUseSkill_4();
 		std::string m_enemy_name;
+		std::vector<BS_Enemy> m_enemyVector;
 		std::vector<std::string> m_enemySkills;
 		BS_Enemy*m_enemy;
 		void EnemyUseSkill();
@@ -151,6 +164,7 @@ namespace spaceshooter
 		int m_enemy_skill_1_AmountOfAttacks;
 		std::string m_enemy_skill_1_Attribute;
 		std::string m_enemy_skill_1_Name;
+		float m_enemy_skill_1_animTime;
 		//skill 2
 		int m_enemy_skill_2_Number;
 		float m_enemy_skill_2_DMG;
@@ -158,6 +172,7 @@ namespace spaceshooter
 		int m_enemy_skill_2_AmountOfAttacks;
 		std::string m_enemy_skill_2_Attribute;
 		std::string m_enemy_skill_2_Name;
+		float m_enemy_skill_2_animTime;
 		//skill 3
 		int m_enemy_skill_3_Number;
 		float m_enemy_skill_3_DMG;
@@ -165,6 +180,7 @@ namespace spaceshooter
 		int m_enemy_skill_3_AmountOfAttacks;
 		std::string m_enemy_skill_3_Attribute;
 		std::string m_enemy_skill_3_Name;
+		float m_enemy_skill_3_animTime;
 		//skill 4 
 		int m_enemy_skill_4_Number;
 		float m_enemy_skill_4_DMG;
@@ -172,12 +188,14 @@ namespace spaceshooter
 		int m_enemy_skill_4_AmountOfAttacks;
 		std::string m_enemy_skill_4_Attribute;
 		std::string m_enemy_skill_4_Name;
+		float m_enemy_skill_4_animTime;
 		// sound
 		sf::Sound m_sound;
 		enum TurnManager
 		{
 			TURN_PLAYER,
 			TURN_ENEMY,
+			TURN_OVER,
 		};
 		TurnManager turnManager;
 

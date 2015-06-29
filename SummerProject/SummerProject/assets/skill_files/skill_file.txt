@@ -1,13 +1,13 @@
-skillname | Attribute  | DMG | HitRate%| AmountsOfHits |SkillProc|
+SkillName | Attribute  | DMG | HitRate%| AmountsOfHits |SkillProc| AnimationTime
 
 --Normal skills--
-[Defend] Defend Defensive 0 0 0 NONE
+[Defend] Defend Defensive 0 0 0 NONE 2
 
 --Agility skills--
-[RazorDaggers] RazorDaggers Offensive 15 35 9 POISON
-[Cleave] Cleave Offensive 25 80 2 NONE
-
+[Razor] Razor Offensive 15 35 9 POISON 4
+[Cleave] Cleave Offensive 25 80 2 NONE 3
+[Carnage] Carnage Offensive 500 30 8 NONE 4
 --Strength skills --
-[HeadButt] HeadButt Offensive 80 80 1 STUN
-[Stomp] Stomp Offensive 40 60 2 NONE  
-[Smash] Smash Offensive 180 20 1 NONE
+[HeadButt] HeadButt Offensive 80 80 1 STUN 1
+[Stomp] Stomp Offensive 40 60 2 NONE 2
+[Smash] Smash Offensive 180 20 1 NONE 1

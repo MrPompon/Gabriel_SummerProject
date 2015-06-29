@@ -2,7 +2,11 @@
 
 #include "stdafx.h"
 #include "BS_Enemy.hpp"
+#include "BattleState.hpp"
 #include <iostream>
+#include "TextureManager.hpp"
+#include "ServiceLocator.hpp"
+#include "AudioManager.hpp"
 namespace spaceshooter
 {
 	std::vector<std::string> explode1(const std::string& string, const std::string& delimeter)
@@ -22,14 +26,55 @@ namespace spaceshooter
 		}
 		return parts;
 	}
-	BS_Enemy::BS_Enemy(std::string enemyName)
+	BS_Enemy::BS_Enemy(std::string enemyName, BattleState*p_BattleState)
 	{
+		m_battleState = p_BattleState;
+		m_screen_width = 1024.0f;
+		m_screen_height = 600.0f;
+		m_enemyPosX = m_screen_width*0.5;
+		m_enemyPosY = m_screen_height*0.1;
 		std::string enemy_stat_file = "../assets/enemy_table/" + enemyName+".txt";
 		LoadEnemyStatus(enemy_stat_file);
+		LoadImageFile(enemyName);
 	}
 	float BS_Enemy::GetDMG()
 	{
 		return m_damage;
+	}
+	void BS_Enemy::DestroySpriteEffect(float deltatime)
+	{
+		m_delayTime -= deltatime;
+		if (WaitForDelay(m_delayTime))
+		{
+			m_enemyAlpha -= 5;
+			m_beforeDestroyed++;
+			sf::Vector2f vibrationPosition;
+			vibrationPosition.x = m_enemyPosX - Random(-10, 10);
+			vibrationPosition.y = m_enemyPosY;
+			vibrationPosition.y++;
+			m_spr_enemy_creature.setColor(sf::Color(255,255,255,m_enemyAlpha));
+			m_spr_enemy_creature.setPosition(vibrationPosition.x, vibrationPosition.y);
+			m_delayTime = 0.05;
+			if (m_beforeDestroyed >= 45)
+			{
+				m_visible = false;
+			}
+		}
+	}
+	int BS_Enemy::Random(int min, int max)
+	{
+		return min + (rand() % (max - min + 1));
+	}
+	bool BS_Enemy::WaitForDelay(float &delayTime)
+	{
+		if (delayTime < 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	float BS_Enemy::GetHealth()
 	{
@@ -38,6 +83,32 @@ namespace spaceshooter
 	int BS_Enemy::GetLoot()
 	{
 		return m_loot;
+	}
+	void BS_Enemy::InitEnemySprite(std::string p_enemy_spriteName)
+	{
+		LoadImageFile(p_enemy_spriteName);
+	}
+	void BS_Enemy::LoadImageFile(std::string p_enemy_name)
+	{
+		TextureManager* texture_manager = ServiceLocator<TextureManager>::GetService();
+		m_tex_enemy_creature = texture_manager->CreateTextureFromFile("../assets/Sprites/Enemy_BS/" + m_enemy_name + "_BS_SPR.png");
+		m_spr_enemy_creature.setTexture(*m_tex_enemy_creature);
+		m_spr_enemy_creature.setPosition(m_enemyPosX,m_enemyPosY);
+	}
+	void BS_Enemy::Update(float deltatime)
+	{
+		if (m_battleState->m_enemy_health<=0)
+		{
+			DestroySpriteEffect(deltatime);
+		}
+	}
+	void BS_Enemy::draw(sf::RenderTarget &target, sf::RenderStates states) const
+	{
+		if (m_visible)
+		{
+			states.texture = m_tex_enemy_creature;
+			target.draw(m_spr_enemy_creature, states);
+		}
 	}
 	float BS_Enemy::GetHitRate()
 	{
@@ -64,6 +135,9 @@ namespace spaceshooter
 	}
 	void BS_Enemy::LoadEnemyStatus(std::string p_filename)
 	{
+		m_enemyAlpha = 255;
+		m_beforeDestroyed = 0;
+		m_visible = true;
 		std::ifstream inputStream(p_filename);
 		if (!inputStream.is_open())
 		{
@@ -119,5 +193,10 @@ namespace spaceshooter
 				m_evadeRate = std::stof(parts[1]);
 			}
 		}
+	}
+	void BS_Enemy::InitAudio()
+	{
+		AudioManager* audio_manager = ServiceLocator<AudioManager>::GetService();
+		//audio_manager->CreateSoundFromFile("../assets/Audio/Enemy/")
 	}
 } // namespace spaceshooter

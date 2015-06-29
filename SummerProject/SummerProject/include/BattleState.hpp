@@ -89,7 +89,9 @@ namespace spaceshooter
 		BS_Player*m_player;
 		//enemy
 		bool enemysTurn;
-
+		bool enemyAttacks;
+		//all enemy HUD
+		sf::Text m_text_combat;
 		//battle stats
 		sf::Vector2f mousePosition;
 		BS_Skills* m_skillHolder;

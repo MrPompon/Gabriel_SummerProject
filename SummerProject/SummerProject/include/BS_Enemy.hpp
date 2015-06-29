@@ -27,10 +27,12 @@ namespace spaceshooter
 		void InitEnemySprite(std::string p_enemy_spriteName);
 		void LoadImageFile(std::string p_enemy_name);
 		void DestroySpriteEffect(float deltatime);
+		void AttackMoveSprite(float deltatime);
 		void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 	private:
 		void InitAudio();
 		//stats
+		float timeBeforeTurnBack;
 		bool m_visible;
 		float m_enemyAlpha;
 		int m_beforeDestroyed;

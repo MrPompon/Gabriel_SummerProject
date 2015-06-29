@@ -101,6 +101,19 @@ namespace spaceshooter
 		{
 			DestroySpriteEffect(deltatime);
 		}
+		if (m_battleState->enemyAttacks == true)
+		{
+			AttackMoveSprite(deltatime);
+		}
+		else
+		{
+			timeBeforeTurnBack = 1.0f;
+			if (!m_battleState->m_enemy_health <= 0)
+			{
+				m_spr_enemy_creature.setPosition(m_enemyPosX, m_enemyPosY);
+			}
+		
+		}
 	}
 	void BS_Enemy::draw(sf::RenderTarget &target, sf::RenderStates states) const
 	{
@@ -135,6 +148,7 @@ namespace spaceshooter
 	}
 	void BS_Enemy::LoadEnemyStatus(std::string p_filename)
 	{
+		timeBeforeTurnBack = 1.0f;
 		m_enemyAlpha = 255;
 		m_beforeDestroyed = 0;
 		m_visible = true;
@@ -192,6 +206,22 @@ namespace spaceshooter
 			{
 				m_evadeRate = std::stof(parts[1]);
 			}
+		}
+	}
+	void BS_Enemy::AttackMoveSprite(float deltatime)
+	{
+		timeBeforeTurnBack-=deltatime;
+		if (timeBeforeTurnBack <= -1 &&! m_battleState->m_enemy_health <= 0)
+		{
+			m_spr_enemy_creature.setPosition(m_enemyPosX, m_enemyPosY);
+		}
+		if (timeBeforeTurnBack > 0)
+		{
+			m_spr_enemy_creature.move(-4, 3);
+		}
+		else if (timeBeforeTurnBack < 0)
+		{
+			m_spr_enemy_creature.move(4, -3);
 		}
 	}
 	void BS_Enemy::InitAudio()

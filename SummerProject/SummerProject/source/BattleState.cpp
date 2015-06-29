@@ -379,6 +379,7 @@ namespace spaceshooter
 				ManageWindow("SkillMenu", true);
 			}
 			enemysTurn = false;
+			enemyAttacks = false;
 			//std::cout << "Players Turn" << std::endl;
 			//change these for correct input, add delay between turns.
 			//std::cout << "Playeeerrr";
@@ -403,6 +404,7 @@ namespace spaceshooter
 		enemysTurn = true;
 		if (m_turnDelayTime <= 0)
 		{
+			enemyAttacks=true;
 			EnemyUseSkill();
 			std::cout << "Player has " << m_player_health << " health remaining " << std::endl;
 			BattleStatusChecker();

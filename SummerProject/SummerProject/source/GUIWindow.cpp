@@ -8,6 +8,7 @@
 #include "DrawManager.hpp"
 #include "InputManager.hpp"
 #include "ServiceLocator.hpp"
+#include "TextureManager.hpp"
 #include <iostream>
 namespace spaceshooter
 {
@@ -80,6 +81,10 @@ namespace spaceshooter
 					CreateWord(m_playerSkills[c+r], true, true, (p_originX + firstWordX) + (p_wordDistanceWidth*r), (p_originY + firstWordY) + (p_wordDistanceHeight*c), p_fontSize);
 				}
 			}
+			TextureManager* texture_manager = ServiceLocator<TextureManager>::GetService();
+			m_tex_window = texture_manager->CreateTextureFromFile("../assets/Sprites/BS_LifeBar/window_background.png");
+			m_spr_window.setTexture(*m_tex_window);
+			m_spr_window.setPosition(p_originX, p_originY);
 				//add titletothe"BOX"
 				CreateWord(m_windowName, false, false, m_windowOrigin.x, m_windowOrigin.y, 15);
 		}
@@ -90,11 +95,32 @@ namespace spaceshooter
 				for (unsigned int c = 0; c < p_colums; c++)
 				{
 					//need to define what each string should be by getting player skills
-					CreateWord("TestText", true, true, (p_originX + firstWordX) + (p_wordDistanceWidth*r), (p_originY + firstWordY) + (p_wordDistanceHeight*c), p_fontSize);
+					
+					switch (c)
+					{
+					case 0:CreateWord("Placeholder", true, true, (p_originX + firstWordX) + (p_wordDistanceWidth*r), (p_originY + firstWordY) + (p_wordDistanceHeight*c), p_fontSize);
+						break;
+					case 1:CreateWord("Another", true, true, (p_originX + firstWordX) + (p_wordDistanceWidth*r), (p_originY + firstWordY) + (p_wordDistanceHeight*c), p_fontSize);
+						break;
+					case 2:CreateWord("Swag", true, true, (p_originX + firstWordX) + (p_wordDistanceWidth*r), (p_originY + firstWordY) + (p_wordDistanceHeight*c), p_fontSize);
+						break;
+					case 3:CreateWord("Lars", true, true, (p_originX + firstWordX) + (p_wordDistanceWidth*r), (p_originY + firstWordY) + (p_wordDistanceHeight*c), p_fontSize);
+						break;
+					case 4:CreateWord("Destroy", true, true, (p_originX + firstWordX) + (p_wordDistanceWidth*r), (p_originY + firstWordY) + (p_wordDistanceHeight*c), p_fontSize);
+						break;
+					case 5:CreateWord("asdasd", true, true, (p_originX + firstWordX) + (p_wordDistanceWidth*r), (p_originY + firstWordY) + (p_wordDistanceHeight*c), p_fontSize);
+						break;
+					case 6:CreateWord("Exit Game", true, true, (p_originX + firstWordX) + (p_wordDistanceWidth*r), (p_originY + firstWordY) + (p_wordDistanceHeight*c), p_fontSize);
+						break;
+					}
 				}
 			}
 			//add titletothe"BOX"
-			CreateWord(m_windowName, false, false, m_windowOrigin.x, m_windowOrigin.y, 15);
+			//CreateWord(m_windowName, false, false, m_windowOrigin.x, m_windowOrigin.y, 20);
+			TextureManager* texture_manager = ServiceLocator<TextureManager>::GetService();
+			m_tex_window = texture_manager->CreateTextureFromFile("../assets/Sprites/BS_LifeBar/m_options_background.png");
+			m_spr_window.setTexture(*m_tex_window);
+			m_spr_window.setPosition(p_originX, p_originY);
 		}
 	}
 	void GUIWindow::CreateWord(std::string p_wordText,bool p_clickable,bool p_hightlightable,float p_posX,float p_posY, int p_fontsize)
@@ -109,7 +135,6 @@ namespace spaceshooter
 		word->word_text.setPosition(word->position);
 		word->word_text.setColor(sf::Color::White);
 		word->word_text.setStyle(sf::Text::Bold | sf::Text::Regular);
-		std::cout << "NEW WORD CREATED position is"<<word->position.x<<" "<<word->position.y;
 		word->isClickable = p_clickable;
 		word->isHightlightable = p_hightlightable;
 		wordVector.push_back(*word);
@@ -180,11 +205,17 @@ namespace spaceshooter
 	{
 		if (m_visible)
 		{
+			if (m_windowName == "SkillMenu" || m_windowName== "OptionsMenu")
+			{
+				states.texture = m_tex_window;
+				target.draw(m_spr_window, states);
+			}
 			for (int i = 0; i < wordVector.size(); ++i)
 			{
 				states.texture = &m_texture;
 				target.draw(wordVector[i].word_text, states);
 			}
+			
 		}
 	}
 	void Word::SetSFWordText(std::string p_sfWordText)
@@ -220,7 +251,7 @@ namespace spaceshooter
 		if (isHovered && isHightlightable)
 		{
 			//wordVector[i].GetSFWordText().setColor(sf::Color::Green);
-			word_text.setColor(sf::Color::Green);
+			word_text.setColor(sf::Color::Red);
 		}
 		else if (!isHovered && isHightlightable)
 		{

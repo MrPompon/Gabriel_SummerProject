@@ -47,7 +47,6 @@ namespace spaceshooter
 		InitBattleHUD();
 		InitLifeBars();
 		InitBackground();
-		currentSelectedOption= 0;
 		AmountOfOptionsInMenu1;
 		AmountOfOptionsInMenu2;
 		AmountOfOptionsInSkillScreen;
@@ -95,16 +94,25 @@ namespace spaceshooter
 	{
 		m_music_victoryPlaying = false;
 		AudioManager* audio_manager = ServiceLocator<AudioManager>::GetService();
-		sf::SoundBuffer* sound_buffer = audio_manager->CreateSoundFromFile("../assets/audio/gunfire.ogg");
-		
-		m_sound.setBuffer(*sound_buffer);
-		m_sound.setLoop(false);
-		m_sound.setVolume(60.0f);
 		sf::Music* BS_Music = audio_manager->CreateMusicFromFile("../assets/audio/Music/BS/" + p_battleTheme + ".ogg");
 		sf::Music* BS_Music_Victory = audio_manager->CreateMusicFromFile("../assets/audio/Music/BS/VictoryTheme.ogg");
+		sf::SoundBuffer *m_soundBuffer;
+		m_soundBuffer= audio_manager->CreateSoundFromFile("../assets/audio/SFX/" + m_player_skill_1_Name + ".ogg");
+		m_player_skill_1_sound.setBuffer(*m_soundBuffer);
+
+		m_soundBuffer = audio_manager->CreateSoundFromFile("../assets/audio/SFX/" + m_player_skill_2_Name + ".ogg");
+		m_player_skill_2_sound.setBuffer(*m_soundBuffer);
+
+		m_soundBuffer = audio_manager->CreateSoundFromFile("../assets/audio/SFX/" + m_player_skill_3_Name + ".ogg");
+		m_player_skill_3_sound.setBuffer(*m_soundBuffer);
+
+		m_soundBuffer = audio_manager->CreateSoundFromFile("../assets/audio/SFX/" + m_player_skill_4_Name + ".ogg");
+		m_player_skill_4_sound.setBuffer(*m_soundBuffer);
+
+		
 		m_music = BS_Music;
 		m_music_victory = BS_Music_Victory;
-		m_music->play();
+		//m_music->play();
 		
 	}
 	void BattleState::CheckMousePosition(float deltatime)
@@ -380,19 +388,27 @@ namespace spaceshooter
 			}
 			enemysTurn = false;
 			enemyAttacks = false;
-			//std::cout << "Players Turn" << std::endl;
-			//change these for correct input, add delay between turns.
-			//std::cout << "Playeeerrr";
-			if (m_actions[ACTION_RIGHT])
+			//escape key/open menu
+			if (m_actions[ACTION_SELECT4] && optionsKeyIsPressed==false)
 			{
-				BattleStatusChecker();
-				turnManager = TURN_ENEMY;
+					if (menu_is_up == false)
+					{
+						ManageWindow("OptionsMenu", true);
+						ManageWindow("SkillMenu", false);
+						menu_is_up = true;
+					}
+					else if (menu_is_up)
+					{
+						ManageWindow("OptionsMenu", false);
+						ManageWindow("SkillMenu", true);
+						menu_is_up = false;
+					}
+
+					optionsKeyIsPressed = true;
 			}
-			if (m_actions[ACTION_FIRE])
+			if (!m_actions[ACTION_SELECT4])
 			{
-				ManageWindow("OptionsMenu", true);
-				currentSelectedOption++;
-				std::cout << "MenuOptionIsAt " << currentSelectedOption << std::endl;
+				optionsKeyIsPressed=false; 
 			}
 		}
 	}
@@ -550,6 +566,7 @@ namespace spaceshooter
 			int amountOfHits;
 		case 0:
 			amountOfHits = 0;
+			m_player_skill_1_sound.play();
 			for (int i = 0; i < m_player_skill_1_AmountOfAttacks; i++)
 			{
 				if (CalculateSkillHit(m_player_hitrate, m_player_skill_1_HitRate, m_enemy_evadeRate))
@@ -568,6 +585,7 @@ namespace spaceshooter
 			std::cout << m_player_skill_1_Name << " Hit " << amountOfHits << " Times" << std::endl;
 			break;
 		case 1: 
+			m_player_skill_2_sound.play();
 			amountOfHits = 0;
 			for (int i = 0; i < m_player_skill_2_AmountOfAttacks; i++)
 			{
@@ -588,6 +606,7 @@ namespace spaceshooter
 			break;
 		case 2:
 			amountOfHits = 0;
+			m_player_skill_3_sound.play();
 			for (int i = 0; i < m_player_skill_3_AmountOfAttacks; i++)
 			{
 				if (CalculateSkillHit(m_player_hitrate, m_player_skill_3_HitRate, m_enemy_evadeRate))
@@ -606,6 +625,7 @@ namespace spaceshooter
 			std::cout << m_player_skill_3_Name << " Hit " << amountOfHits << " Times" << std::endl;
 			break;
 		case 3:
+			m_player_skill_4_sound.play();
 			amountOfHits = 0;
 			for (int i = 0; i < m_player_skill_4_AmountOfAttacks; i++)
 			{
@@ -660,9 +680,10 @@ namespace spaceshooter
 	}
 	void BattleState::InitBattleHUD()
 	{
-		GUIWindow *gUIWindow = new GUIWindow(this,m_player,m_enemy,"OptionsMenu",m_screen_width*0.7, m_screen_height*0.7, 50.0f, 50.0f, 130.0f,30.0f, 20, 2, 2);
+		GUIWindow *gUIWindow = new GUIWindow(this,m_player,m_enemy,"OptionsMenu",m_screen_width*0.3, m_screen_height*0.01, 120.0f, 50.0f, 130.0f,80.0f, 40, 1, 7);
 		AllGUIWindows.push_back(*gUIWindow);
-		gUIWindow = new GUIWindow(this,m_player,m_enemy,"SkillMenu",m_screen_width*0.3, m_screen_height*0.7, 50.0f, 50.0f, 130.0f, 30.0f, 20, 2, 2);
+
+		gUIWindow = new GUIWindow(this, m_player, m_enemy, "SkillMenu", m_screen_width*0.3, m_screen_height*0.7, 40.0f, 50.0f, 135.0f, 45.0f, 30, 2, 2);
 		AllGUIWindows.push_back(*gUIWindow);
 		if (!hudBattleFont.loadFromFile("../assets/Fonts/SuperMario256.ttf"))
 		{
@@ -670,14 +691,14 @@ namespace spaceshooter
 		}
 		//players health displayed
 		text_player_health.setFont(hudBattleFont);
-		text_player_health.setPosition(300.0f, m_screen_height * 0.5f);
-		text_player_health.setColor(sf::Color::White);
+		text_player_health.setPosition(m_screen_width*0.7, m_screen_height * 0.84f);
+		text_player_health.setColor(sf::Color::Red);
 		text_player_health.setCharacterSize(39);
 		text_player_health.setStyle(sf::Text::Bold | sf::Text::Italic);
 		//enemies health displayed
 		text_enemy_health.setFont(hudBattleFont);
 		text_enemy_health.setPosition(300.0f, m_screen_height * 0.2f);
-		text_enemy_health.setColor(sf::Color::White);
+		text_enemy_health.setColor(sf::Color::Red);
 		text_enemy_health.setCharacterSize(39);
 		text_enemy_health.setStyle(sf::Text::Bold | sf::Text::Italic);
 	}

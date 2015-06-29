@@ -25,7 +25,8 @@ namespace spaceshooter
 		MapKeyToAction(sf::Keyboard::Num1, Action::SELECT1);
 		MapKeyToAction(sf::Keyboard::Num2, Action::SELECT2);
 		MapKeyToAction(sf::Keyboard::Num3, Action::SELECT3);
-		MapKeyToAction(sf::Keyboard::Num4, Action::SELECT4);
+		MapKeyToAction(sf::Keyboard::Escape, Action::SELECT4);
+		
 
 		return true;
 	}

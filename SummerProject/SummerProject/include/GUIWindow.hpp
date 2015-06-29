@@ -11,6 +11,7 @@ class BS_Enemy;
 class DrawManager;
 class InputManager;
 class BattleState;
+class TextureManager;
 	struct Word:public sf::Transformable
 	{
 		sf::Vector2f position;
@@ -60,6 +61,8 @@ class BattleState;
 		std::vector<Word> wordVector;
 		sf::Font hudBattleFont;
 		sf::Texture m_texture;
+		sf::Texture *m_tex_window;
+		sf::Sprite m_spr_window;
 	};
 }// namespace spaceshooter
 #endif // GUIWINDOW_HPP_INCLUDED

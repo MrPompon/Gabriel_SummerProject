@@ -34,6 +34,8 @@ namespace spaceshooter
 		void InitBackground();
 	private:
 		//All Combat font
+		bool menu_is_up;
+		bool optionsKeyIsPressed;
 		//player
 		sf::Text text_player_health, text_player_damage;
 		//enemy
@@ -95,7 +97,6 @@ namespace spaceshooter
 		//battle stats
 		sf::Vector2f mousePosition;
 		BS_Skills* m_skillHolder;
-		int currentSelectedOption;
 		int AmountOfOptionsInMenu1;
 		int AmountOfOptionsInMenu2;
 		int AmountOfOptionsInSkillScreen;
@@ -114,6 +115,7 @@ namespace spaceshooter
 		std::string m_player_skill_1_Attribute;
 		std::string m_player_skill_1_Name;
 		float m_player_skill_1_animTime;
+		sf::Sound m_player_skill_1_sound;
 		//skill 2
 		int m_player_skill_2_Number;
 		float m_player_skill_2_DMG;
@@ -122,6 +124,7 @@ namespace spaceshooter
 		std::string m_player_skill_2_Attribute;
 		std::string m_player_skill_2_Name;
 		float m_player_skill_2_animTime;
+		sf::Sound m_player_skill_2_sound;
 		//skill 3
 		int m_player_skill_3_Number;
 		float m_player_skill_3_DMG;
@@ -130,6 +133,7 @@ namespace spaceshooter
 		std::string m_player_skill_3_Attribute;
 		std::string m_player_skill_3_Name;
 		float m_player_skill_3_animTime;
+		sf::Sound m_player_skill_3_sound;
 		//skill 4 
 		int m_player_skill_4_Number;
 		float m_player_skill_4_DMG;
@@ -140,6 +144,7 @@ namespace spaceshooter
 		std::vector<BS_Player> m_playerVector;
 		std::vector<std::string> m_playerSkills;
 		float m_player_skill_4_animTime;
+		sf::Sound m_player_skill_4_sound;
 		//enemy
 
 		float m_enemy_health;
@@ -167,6 +172,7 @@ namespace spaceshooter
 		std::string m_enemy_skill_1_Attribute;
 		std::string m_enemy_skill_1_Name;
 		float m_enemy_skill_1_animTime;
+		sf::Sound m_enemy_skill_1_sound;
 		//skill 2
 		int m_enemy_skill_2_Number;
 		float m_enemy_skill_2_DMG;
@@ -175,6 +181,7 @@ namespace spaceshooter
 		std::string m_enemy_skill_2_Attribute;
 		std::string m_enemy_skill_2_Name;
 		float m_enemy_skill_2_animTime;
+		sf::Sound m_enemy_skill_2_sound;
 		//skill 3
 		int m_enemy_skill_3_Number;
 		float m_enemy_skill_3_DMG;
@@ -183,6 +190,7 @@ namespace spaceshooter
 		std::string m_enemy_skill_3_Attribute;
 		std::string m_enemy_skill_3_Name;
 		float m_enemy_skill_3_animTime;
+		sf::Sound m_enemy_skill_3_sound;
 		//skill 4 
 		int m_enemy_skill_4_Number;
 		float m_enemy_skill_4_DMG;
@@ -191,8 +199,7 @@ namespace spaceshooter
 		std::string m_enemy_skill_4_Attribute;
 		std::string m_enemy_skill_4_Name;
 		float m_enemy_skill_4_animTime;
-		// sound
-		sf::Sound m_sound;
+		sf::Sound m_enemy_skill_4_sound;
 		enum TurnManager
 		{
 			TURN_PLAYER,

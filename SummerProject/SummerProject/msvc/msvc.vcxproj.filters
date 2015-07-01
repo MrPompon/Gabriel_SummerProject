@@ -123,6 +123,15 @@
     <ClInclude Include="..\include\BS_LifeBar.hpp">
       <Filter>Header Files\BattleScreenFolder</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\AnimatedSprite.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Animation.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SkillEffect.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="../source/main.cpp">
@@ -199,6 +208,15 @@
     </ClCompile>
     <ClCompile Include="..\source\BS_LifeBar.cpp">
       <Filter>Source Files\BSFolder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\AnimatedSprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Animation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\SkillEffect.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

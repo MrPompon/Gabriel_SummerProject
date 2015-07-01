@@ -5,6 +5,6 @@
 [SPEED] 55
 [HITRATE] 35
 [EVADERATE] 20
-[SKILLS] Cleave Stomp Defend HeadButt
+[SKILLS] Cleave Stomp Smash HeadButt
 
 

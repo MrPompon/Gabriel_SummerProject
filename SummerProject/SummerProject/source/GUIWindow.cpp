@@ -72,15 +72,32 @@ namespace spaceshooter
 			{
 				std::cout << m_playerSkills[i];
 			}
-			for (unsigned int r = 0; r < p_rows; r++)
+			//skills are not listed in colums/rows because problems when listeing from array, both are listed as a column each. 
+		for (unsigned int c = 0; c < p_colums; c++)
+		{
+			switch (c)
 			{
-				for (unsigned int c = 0; c < p_colums; c++)
-				{
-					//need to define what each string should be by getting player skills
-					//C+R DOES NOT WORK ATM, NEED TO FIX SOMEHOW
-					CreateWord(m_playerSkills[c+r], true, true, (p_originX + firstWordX) + (p_wordDistanceWidth*r), (p_originY + firstWordY) + (p_wordDistanceHeight*c), p_fontSize);
-				}
+			case 0:	CreateWord(m_playerSkills[0], true, true, (p_originX + firstWordX) + (p_wordDistanceWidth * 1), (p_originY + firstWordY) + (p_wordDistanceHeight*1), p_fontSize);
+				break;
+			case 1:CreateWord(m_playerSkills[1], true, true, (p_originX + firstWordX) + (p_wordDistanceWidth * 1), (p_originY + firstWordY) + (p_wordDistanceHeight*2), p_fontSize);
+				break;
 			}
+
+		}
+		for (unsigned int r = 0; r < p_rows; r++)
+		{
+			switch (r)
+			{
+			case 0:CreateWord(m_playerSkills[2], true, true, (p_originX + firstWordX) + (p_wordDistanceWidth*2), (p_originY + firstWordY) + (p_wordDistanceHeight*1), p_fontSize);
+				break;
+			case 1:CreateWord(m_playerSkills[3], true, true, (p_originX + firstWordX) + (p_wordDistanceWidth*2), (p_originY + firstWordY) + (p_wordDistanceHeight * 2), p_fontSize);
+				break;
+			}
+			//C+R DOES NOT WORK ATM, NEED TO FIX SOMEHOW
+		}
+
+				//need to define what each string should be by getting player skills
+
 			TextureManager* texture_manager = ServiceLocator<TextureManager>::GetService();
 			m_tex_window = texture_manager->CreateTextureFromFile("../assets/Sprites/BS_LifeBar/window_background.png");
 			m_spr_window.setTexture(*m_tex_window);
@@ -111,6 +128,32 @@ namespace spaceshooter
 					case 5:CreateWord("asdasd", true, true, (p_originX + firstWordX) + (p_wordDistanceWidth*r), (p_originY + firstWordY) + (p_wordDistanceHeight*c), p_fontSize);
 						break;
 					case 6:CreateWord("Exit Game", true, true, (p_originX + firstWordX) + (p_wordDistanceWidth*r), (p_originY + firstWordY) + (p_wordDistanceHeight*c), p_fontSize);
+						break;
+					}
+				}
+			}
+			//add titletothe"BOX"
+			//CreateWord(m_windowName, false, false, m_windowOrigin.x, m_windowOrigin.y, 20);
+			TextureManager* texture_manager = ServiceLocator<TextureManager>::GetService();
+			m_tex_window = texture_manager->CreateTextureFromFile("../assets/Sprites/BS_LifeBar/m_options_background.png");
+			m_spr_window.setTexture(*m_tex_window);
+			m_spr_window.setPosition(p_originX, p_originY);
+		}
+		else if (p_windowName == "BattleLootWindow")
+		{
+			for (unsigned int r = 0; r < p_rows; r++)
+			{
+				for (unsigned int c = 0; c < p_colums; c++)
+				{
+					//need to define what each string should be by getting player skills
+					std::stringstream ss;
+					switch (c)
+					{
+					case 0:
+						ss << m_enemy->GetLoot();
+						CreateWord("Found "+ss.str()+ " Gold", false, false, (p_originX + firstWordX) + (p_wordDistanceWidth*r), (p_originY + firstWordY) + (p_wordDistanceHeight*c), p_fontSize);
+						break;
+					case 1:CreateWord("Recieved PlaceHolderExp From the battle", false, false, (p_originX + firstWordX) + (p_wordDistanceWidth*r), (p_originY + firstWordY) + (p_wordDistanceHeight*c), p_fontSize);
 						break;
 					}
 				}
@@ -205,7 +248,7 @@ namespace spaceshooter
 	{
 		if (m_visible)
 		{
-			if (m_windowName == "SkillMenu" || m_windowName== "OptionsMenu")
+			if (m_windowName == "SkillMenu" || m_windowName== "OptionsMenu" || m_windowName =="BattleLootWindow")
 			{
 				states.texture = m_tex_window;
 				target.draw(m_spr_window, states);

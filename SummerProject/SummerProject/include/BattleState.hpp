@@ -13,7 +13,7 @@ namespace spaceshooter
 	class BS_Skills;
 	class GUIWindow;
 	class BS_LifeBar;
-
+	class SkillEffect;
 	class BattleState : public AbstractState
 	{
 		friend class GUIWindow;
@@ -72,6 +72,7 @@ namespace spaceshooter
 		sf::Mouse m_mouse;
 		std::vector<GUIWindow> AllGUIWindows;
 		std::vector<BS_LifeBar> AllLifeBars;
+		std::vector<SkillEffect> AllSkillEffects;
 		DrawManager* m_draw_manager;
 		float m_turnDelayTime;
 		int Random(int min, int max);
@@ -80,6 +81,7 @@ namespace spaceshooter
 		sf::Font hudBattleFont;
 		bool m_enemyWon;
 		bool m_playerWon;
+		sf::Sound lootSound;
 		//textures pointers etc 
 		// player
 		sf::Texture* m_player_texture;

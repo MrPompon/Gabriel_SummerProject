@@ -14,14 +14,17 @@
 #include "BS_Skills.hpp"
 #include "GUIWindow.hpp"
 #include "BS_LifeBar.hpp"
+#include "SkillEffect.hpp"
 namespace spaceshooter
 {
 	BattleState::BattleState()
 	{
+		SkillEffect* aSkillEffect = new SkillEffect("Blaze");
+		AllSkillEffects.push_back(*aSkillEffect);
 		m_screen_width = 1024.0f;
 		m_screen_height = 600.0f;
 		player_saveFile = "save_file_1.txt";
-		enemy_encounter_name = "Gnoll";
+		enemy_encounter_name = "Minotaur";
 		for (unsigned int index = 0; index < ACTION_COUNT; index++)
 		{
 			m_actions[index] = false;
@@ -109,7 +112,21 @@ namespace spaceshooter
 		m_soundBuffer = audio_manager->CreateSoundFromFile("../assets/audio/SFX/" + m_player_skill_4_Name + ".ogg");
 		m_player_skill_4_sound.setBuffer(*m_soundBuffer);
 
-		
+		m_soundBuffer = audio_manager->CreateSoundFromFile("../assets/audio/SFX/" + m_enemy_skill_1_Name + ".ogg");
+		m_enemy_skill_1_sound.setBuffer(*m_soundBuffer);
+
+		m_soundBuffer = audio_manager->CreateSoundFromFile("../assets/audio/SFX/" + m_enemy_skill_2_Name + ".ogg");
+		m_enemy_skill_2_sound.setBuffer(*m_soundBuffer);
+
+		m_soundBuffer = audio_manager->CreateSoundFromFile("../assets/audio/SFX/" + m_enemy_skill_3_Name + ".ogg");
+		m_enemy_skill_3_sound.setBuffer(*m_soundBuffer);
+
+		m_soundBuffer = audio_manager->CreateSoundFromFile("../assets/audio/SFX/" + m_enemy_skill_4_Name + ".ogg");
+		m_enemy_skill_4_sound.setBuffer(*m_soundBuffer);
+
+		m_soundBuffer = audio_manager->CreateSoundFromFile("../assets/audio/SFX/LootGain1.ogg");
+		lootSound.setBuffer(*m_soundBuffer);
+
 		m_music = BS_Music;
 		m_music_victory = BS_Music_Victory;
 		//m_music->play();
@@ -195,6 +212,10 @@ namespace spaceshooter
 		m_turnDelayTime -= deltatime;
 		CheckMousePosition(deltatime);
 		m_enemyVector[0].Update(deltatime);
+		for (unsigned int i = 0; i < AllSkillEffects.size(); i++)
+		{
+			AllSkillEffects[i].Update(deltatime);
+		}
 		return true;
 	}
 
@@ -213,6 +234,10 @@ namespace spaceshooter
 		for (unsigned int i = 0; i<AllGUIWindows.size(); i++)
 		{
 			m_draw_manager->Draw(AllGUIWindows[i]);
+		}
+		for (unsigned int i = 0; i < AllSkillEffects.size(); i++)
+		{
+			m_draw_manager->Draw(AllSkillEffects[i]);
 		}
 	}
 
@@ -281,12 +306,21 @@ namespace spaceshooter
 		if (turnManager == TURN_OVER)
 		{
 			if (!m_music_victoryPlaying)
-			{	m_music->stop();
+			{	
+				m_music->stop();
 				m_music_victory->play();
 				m_music_victoryPlaying = true;
-			//do victory stuff
+				
 			}
-			
+			if (m_playerWon)
+			{
+				ManageWindow("BattleLootWindow", true);
+				lootSound.play();
+			}
+			else
+			{
+				
+			}
 		}
 	}
 	void BattleState::InitSkillPlayer(std::string p_skillname, int skillNumber)
@@ -439,18 +473,22 @@ namespace spaceshooter
 		{
 		case 0:
 			EnemyUseSkill_1();
+			m_enemy_skill_1_sound.play();
 			ChangeTurn(m_enemy_skill_1_animTime);
 			break;
 		case 1:
 			EnemyUseSkill_2();
+			m_enemy_skill_2_sound.play();
 			ChangeTurn(m_enemy_skill_2_animTime);
 			break;
 		case 2:
 			EnemyUseSkill_3();
+			m_enemy_skill_3_sound.play();
 			ChangeTurn(m_enemy_skill_3_animTime);
 			break;
 		case 3:
 			EnemyUseSkill_4();
+			m_enemy_skill_4_sound.play();
 			ChangeTurn(m_enemy_skill_4_animTime);
 			break;
 		}
@@ -652,14 +690,14 @@ namespace spaceshooter
 		{
 			//change state or screen 
 			std::cout << "PLAYER WON FIGHT" << std::endl;
-			m_enemyWon = true;
+			m_playerWon = true;
 			turnManager = TURN_OVER;
 		}
 		else if(m_player_health <= 0)
 		{
 			//change state to game over
 			std::cout << "ENEMY WON FIGHT" << std::endl;
-			m_playerWon = true;
+			m_enemyWon = true;
 			turnManager = TURN_OVER;
 		} 
 	}
@@ -683,7 +721,10 @@ namespace spaceshooter
 		GUIWindow *gUIWindow = new GUIWindow(this,m_player,m_enemy,"OptionsMenu",m_screen_width*0.3, m_screen_height*0.01, 120.0f, 50.0f, 130.0f,80.0f, 40, 1, 7);
 		AllGUIWindows.push_back(*gUIWindow);
 
-		gUIWindow = new GUIWindow(this, m_player, m_enemy, "SkillMenu", m_screen_width*0.3, m_screen_height*0.7, 40.0f, 50.0f, 135.0f, 45.0f, 30, 2, 2);
+		gUIWindow = new GUIWindow(this, m_player, m_enemy, "SkillMenu", m_screen_width*0.3, m_screen_height*0.7, -100.0f, 10.0f, 135.0f, 45.0f, 30, 2, 2);
+		AllGUIWindows.push_back(*gUIWindow);
+
+		gUIWindow = new GUIWindow(this, m_player, m_enemy, "BattleLootWindow", m_screen_width*0.3, m_screen_height*0.1, 30, 30, 130, 50, 25, 1, 5);
 		AllGUIWindows.push_back(*gUIWindow);
 		if (!hudBattleFont.loadFromFile("../assets/Fonts/SuperMario256.ttf"))
 		{
@@ -701,6 +742,7 @@ namespace spaceshooter
 		text_enemy_health.setColor(sf::Color::Red);
 		text_enemy_health.setCharacterSize(39);
 		text_enemy_health.setStyle(sf::Text::Bold | sf::Text::Italic);
+		ManageWindow("BattleLootWindow", false);
 	}
 	void BattleState::UpdateBattleHUD(float deltatime)
 	{

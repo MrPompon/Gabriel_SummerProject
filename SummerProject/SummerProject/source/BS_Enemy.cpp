@@ -31,8 +31,8 @@ namespace spaceshooter
 		m_battleState = p_BattleState;
 		m_screen_width = 1024.0f;
 		m_screen_height = 600.0f;
-		m_enemyPosX = m_screen_width*0.5;
-		m_enemyPosY = m_screen_height*0.1;
+		m_enemyPosX = m_screen_width*0.7;
+		m_enemyPosY = m_screen_height*0.4;
 		std::string enemy_stat_file = "../assets/enemy_table/" + enemyName+".txt";
 		LoadEnemyStatus(enemy_stat_file);
 		LoadImageFile(enemyName);
@@ -94,6 +94,8 @@ namespace spaceshooter
 		m_tex_enemy_creature = texture_manager->CreateTextureFromFile("../assets/Sprites/Enemy_BS/" + m_enemy_name + "_BS_SPR.png");
 		m_spr_enemy_creature.setTexture(*m_tex_enemy_creature);
 		m_spr_enemy_creature.setPosition(m_enemyPosX,m_enemyPosY);
+		m_spr_enemy_creature.setOrigin(m_spr_enemy_creature.getGlobalBounds().width*0.5, m_spr_enemy_creature.getGlobalBounds().height*0.5);
+		
 	}
 	void BS_Enemy::Update(float deltatime)
 	{

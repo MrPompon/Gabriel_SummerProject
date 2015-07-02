@@ -66,6 +66,7 @@ namespace spaceshooter
 		void CheckMousePosition(float deltatime);
 		void PlayerUseSkill(int p_skillNumber);
 		//enemy functions
+		sf::Vector2f enemyPos;
 		void EnemysTurn(float deltatime);
 		void InitEnemyStats();
 	private:
@@ -73,6 +74,7 @@ namespace spaceshooter
 		std::vector<GUIWindow> AllGUIWindows;
 		std::vector<BS_LifeBar> AllLifeBars;
 		std::vector<SkillEffect> AllSkillEffects;
+		SkillEffect* aSkillEffect;
 		DrawManager* m_draw_manager;
 		float m_turnDelayTime;
 		int Random(int min, int max);

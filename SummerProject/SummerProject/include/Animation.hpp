@@ -5,7 +5,7 @@ namespace spaceshooter
 	{
 	public:
 		Animation();
-
+		
 		void addFrame(sf::IntRect rect);
 		void setSpriteSheet(const sf::Texture&texture);
 		const sf::Texture*getSpriteSheet() const;

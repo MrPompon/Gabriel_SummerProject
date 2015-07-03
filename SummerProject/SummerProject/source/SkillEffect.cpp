@@ -4,16 +4,19 @@
 #include "Animation.hpp"
 #include "TextureManager.hpp"
 #include "ServiceLocator.hpp"
+#include "ScreenEffects.hpp"
+#include "DrawManager.hpp"
 #include <iostream>
 namespace spaceshooter
 {
-	SkillEffect::SkillEffect(std::string skillName, float p_lifeTime,sf::Vector2f p_pos)
+	SkillEffect::SkillEffect(std::string skillName, float p_lifeTime, sf::Vector2f p_pos, DrawManager*p_drawManager)
 		{
 			InitAnimation(skillName);
 			m_skillName = skillName;
 			m_lifeTime = p_lifeTime;
 			m_screenWidth = 1024;
 			m_screenHeight = 600;
+			m_drawManager = p_drawManager;
 			Animation* skillEffectAnimation= new Animation();
 			TextureManager* texture_manager = ServiceLocator<TextureManager>::GetService();
 			m_skillEffectSheet = texture_manager->CreateTextureFromFile("../assets/Sprites/Animations/SkillEffectSheets/" + skillName + "Sheet.png");
@@ -35,6 +38,7 @@ namespace spaceshooter
 			animSprite->setPosition(p_pos.x, p_pos.y);
 			animSprite->setOrigin(animSprite->getGlobalBounds().width*0.5, animSprite->getGlobalBounds().height*0.5);
 			animSprite->setScale(2.5,2.5 );
+			m_view = m_drawManager->getWindow();
 		}
 		SkillEffect::~SkillEffect()
 		{
@@ -54,6 +58,8 @@ namespace spaceshooter
 
 				m_offsetX = 0;
 				m_offsetY = 0;
+				ScreenEffects *m_screenEffect = new ScreenEffects(m_view, "SetBlaze", m_lifeTime);
+				AllScreenEffects.push_back(*m_screenEffect);
 			}
 			else if (p_skillName == "Crunch")
 			{
@@ -139,6 +145,11 @@ namespace spaceshooter
 			{
 				states.texture = m_skillEffectSheet;
 				target.draw(*animSprite, states);
+				for (unsigned int i = 0; i < AllScreenEffects.size(); i++)
+				{
+					states.texture =AllScreenEffects[i].GetRectangleShape().getTexture();
+					target.draw(AllScreenEffects[i], states);
+				}
 			}
 		}
 		void SkillEffect::Update(float deltatime)
@@ -148,6 +159,10 @@ namespace spaceshooter
 			if (m_lifeTime <= 0)
 			{
 				m_visible = false;
+			}
+			for (unsigned int i = 0; i < AllScreenEffects.size(); i++)
+			{
+				AllScreenEffects[i].Update(deltatime);
 			}
 		}
 }; // namespace spaceshooter

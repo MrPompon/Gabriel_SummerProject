@@ -25,6 +25,7 @@ namespace spaceshooter
 			EFFECT_Stun,
 		};
 		SkillEffect skillEffectEnum; 
+	
 		//stats
 		std::string m_skillProc;
 		std::string m_skillAttribute;

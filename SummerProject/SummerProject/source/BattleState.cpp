@@ -15,6 +15,8 @@
 #include "GUIWindow.hpp"
 #include "BS_LifeBar.hpp"
 #include "SkillEffect.hpp"
+#include "ScreenEffects.hpp"
+
 namespace spaceshooter
 {
 	BattleState::BattleState()
@@ -53,6 +55,7 @@ namespace spaceshooter
 		AmountOfOptionsInMenu1;
 		AmountOfOptionsInMenu2;
 		AmountOfOptionsInSkillScreen;
+	
 	}
 
 	BattleState::~BattleState()
@@ -90,7 +93,6 @@ namespace spaceshooter
 
 		// better to have a local pointer than to access it through the service locator
 		m_draw_manager = ServiceLocator<DrawManager>::GetService();
-
 		return true;
 	}
 	void BattleState::InitAudio(std::string p_battleTheme)
@@ -219,6 +221,10 @@ namespace spaceshooter
 		{
 			AllSkillEffects[i].Update(deltatime);
 		}
+		for(unsigned int i = 0; i < AllScreenEffects.size(); i++)
+		{
+			AllScreenEffects[i].Update(deltatime);
+		}
 		return true;
 	}
 
@@ -234,13 +240,17 @@ namespace spaceshooter
 		{
 			m_draw_manager->Draw(AllLifeBars[i]);
 		}
-		for (unsigned int i = 0; i<AllGUIWindows.size(); i++)
-		{
-			m_draw_manager->Draw(AllGUIWindows[i]);
-		}
 		for (unsigned int i = 0; i < AllSkillEffects.size(); i++)
 		{
 			m_draw_manager->Draw(AllSkillEffects[i]);
+		}
+		for (unsigned int i = 0; i < AllScreenEffects.size(); i++)
+		{
+			m_draw_manager->Draw(AllScreenEffects[i]);
+		}
+		for (unsigned int i = 0; i<AllGUIWindows.size(); i++)
+		{
+			m_draw_manager->Draw(AllGUIWindows[i]);
 		}
 	}
 
@@ -478,28 +488,28 @@ namespace spaceshooter
 			EnemyUseSkill_1();
 			m_enemy_skill_1_sound.play();
 			ChangeTurn(m_enemy_skill_1_animTime);
-			aSkillEffect = new SkillEffect(m_enemy_skill_1_Name, m_enemy_skill_1_animTime, m_player_position);
+			aSkillEffect = new SkillEffect(m_enemy_skill_1_Name, m_enemy_skill_1_animTime, m_player_position,m_draw_manager);
 			AllSkillEffects.push_back(*aSkillEffect);
 			break;
 		case 1:
 			EnemyUseSkill_2();
 			m_enemy_skill_2_sound.play();
 			ChangeTurn(m_enemy_skill_2_animTime);
-			aSkillEffect = new SkillEffect(m_enemy_skill_2_Name, m_enemy_skill_2_animTime, m_player_position);
+			aSkillEffect = new SkillEffect(m_enemy_skill_2_Name, m_enemy_skill_2_animTime, m_player_position,m_draw_manager);
 			AllSkillEffects.push_back(*aSkillEffect);
 			break;
 		case 2:
 			EnemyUseSkill_3();
 			m_enemy_skill_3_sound.play();
 			ChangeTurn(m_enemy_skill_3_animTime);
-			aSkillEffect = new SkillEffect(m_enemy_skill_3_Name, m_enemy_skill_3_animTime, m_player_position);
+			aSkillEffect = new SkillEffect(m_enemy_skill_3_Name, m_enemy_skill_3_animTime, m_player_position, m_draw_manager);
 			AllSkillEffects.push_back(*aSkillEffect);
 			break;
 		case 3:
 			EnemyUseSkill_4();
 			m_enemy_skill_4_sound.play();
 			ChangeTurn(m_enemy_skill_4_animTime);
-			aSkillEffect = new SkillEffect(m_enemy_skill_4_Name, m_enemy_skill_4_animTime, m_player_position);
+			aSkillEffect = new SkillEffect(m_enemy_skill_4_Name, m_enemy_skill_4_animTime, m_player_position, m_draw_manager);
 			AllSkillEffects.push_back(*aSkillEffect);
 			break;
 		}
@@ -617,7 +627,7 @@ namespace spaceshooter
 		case 0:
 			amountOfHits = 0;
 			m_player_skill_1_sound.play();
-			aSkillEffect = new SkillEffect(m_player_skill_1_Name,m_player_skill_1_animTime,enemyPos);
+			aSkillEffect = new SkillEffect(m_player_skill_1_Name, m_player_skill_1_animTime, enemyPos, m_draw_manager);
 			AllSkillEffects.push_back(*aSkillEffect);
 			for (int i = 0; i < m_player_skill_1_AmountOfAttacks; i++)
 			{
@@ -638,7 +648,7 @@ namespace spaceshooter
 			break;
 		case 1: 
 			m_player_skill_2_sound.play();
-			aSkillEffect = new SkillEffect(m_player_skill_2_Name, m_player_skill_2_animTime, enemyPos);
+			aSkillEffect = new SkillEffect(m_player_skill_2_Name, m_player_skill_2_animTime, enemyPos, m_draw_manager);
 			AllSkillEffects.push_back(*aSkillEffect);
 			amountOfHits = 0;
 			for (int i = 0; i < m_player_skill_2_AmountOfAttacks; i++)
@@ -660,7 +670,7 @@ namespace spaceshooter
 			break;
 		case 2:
 			amountOfHits = 0;
-			aSkillEffect = new SkillEffect(m_player_skill_3_Name, m_player_skill_3_animTime, enemyPos);
+			aSkillEffect = new SkillEffect(m_player_skill_3_Name, m_player_skill_3_animTime, enemyPos, m_draw_manager);
 			AllSkillEffects.push_back(*aSkillEffect);
 			m_player_skill_3_sound.play();
 			for (int i = 0; i < m_player_skill_3_AmountOfAttacks; i++)
@@ -682,7 +692,7 @@ namespace spaceshooter
 			break;
 		case 3:
 			m_player_skill_4_sound.play();
-			aSkillEffect = new SkillEffect(m_player_skill_4_Name, m_player_skill_4_animTime, enemyPos);
+			aSkillEffect = new SkillEffect(m_player_skill_4_Name, m_player_skill_4_animTime, enemyPos, m_draw_manager);
 			AllSkillEffects.push_back(*aSkillEffect);
 			amountOfHits = 0;
 			for (int i = 0; i < m_player_skill_4_AmountOfAttacks; i++)

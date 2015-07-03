@@ -14,6 +14,7 @@ namespace spaceshooter
 	class GUIWindow;
 	class BS_LifeBar;
 	class SkillEffect;
+	class ScreenEffects;
 	class BattleState : public AbstractState
 	{
 		friend class GUIWindow;
@@ -74,6 +75,8 @@ namespace spaceshooter
 		std::vector<GUIWindow> AllGUIWindows;
 		std::vector<BS_LifeBar> AllLifeBars;
 		std::vector<SkillEffect> AllSkillEffects;
+		ScreenEffects* m_screenEffect;
+		std::vector<ScreenEffects> AllScreenEffects;
 		SkillEffect* aSkillEffect;
 		DrawManager* m_draw_manager;
 		float m_turnDelayTime;

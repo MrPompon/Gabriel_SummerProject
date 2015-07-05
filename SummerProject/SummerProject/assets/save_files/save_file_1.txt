@@ -4,5 +4,5 @@
 [SPEED] 5
 [EVADERATE] 30
 [HITRATE] 20
-[SKILLS] Razor Blaze Carnage Smash
+[SKILLS] Razor Blaze Carnage Crunch
 

@@ -19,7 +19,7 @@
 
 namespace spaceshooter
 {
-	BattleState::BattleState(std::string p_areaTheme, std::string p_encounterName)
+	BattleState::BattleState(std::string p_areaTheme, std::string p_encounterName, std::string p_timeOfDay)
 	{
 		m_encounterName = p_encounterName;
 		m_areaTheme = p_areaTheme;
@@ -59,8 +59,21 @@ namespace spaceshooter
 		//check time of day in constructor, change accordlinly 
 
 		//set to night
-		ScreenEffects *nightScreen = new ScreenEffects(m_window, "SetNight", 9999, m_draw_manager);
-		AllScreenEffects.push_back(*nightScreen);
+		if (p_timeOfDay == "Night")
+		{
+			ScreenEffects *nightScreen = new ScreenEffects(m_window, "SetNight", 9999, m_draw_manager);
+			AllScreenEffects.push_back(*nightScreen);
+		}
+		else if (p_timeOfDay == "Dusk")
+		{
+			ScreenEffects *duskScreen = new ScreenEffects(m_window, "SetDusk", 9999, m_draw_manager);
+			AllScreenEffects.push_back(*duskScreen);
+		}
+		else if (p_timeOfDay == "Dawn")
+		{
+			ScreenEffects *dawnScreen = new ScreenEffects(m_window, "SetDawn", 9999, m_draw_manager);
+			AllScreenEffects.push_back(*dawnScreen);
+		}
 	}
 
 	BattleState::~BattleState()
@@ -256,6 +269,8 @@ namespace spaceshooter
 		//draw player - enemy health
 		m_draw_manager->Draw(text_player_health);
 		m_draw_manager->Draw(text_enemy_health);
+		m_draw_manager->Draw(text_battle_text);
+		m_draw_manager->Draw(text_enemy_name);
 		for (unsigned int i = 0; i<AllGUIWindows.size(); i++)
 		{
 			m_draw_manager->Draw(AllGUIWindows[i]);
@@ -549,6 +564,7 @@ namespace spaceshooter
 	void BattleState::EnemyUseSkill_1()
 	{
 		int amountOfHits = 0;
+		float totallDMG=0;
 		for (int i = 0; i < m_enemy_skill_1_AmountOfAttacks; i++)
 		{
 			if (CalculateSkillHit(m_enemy_hitrate, m_enemy_skill_1_HitRate, m_player_evadeRate))
@@ -556,7 +572,8 @@ namespace spaceshooter
 				amountOfHits++;
 				if (m_enemy_skill_1_Attribute == "Offensive")
 				{
-					m_player_health -= CalculateSkillDamage(m_enemy_damage, m_enemy_skill_1_DMG, m_enemy_skill_1_Name);
+					totallDMG= CalculateSkillDamage(m_enemy_damage, m_enemy_skill_1_DMG, m_enemy_skill_1_Name);
+					m_player_health -= totallDMG;
 				}
 				else if (m_enemy_skill_1_Attribute == "Defensive")
 				{
@@ -564,11 +581,12 @@ namespace spaceshooter
 				}
 			}
 		}
-		std::cout << m_enemy_skill_1_Name << " Hit " << amountOfHits << " Times" << std::endl;
+		AddBattleSentence("Foe", m_enemy_skill_1_Name, amountOfHits, totallDMG);
 	}
 	void BattleState::EnemyUseSkill_2()
 	{
 		int amountOfHits = 0;
+		float totallDMG=0;
 		for (int i = 0; i < m_enemy_skill_2_AmountOfAttacks; i++)
 		{
 			if (CalculateSkillHit(m_enemy_hitrate, m_enemy_skill_2_HitRate, m_player_evadeRate))
@@ -576,7 +594,8 @@ namespace spaceshooter
 				amountOfHits++;
 				if (m_enemy_skill_2_Attribute == "Offensive")
 				{
-					m_player_health -= CalculateSkillDamage(m_enemy_damage, m_enemy_skill_2_DMG, m_enemy_skill_2_Name);
+					totallDMG = CalculateSkillDamage(m_enemy_damage, m_enemy_skill_2_DMG, m_enemy_skill_2_Name);
+					m_player_health -= totallDMG;
 				}
 				else if (m_enemy_skill_2_Attribute == "Defensive")
 				{
@@ -584,11 +603,13 @@ namespace spaceshooter
 				}
 			}
 		}
-		std::cout << m_enemy_skill_2_Name << " Hit " << amountOfHits << " Times" << std::endl;
+		AddBattleSentence("Foe", m_enemy_skill_2_Name, amountOfHits, totallDMG);
+		
 	}
 	void BattleState::EnemyUseSkill_3()
 	{
 		int amountOfHits = 0;
+		float totallDMG=0;
 		for (int i = 0; i < m_enemy_skill_3_AmountOfAttacks; i++)
 		{
 			if (CalculateSkillHit(m_enemy_hitrate, m_enemy_skill_3_HitRate, m_player_evadeRate))
@@ -596,7 +617,8 @@ namespace spaceshooter
 				amountOfHits++;
 				if (m_enemy_skill_3_Attribute == "Offensive")
 				{
-					m_player_health -= CalculateSkillDamage(m_enemy_damage, m_enemy_skill_3_DMG, m_enemy_skill_3_Name);
+					totallDMG = CalculateSkillDamage(m_enemy_damage, m_enemy_skill_3_DMG, m_enemy_skill_3_Name);
+					m_player_health -= totallDMG;
 				}
 				else if (m_enemy_skill_3_Attribute == "Defensive")
 				{
@@ -604,11 +626,12 @@ namespace spaceshooter
 				}
 			}
 		}
-		std::cout << m_enemy_skill_3_Name << " Hit " << amountOfHits << " Times" << std::endl;
+		AddBattleSentence("Foe", m_enemy_skill_3_Name, amountOfHits, totallDMG);
 	}
 	void BattleState::EnemyUseSkill_4()
 	{
 		int amountOfHits = 0;
+		float totallDMG=0;
 		for (int i = 0; i < m_enemy_skill_4_AmountOfAttacks; i++)
 		{
 			if (CalculateSkillHit(m_enemy_hitrate, m_enemy_skill_4_HitRate, m_player_evadeRate))
@@ -616,7 +639,8 @@ namespace spaceshooter
 				amountOfHits++;
 				if (m_enemy_skill_4_Attribute == "Offensive")
 				{
-					m_player_health -= CalculateSkillDamage(m_enemy_damage, m_enemy_skill_4_DMG, m_enemy_skill_4_Name);
+					totallDMG = CalculateSkillDamage(m_enemy_damage, m_enemy_skill_4_DMG, m_enemy_skill_4_Name);
+					m_player_health -= totallDMG;
 				}
 				else if (m_enemy_skill_4_Attribute == "Defensive")
 				{
@@ -624,13 +648,15 @@ namespace spaceshooter
 				}
 			}
 		}
-		std::cout << m_enemy_skill_4_Name << " Hit " << amountOfHits << " Times" << std::endl;
+		AddBattleSentence("Foe", m_enemy_skill_4_Name, amountOfHits, totallDMG);
 	}
 	void BattleState::PlayerUseSkill(int p_skillNumber)
 	{
+		int amountOfHits;
+		float totallDMG=0;
+		
 		switch (p_skillNumber)
 		{
-			int amountOfHits;
 			
 		case 0:
 			amountOfHits = 0;
@@ -644,7 +670,8 @@ namespace spaceshooter
 					amountOfHits++;
 					if (m_player_skill_1_Attribute == "Offensive")
 					{
-						m_enemy_health -= CalculateSkillDamage(m_player_damage, m_player_skill_1_DMG, m_player_skill_1_Name);
+						totallDMG= CalculateSkillDamage(m_player_damage, m_player_skill_1_DMG, m_player_skill_1_Name);
+						m_enemy_health -= totallDMG;
 					}
 					else if (m_player_skill_1_Attribute == "Defensive")
 					{
@@ -653,6 +680,9 @@ namespace spaceshooter
 				}
 			}
 			std::cout << m_player_skill_1_Name << " Hit " << amountOfHits << " Times" << std::endl;
+			
+			AddBattleSentence("You",m_player_skill_1_Name, amountOfHits, totallDMG);
+			
 			break;
 		case 1: 
 			m_player_skill_2_sound.play();
@@ -666,7 +696,8 @@ namespace spaceshooter
 					amountOfHits++;
 					if (m_player_skill_2_Attribute == "Offensive")
 					{
-						m_enemy_health -= CalculateSkillDamage(m_player_damage, m_player_skill_2_DMG, m_player_skill_2_Name);
+						totallDMG = CalculateSkillDamage(m_player_damage, m_player_skill_2_DMG, m_player_skill_2_Name);
+						m_enemy_health -= totallDMG;
 					}
 					else if (m_player_skill_2_Attribute == "Defensive")
 					{
@@ -674,7 +705,7 @@ namespace spaceshooter
 					}
 				}
 			}
-			std::cout << m_player_skill_2_Name << " Hit " << amountOfHits << " Times" << std::endl;
+			AddBattleSentence("You", m_player_skill_2_Name, amountOfHits, totallDMG);
 			break;
 		case 2:
 			amountOfHits = 0;
@@ -688,7 +719,8 @@ namespace spaceshooter
 					amountOfHits++;
 					if (m_player_skill_3_Attribute == "Offensive")
 					{
-						m_enemy_health -= CalculateSkillDamage(m_player_damage, m_player_skill_3_DMG, m_player_skill_3_Name);
+						totallDMG = CalculateSkillDamage(m_player_damage, m_player_skill_3_DMG, m_player_skill_3_Name);
+						m_enemy_health -= totallDMG;
 					}
 					else if (m_player_skill_3_Attribute == "Defensive")
 					{
@@ -696,13 +728,13 @@ namespace spaceshooter
 					}
 				}
 			}
-			std::cout << m_player_skill_3_Name << " Hit " << amountOfHits << " Times" << std::endl;
+			AddBattleSentence("You", m_player_skill_3_Name, amountOfHits, totallDMG);
 			break;
 		case 3:
-			m_player_skill_4_sound.play();
+			amountOfHits = 0;
 			aSkillEffect = new SkillEffect(m_player_skill_4_Name, m_player_skill_4_animTime, enemyPos, m_draw_manager);
 			AllSkillEffects.push_back(*aSkillEffect);
-			amountOfHits = 0;
+			m_player_skill_4_sound.play();
 			for (int i = 0; i < m_player_skill_4_AmountOfAttacks; i++)
 			{
 				if (CalculateSkillHit(m_player_hitrate, m_player_skill_4_HitRate, m_enemy_evadeRate))
@@ -710,7 +742,8 @@ namespace spaceshooter
 					amountOfHits++;
 					if (m_player_skill_4_Attribute == "Offensive")
 					{
-						m_enemy_health -= CalculateSkillDamage(m_player_damage, m_player_skill_4_DMG, m_player_skill_4_Name);
+						totallDMG = CalculateSkillDamage(m_player_damage, m_player_skill_4_DMG, m_player_skill_4_Name);
+						m_enemy_health -= totallDMG;
 					}
 					else if (m_player_skill_4_Attribute == "Defensive")
 					{
@@ -718,7 +751,7 @@ namespace spaceshooter
 					}
 				}
 			}
-			std::cout << m_player_skill_4_Name << " Hit " << amountOfHits << " Times" << std::endl;
+			AddBattleSentence("You", m_player_skill_4_Name, amountOfHits, totallDMG);
 			break;
 		}
 	}
@@ -750,9 +783,50 @@ namespace spaceshooter
 	void BattleState::InitLifeBars()
 	{
 		BS_LifeBar *m_playerLifeBar = new BS_LifeBar(this,m_player,sf::Vector2f(m_screen_width*0.7,m_screen_height*0.8));
-		BS_LifeBar *m_enemyLifeBar = new BS_LifeBar(this,m_enemy,sf::Vector2f(100.0f, 100.0f));
+		BS_LifeBar *m_enemyLifeBar = new BS_LifeBar(this,m_enemy,sf::Vector2f(m_screen_width*0.05,m_screen_height*0.05));
 		AllLifeBars.push_back(*m_playerLifeBar);
 		AllLifeBars.push_back(*m_enemyLifeBar);
+	}
+	void BattleState::AddBattleText(std::string p_battleText)
+	{
+		ssBT << p_battleText;
+	}
+	void BattleState::EmptyBattleText()
+	{
+		ssBT.str("");
+	}
+	void BattleState::AddBattleSentence(std::string p_user, std::string p_skillName, float p_amountOfHits, float p_totallDMG)
+	{
+		EmptyBattleText();
+		std::stringstream ss;
+		AddBattleText(p_user);
+		AddBattleText(" Used ");
+		AddBattleText(p_skillName);
+		if (p_amountOfHits > 0)
+		{
+
+
+			AddBattleText(" Hit ");
+			AddBattleText("\n");
+			ss << p_amountOfHits;
+			AddBattleText(ss.str());
+			AddBattleText(" Times for ");
+			ss.str("");
+			ss << p_totallDMG*p_amountOfHits;
+			AddBattleText(ss.str());
+			AddBattleText(" DMG!");
+		}
+		else
+		{
+			AddBattleText("\n");
+			AddBattleText(p_skillName);
+			AddBattleText(" Was Evaded!");
+		}
+		SetBattleText();
+	}
+	void BattleState::SetBattleText()
+	{
+		text_battle_text.setString(ssBT.str());
 	}
 	void BattleState::InitBattleHUD()
 	{
@@ -781,6 +855,18 @@ namespace spaceshooter
 		text_enemy_health.setCharacterSize(39);
 		text_enemy_health.setStyle(sf::Text::Bold | sf::Text::Italic);
 		ManageWindow("BattleLootWindow", false);
+		//Enemys Name 
+		text_enemy_name.setFont(hudBattleFont);
+		text_enemy_name.setPosition(m_screen_width*0.01, m_screen_height * 0.01f);
+		text_enemy_name.setColor(sf::Color::Red);
+		text_enemy_name.setCharacterSize(39);
+		text_enemy_name.setStyle(sf::Text::Bold | sf::Text::Italic);
+		//battle text
+		text_battle_text.setFont(hudBattleFont);
+		text_battle_text.setPosition(100.0f, m_screen_height * 0.6f);
+		text_battle_text.setColor(sf::Color::Black);
+		text_battle_text.setCharacterSize(39);
+		text_battle_text.setStyle(sf::Text::Bold | sf::Text::Italic);
 	}
 	void BattleState::UpdateBattleHUD(float deltatime)
 	{
@@ -798,6 +884,9 @@ namespace spaceshooter
 		ss.str("");
 		ss << m_enemy_health;
 		text_enemy_health.setString(ss.str());
+		ss.str("");
+		ss << m_enemy_name;
+		text_enemy_name.setString(ss.str());
 	}
 	void BattleState::ChangeTurn(float p_turnDelayTime)
 	{

@@ -22,7 +22,7 @@ namespace spaceshooter
 	bool StateManager::Initialize()
 	{ 
 		AttachState("Test", new TestState);
-		AttachState("BattleState", new BattleState("Boss_1","LowKeyKnight"));
+		AttachState("BattleState", new BattleState("DarkGround","LowKeyKnight","Dawn"));
 		AttachState("ColTest", new CollisionTestState);
 		SetActiveState("BattleState");
 

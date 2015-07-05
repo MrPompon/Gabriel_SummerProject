@@ -21,7 +21,7 @@ namespace spaceshooter
 		friend class BS_LifeBar;
 		friend class BS_Enemy;
 	public:
-		BattleState(std::string p_areaTheme, std::string p_encounterName);
+		BattleState(std::string p_areaTheme, std::string p_encounterName, std::string p_timeOfDay);
 		~BattleState();
 
 		virtual bool Enter();
@@ -29,9 +29,14 @@ namespace spaceshooter
 		virtual bool Update(float deltatime);
 		virtual void Draw();
 		virtual std::string GetNextState();
+		void SetBattleText();
+		void AddBattleText(std::string p_battleText);
+		void EmptyBattleText();
+		void AddBattleSentence(std::string p_user, std::string p_skillName, float p_amoutOfHits, float p_totallDMG);
 	private: //battle background stuff
 		sf::Texture m_tex_battleBackground;
 		sf::Sprite m_spr_battleBackground;
+		std::stringstream ssBT;
 		void InitBackground(std::string p_areaTheme);
 	private:
 		//All Combat font
@@ -42,6 +47,8 @@ namespace spaceshooter
 		sf::Text text_player_health, text_player_damage;
 		//enemy
 		sf::Text text_enemy_health, text_enemy_damage; 
+		sf::Text text_enemy_name;
+		sf::Text text_battle_text;
 	private:
 		void OnAction(const std::string& action, bool state);
 		//audio stuff

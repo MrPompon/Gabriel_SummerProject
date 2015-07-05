@@ -12,3 +12,4 @@ SkillName | Attribute  | DMG | HitRate%| AmountsOfHits |SkillProc| AnimationTime
 [HeadButt] HeadButt Offensive 80 80 1 STUN 1.5
 [Stomp] Stomp Offensive 40 60 2 NONE 2
 [Smash] Smash Offensive 180 20 1 NONE 1
+[Crunch] Crunch Offensive 150 75 2 NONE 0.6

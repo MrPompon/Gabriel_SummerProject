@@ -93,17 +93,13 @@ namespace spaceshooter
 			case 1:CreateWord(m_playerSkills[3], true, true, (p_originX + firstWordX) + (p_wordDistanceWidth*2), (p_originY + firstWordY) + (p_wordDistanceHeight * 2), p_fontSize);
 				break;
 			}
-			//C+R DOES NOT WORK ATM, NEED TO FIX SOMEHOW
 		}
-
-				//need to define what each string should be by getting player skills
-
 			TextureManager* texture_manager = ServiceLocator<TextureManager>::GetService();
 			m_tex_window = texture_manager->CreateTextureFromFile("../assets/Sprites/BS_LifeBar/window_background.png");
 			m_spr_window.setTexture(*m_tex_window);
 			m_spr_window.setPosition(p_originX, p_originY);
 				//add titletothe"BOX"
-				CreateWord(m_windowName, false, false, m_windowOrigin.x, m_windowOrigin.y, 15);
+				CreateWord("Open Inventory", true, true, m_windowOrigin.x, m_windowOrigin.y, 15);
 		}
 		else if (p_windowName == "OptionsMenu")
 		{

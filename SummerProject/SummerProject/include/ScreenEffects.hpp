@@ -37,6 +37,8 @@ namespace spaceshooter
 			EFFECT_SHAKING,
 			EFFECT_NIGHT,
 			EFFECT_DAY,
+			EFFECT_DUSK,
+			EFFECT_DAWN,
 			EFFECT_BLAZE,
 
 		};

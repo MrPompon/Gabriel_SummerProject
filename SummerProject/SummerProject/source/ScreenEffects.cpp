@@ -36,6 +36,16 @@ namespace spaceshooter
 			screenEffect = EFFECT_DAY;
 			m_screenEffectRect.setFillColor(sf::Color(0, 0, 0, 0));
 		}
+		else if (m_name == "SetDusk")
+		{
+			screenEffect = EFFECT_DUSK;
+			m_screenEffectRect.setFillColor(sf::Color(153, 0, 76, 40));
+		}
+		else if (m_name == "SetDawn")
+		{
+			screenEffect = EFFECT_DAWN;
+			m_screenEffectRect.setFillColor(sf::Color(204, 102, 0, 40));
+		}
 		else if (m_name == "SetBlaze")
 		{
 			screenEffect = EFFECT_BLAZE;

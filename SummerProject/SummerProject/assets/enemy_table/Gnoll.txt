@@ -6,4 +6,3 @@
 [HITRATE] 25
 [EVADERATE] 15
 [SKILLS] Razor Smash Cleave HeadButt
-

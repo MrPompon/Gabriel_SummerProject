@@ -21,7 +21,7 @@ namespace spaceshooter
 		friend class BS_LifeBar;
 		friend class BS_Enemy;
 	public:
-		BattleState();
+		BattleState(std::string p_areaTheme, std::string p_encounterName);
 		~BattleState();
 
 		virtual bool Enter();
@@ -32,10 +32,11 @@ namespace spaceshooter
 	private: //battle background stuff
 		sf::Texture m_tex_battleBackground;
 		sf::Sprite m_spr_battleBackground;
-		void InitBackground();
+		void InitBackground(std::string p_areaTheme);
 	private:
 		//All Combat font
 		bool menu_is_up;
+		sf::RenderWindow *m_window;
 		bool optionsKeyIsPressed;
 		//player
 		sf::Text text_player_health, text_player_damage;
@@ -70,6 +71,8 @@ namespace spaceshooter
 		sf::Vector2f enemyPos;
 		void EnemysTurn(float deltatime);
 		void InitEnemyStats();
+		std::string m_areaTheme;
+		std::string m_encounterName;
 	private:
 		sf::Mouse m_mouse;
 		std::vector<GUIWindow> AllGUIWindows;

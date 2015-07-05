@@ -4,19 +4,22 @@
 #include "Animation.hpp"
 #include "TextureManager.hpp"
 #include "ServiceLocator.hpp"
+#include "DrawManager.hpp"
 #include <iostream>
 
 
 namespace spaceshooter
 {
-	ScreenEffects::ScreenEffects(sf::RenderWindow*p_renderWindow,std::string p_effectName ,float p_effectDuration)
+	ScreenEffects::ScreenEffects(sf::RenderWindow*p_renderWindow, std::string p_effectName, float p_effectDuration, DrawManager*p_drawManager)
 	{
+		m_drawmanager = ServiceLocator<DrawManager>::GetService();
+		m_renderWindow = m_drawmanager->getWindow();
 		m_name = p_effectName;
 		m_lifeTime = p_effectDuration;
 		m_screen_width = 1024.0f;
 		m_screen_height = 600.0f;
-		m_renderWindow = p_renderWindow;
-	
+		
+		
 		m_screenEffectRect.setSize(sf::Vector2f(m_screen_width, m_screen_height));
 		m_visible = true;
 		if (m_name == "SetShake")
@@ -67,7 +70,14 @@ namespace spaceshooter
 		}
 		if (screenEffect == EFFECT_SHAKING)
 		{
-
+			if (m_lifeTime > 0)
+			{
+				ScreenShake(10);
+			}
+			else
+			{
+				m_view.setCenter(m_screen_width/2, m_screen_height/2);
+			}
 		}
 		else if (screenEffect == EFFECT_DAY)
 		{
@@ -100,8 +110,14 @@ namespace spaceshooter
 	{
 
 	}
-	void ScreenEffects::ScreenShake(float screenShakeAmount, float duration)
+	void ScreenEffects::ScreenShake(float screenShakeAmount)
 	{
-
+		float randomPosX;
+		float randomPosY;
+		randomPosX = Random((m_screen_width / 2) - screenShakeAmount, (m_screen_width / 2) + screenShakeAmount);
+		randomPosY = Random((m_screen_height / 2) - screenShakeAmount, (m_screen_height / 2) + screenShakeAmount);
+		m_view.setCenter(randomPosX, randomPosY);
+		m_view.setSize(m_screen_width,m_screen_height);
+		m_renderWindow->setView(m_view);
 	}
 }; // namespace spaceshooter

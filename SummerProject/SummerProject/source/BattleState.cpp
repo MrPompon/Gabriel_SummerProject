@@ -19,14 +19,15 @@
 
 namespace spaceshooter
 {
-	BattleState::BattleState()
+	BattleState::BattleState(std::string p_areaTheme, std::string p_encounterName)
 	{
-		
-		
+		m_encounterName = p_encounterName;
+		m_areaTheme = p_areaTheme;
+
 		m_screen_width = 1024.0f;
 		m_screen_height = 600.0f;
 		player_saveFile = "save_file_1.txt";
-		enemy_encounter_name = "Minotaur";
+		enemy_encounter_name = m_encounterName;
 		for (unsigned int index = 0; index < ACTION_COUNT; index++)
 		{
 			m_actions[index] = false;
@@ -51,11 +52,15 @@ namespace spaceshooter
 		FirstStrikeDecider();
 		InitBattleHUD();
 		InitLifeBars();
-		InitBackground();
+		InitBackground(m_areaTheme);
 		AmountOfOptionsInMenu1;
 		AmountOfOptionsInMenu2;
 		AmountOfOptionsInSkillScreen;
-	
+		//check time of day in constructor, change accordlinly 
+
+		//set to night
+		ScreenEffects *nightScreen = new ScreenEffects(m_window, "SetNight", 9999, m_draw_manager);
+		AllScreenEffects.push_back(*nightScreen);
 	}
 
 	BattleState::~BattleState()
@@ -89,10 +94,11 @@ namespace spaceshooter
 			static_cast<float>(m_player_sprite.getTextureRect().width) * 0.5f,
 			static_cast<float>(m_player_sprite.getTextureRect().height) * 0.5f);
 
-		InitAudio("DarkGround");
+		InitAudio(m_areaTheme);
 
 		// better to have a local pointer than to access it through the service locator
 		m_draw_manager = ServiceLocator<DrawManager>::GetService();
+		m_window = m_draw_manager->getWindow();
 		return true;
 	}
 	void BattleState::InitAudio(std::string p_battleTheme)
@@ -131,7 +137,7 @@ namespace spaceshooter
 
 		m_music = BS_Music;
 		m_music_victory = BS_Music_Victory;
-		//m_music->play();
+		m_music->play();
 		
 	}
 	void BattleState::CheckMousePosition(float deltatime)
@@ -231,15 +237,10 @@ namespace spaceshooter
 	void BattleState::Draw()
 	{
 		m_draw_manager->Draw(m_spr_battleBackground);
-		m_draw_manager->Draw(text_player_health);
-		m_draw_manager->Draw(text_enemy_health);
+	
 		m_draw_manager->Draw(m_player_sprite);
 		m_draw_manager->Draw(m_enemyVector[0]);
 		//m_draw_manager->Draw(m_playerVector[0]);
-		for (unsigned int i = 0; i < AllLifeBars.size(); i++)
-		{
-			m_draw_manager->Draw(AllLifeBars[i]);
-		}
 		for (unsigned int i = 0; i < AllSkillEffects.size(); i++)
 		{
 			m_draw_manager->Draw(AllSkillEffects[i]);
@@ -248,6 +249,13 @@ namespace spaceshooter
 		{
 			m_draw_manager->Draw(AllScreenEffects[i]);
 		}
+		for (unsigned int i = 0; i < AllLifeBars.size(); i++)
+		{
+			m_draw_manager->Draw(AllLifeBars[i]);
+		}
+		//draw player - enemy health
+		m_draw_manager->Draw(text_player_health);
+		m_draw_manager->Draw(text_enemy_health);
 		for (unsigned int i = 0; i<AllGUIWindows.size(); i++)
 		{
 			m_draw_manager->Draw(AllGUIWindows[i]);
@@ -731,13 +739,13 @@ namespace spaceshooter
 			turnManager = TURN_OVER;
 		} 
 	}
-	void BattleState::InitBackground()
+	void BattleState::InitBackground(std::string p_areaTheme)
 	{
-		if (!m_tex_battleBackground.loadFromFile("../assets/Sprites/Backgrounds/BattleBackground.png"))
-		{
-			std::cout << "failed to load the battlebackground";
-		}
-		m_spr_battleBackground.setTexture(m_tex_battleBackground);
+			if (!m_tex_battleBackground.loadFromFile("../assets/Sprites/Backgrounds/"+p_areaTheme+".png"))
+			{
+				std::cout << "failed to load the battlebackground";
+			}
+			m_spr_battleBackground.setTexture(m_tex_battleBackground);
 	}
 	void BattleState::InitLifeBars()
 	{

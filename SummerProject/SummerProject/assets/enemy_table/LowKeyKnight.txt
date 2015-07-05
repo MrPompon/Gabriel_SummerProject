@@ -1,0 +1,8 @@
+[NAME] LowKeyKnight
+[LOOT] 200
+[HP] 5000
+[DMG] 70
+[SPEED] 55
+[HITRATE] 40
+[EVADERATE] 25
+[SKILLS] Cleave Blaze Smash HeadButt

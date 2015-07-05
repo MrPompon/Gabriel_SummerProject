@@ -40,7 +40,7 @@ namespace spaceshooter
 		AnimatedSprite* animSprite;
 		std::string m_skillName;
 		bool m_visible;
-		sf::Texture m_texture;
+		sf::Texture *m_texture;
 	};
 } // namespace spaceshooter
 

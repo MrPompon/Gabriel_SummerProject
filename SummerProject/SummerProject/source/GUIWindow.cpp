@@ -161,6 +161,52 @@ namespace spaceshooter
 			m_spr_window.setTexture(*m_tex_window);
 			m_spr_window.setPosition(p_originX, p_originY);
 		}
+		else if (p_windowName == "InventoryMenu")
+		{
+			    m_visible = false;
+				m_playerSkills = m_player->GetPlayerSkills();
+				for (unsigned int i = 0; i < m_playerSkills.size(); i++)
+				{
+					std::cout << m_playerSkills[i];
+				}
+				//skills are not listed in colums/rows because problems when listeing from array, both are listed as a column each. 
+				for (unsigned int c = 0; c < p_colums; c++)
+				{
+					switch (c)
+					{
+					case 0:	CreateWord("ITEM 1", true, true, (p_originX + firstWordX) + (p_wordDistanceWidth * 1), (p_originY + firstWordY) + (p_wordDistanceHeight * 1), p_fontSize);
+						break;
+					case 1:CreateWord("ITEM 2", true, true, (p_originX + firstWordX) + (p_wordDistanceWidth * 1), (p_originY + firstWordY) + (p_wordDistanceHeight * 2), p_fontSize);
+						break;
+					case 2:CreateWord("ITEM 5", true, true, (p_originX + firstWordX) + (p_wordDistanceWidth * 1), (p_originY + firstWordY) + (p_wordDistanceHeight * 3), p_fontSize);
+						break;
+					case 3:CreateWord("ITEM 7", true, true, (p_originX + firstWordX) + (p_wordDistanceWidth * 1), (p_originY + firstWordY) + (p_wordDistanceHeight * 4), p_fontSize);
+						break;
+					}
+
+				}
+				for (unsigned int r = 0; r < p_rows; r++)
+				{
+					switch (r)
+					{
+					case 0:CreateWord("ITEM 3", true, true, (p_originX + firstWordX) + (p_wordDistanceWidth * 2), (p_originY + firstWordY) + (p_wordDistanceHeight * 1), p_fontSize);
+						break;
+					case 1:CreateWord("ITEM 4", true, true, (p_originX + firstWordX) + (p_wordDistanceWidth * 2), (p_originY + firstWordY) + (p_wordDistanceHeight * 2), p_fontSize);
+						break;
+					case 2:CreateWord("ITEM 6", true, true, (p_originX + firstWordX) + (p_wordDistanceWidth * 2), (p_originY + firstWordY) + (p_wordDistanceHeight * 3), p_fontSize);
+						break;
+					case 3:CreateWord("ITEM 8", true, true, (p_originX + firstWordX) + (p_wordDistanceWidth * 2), (p_originY + firstWordY) + (p_wordDistanceHeight * 4), p_fontSize);
+						break;
+					}
+				}
+				TextureManager* texture_manager = ServiceLocator<TextureManager>::GetService();
+				m_tex_window = texture_manager->CreateTextureFromFile("../assets/Sprites/BS_LifeBar/window_background.png");
+				m_spr_window.setTexture(*m_tex_window);
+				m_spr_window.setPosition(p_originX, p_originY);
+				//add titletothe"BOX"
+				CreateWord("Open Skill Tab", true, true, m_windowOrigin.x+170, m_windowOrigin.y, 15);
+
+		}
 	}
 	void GUIWindow::CreateWord(std::string p_wordText,bool p_clickable,bool p_hightlightable,float p_posX,float p_posY, int p_fontsize)
 	{
@@ -224,7 +270,16 @@ namespace spaceshooter
 										//std::cout << "You are clicking skill text";
 									}
 								}
-							
+								if (compareText.getString() == "Open Inventory")
+								{
+									m_battleState->ManageWindow("InventoryMenu", true);
+									m_battleState->ManageWindow("SkillMenu", false);
+								}
+								else if (compareText.getString() == "Open Skill Tab")
+								{
+									m_battleState->ManageWindow("SkillMenu", true);
+									m_battleState->ManageWindow("InventoryMenu", false);
+								}
 				
 						}
 					}
@@ -244,7 +299,7 @@ namespace spaceshooter
 	{
 		if (m_visible)
 		{
-			if (m_windowName == "SkillMenu" || m_windowName== "OptionsMenu" || m_windowName =="BattleLootWindow")
+			if (m_windowName == "SkillMenu" || m_windowName== "OptionsMenu" || m_windowName =="BattleLootWindow" || m_windowName=="InventoryMenu")
 			{
 				states.texture = m_tex_window;
 				target.draw(m_spr_window, states);

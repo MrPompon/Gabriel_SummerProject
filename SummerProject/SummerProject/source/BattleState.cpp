@@ -836,8 +836,14 @@ namespace spaceshooter
 		gUIWindow = new GUIWindow(this, m_player, m_enemy, "SkillMenu", m_screen_width*0.3, m_screen_height*0.7, -100.0f, 10.0f, 135.0f, 45.0f, 30, 2, 2);
 		AllGUIWindows.push_back(*gUIWindow);
 
+		gUIWindow = new GUIWindow(this, m_player, m_enemy, "InventoryMenu", m_screen_width*0.3, m_screen_height*0.7, -100.0f, 10.0f, 135.0f, 45.0f, 16, 4, 4);
+		AllGUIWindows.push_back(*gUIWindow);
+
 		gUIWindow = new GUIWindow(this, m_player, m_enemy, "BattleLootWindow", m_screen_width*0.3, m_screen_height*0.1, 30, 30, 130, 50, 25, 1, 5);
 		AllGUIWindows.push_back(*gUIWindow);
+
+		
+
 		if (!hudBattleFont.loadFromFile("../assets/Fonts/SuperMario256.ttf"))
 		{
 			std::cout << "Failed to load font" << std::endl;
@@ -850,7 +856,7 @@ namespace spaceshooter
 		text_player_health.setStyle(sf::Text::Bold | sf::Text::Italic);
 		//enemies health displayed
 		text_enemy_health.setFont(hudBattleFont);
-		text_enemy_health.setPosition(300.0f, m_screen_height * 0.2f);
+		text_enemy_health.setPosition(m_screen_width*0.2, m_screen_height * 0.1f);
 		text_enemy_health.setColor(sf::Color::Red);
 		text_enemy_health.setCharacterSize(39);
 		text_enemy_health.setStyle(sf::Text::Bold | sf::Text::Italic);
@@ -863,9 +869,9 @@ namespace spaceshooter
 		text_enemy_name.setStyle(sf::Text::Bold | sf::Text::Italic);
 		//battle text
 		text_battle_text.setFont(hudBattleFont);
-		text_battle_text.setPosition(100.0f, m_screen_height * 0.6f);
+		text_battle_text.setPosition(m_screen_width*0.65, m_screen_height * 0.7f);
 		text_battle_text.setColor(sf::Color::Black);
-		text_battle_text.setCharacterSize(39);
+		text_battle_text.setCharacterSize(25);
 		text_battle_text.setStyle(sf::Text::Bold | sf::Text::Italic);
 	}
 	void BattleState::UpdateBattleHUD(float deltatime)

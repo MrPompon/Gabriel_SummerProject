@@ -135,6 +135,9 @@
     <ClInclude Include="..\include\ScreenEffects.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\OverWorldState.hpp">
+      <Filter>Header Files\State</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="../source/main.cpp">
@@ -223,6 +226,9 @@
     </ClCompile>
     <ClCompile Include="..\source\ScreenEffects.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\OverWorldState.cpp">
+      <Filter>Source Files\State</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

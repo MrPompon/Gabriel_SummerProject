@@ -7,6 +7,11 @@
 
 namespace spaceshooter
 {
+	//roguelike tilebased mousemovement, event nodes etc.
+	class OVArea;
+	class DrawManager;
+	class InputManager;
+
 	class OverWorldState : public AbstractState
 	{
 	public:
@@ -16,7 +21,13 @@ namespace spaceshooter
 		virtual void Draw();
 		virtual std::string GetNextState();
 	private:
-
+		DrawManager* m_draw_manager;
+		InputManager* m_input_manager;
+		OVArea* m_OVArea;
+		sf::Mouse m_mouse;
+		//mousefunctions
+		sf::Vector2f mousePosition;
+		void UpdateMouse(float deltatime);
 	};
 }
 // namespace spaceshooter

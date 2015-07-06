@@ -1,0 +1,69 @@
+width 30
+height 30
+ts 128 
+texture ../assets/Sprites/TileSets/OverWorld/GrassTileSet.png
+
+// symbol texture_x texture y
+td a 0 0
+td b 128 0
+td c 256 0
+td d 384 0
+td e 512 0
+td f 640 0
+td g 768 0
+td h 0 128
+td i 128 128
+td j 256 128
+td k 384 128
+td l 512 128
+td m 640 128
+td n 768 128
+
+l ground
+d a b c d e f g h i j k l m n a a a a a a a a a a a a a a a
+d a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+d a a a a a a a a a a a a a a a b b b b b b a a a a a a a a
+d a a a a a a a a a a a a a a a b b b b a a a a a a a a a a
+d a a a a a a a a a a a a a a a b b c b a a a a a a a a a a
+d n n n l l l l l l l l l l l l l l l l l l l l l l l a a a
+d n n n l l l l l l l l l l l l l l l l l l l l l l l b b b
+d n n n l l l l l l l l l l l l l l l l l l l l l l l m m m
+d n n n l l l l l l l n n a a a m m m m m m m m l l l m m m
+d n n n n n n n n n n n n a a a n n n n n n n n l l l n n n
+d n n n n n n n n n n n a a a a k k k k k k k k l l l k k k
+d n n n n n n n n n n n a a a a k k k k k k k k l l l k k k
+d d a a a a a a a a a a a a a a k k k k k k k k l l l k k k
+d a a a a a a a a a a a a a a a k k k k k k k k l l l k k k
+d a a a a a a a l l l l l l l l l l l l l l l l l l l j j j
+d a b c d e f g l l l l l l l l l l l l l l l l l l l a a a
+d a a a a a a a l l l l l l l l l l l l l l l l l l l a a a
+d a a a a a a a l l l a a a a a b b b b b b a a a a a a a a
+d a a a a a a a l l l a a a a a b b b b a a a a a a a a a a
+d a a a a a a a l l l a a a a a b b c b a a a a a a a a a a
+d a a a a a a a l l l a a a a a b c c c a a a a a a a a a a
+d a a a a a a a l l l a a a a k k k k a a b b b b b b b b b
+d a a a a a a a l l l a a k k k b a a a a b b b b b b m m m
+d a a a a a a a l l l a k k k k k a a a a b b b b b b m m m
+d a a a a a a a l l l k k k k k k a a a a b b l l l b n n n
+d a a a a a a a l l l l l l l l l l l l l l l l l l k k k k
+d a a a a a a a l l l l l l l l l l l l l l l l l l k k k k
+d a a a a a a a l l l l l l l l l l l l l l l l l l k k k k
+d a a a a a a a a a a a a a a a k k k k k k k k k k k k k k
+d a a a a a a a a a a a a a a c j j j j j j j j j j j j j j
+
+l object_layer
+d 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+d 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+d 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+d 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+d 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+d 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+d 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+d 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+d 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+d 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+d 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+d 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+d 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+d 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+d 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0

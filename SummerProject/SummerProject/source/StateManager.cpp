@@ -7,7 +7,7 @@
 #include "BattleState.hpp"
 #include "TestState.hpp"
 #include "CollisionTestState.hpp"
-
+#include "OverWorldState.hpp"
 namespace spaceshooter
 {
 	StateManager::StateManager()
@@ -22,9 +22,10 @@ namespace spaceshooter
 	bool StateManager::Initialize()
 	{ 
 		AttachState("Test", new TestState);
+		AttachState("OverWorld", new OverWorldState);
 		AttachState("BattleState", new BattleState("Boss_1","LowKeyKnight","Night"));
 		AttachState("ColTest", new CollisionTestState);
-		SetActiveState("BattleState");
+		SetActiveState("OverWorld");
 
 		return true;
 	}

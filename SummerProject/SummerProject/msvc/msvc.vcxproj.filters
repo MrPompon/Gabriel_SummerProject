@@ -43,6 +43,12 @@
     <Filter Include="Source Files\HUD">
       <UniqueIdentifier>{35572b13-8230-44fe-bd70-adcc48cf65cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\OVFolder">
+      <UniqueIdentifier>{1585c9e6-cf73-4399-bbe5-da3a71e2dcc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\OV">
+      <UniqueIdentifier>{0786f8c0-8004-458a-bd92-f013eeaf3b29}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="../include/stdafx.h">
@@ -138,6 +144,9 @@
     <ClInclude Include="..\include\OverWorldState.hpp">
       <Filter>Header Files\State</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\OVArea.hpp">
+      <Filter>Header Files\OV</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="../source/main.cpp">
@@ -229,6 +238,9 @@
     </ClCompile>
     <ClCompile Include="..\source\OverWorldState.cpp">
       <Filter>Source Files\State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\OVArea.cpp">
+      <Filter>Source Files\OVFolder</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

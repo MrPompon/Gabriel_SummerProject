@@ -33,9 +33,12 @@ namespace spaceshooter
 		OVArea(std::string p_filename);
 		~OVArea();
 		void Update(float deltatime);
+		void UpdateCamera(float deltatime);
 		void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 		TileDefinition* getTileDefinition(char ID) const;
 	private:
+		float m_screenWidth;
+		float m_screenHeight;
 		InputManager* m_inputManager;
 		DrawManager* m_drawManager;
 		sf::Vector2f m_mousePosition;
@@ -44,7 +47,8 @@ namespace spaceshooter
 		std::vector<Layer*> m_layers;
 		std::vector<TileDefinition*> m_tileDefinitions;
 		std::vector<Tile> m_AllTiles;
-	
+		sf::RenderWindow *m_renderWindow;
+		sf::View m_view;
 		sf::Mouse m_mouse;
 		int m_width;
 		int m_height;

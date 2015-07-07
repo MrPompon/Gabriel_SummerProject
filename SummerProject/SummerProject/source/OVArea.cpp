@@ -43,6 +43,12 @@ namespace spaceshooter
 		m_inputManager = ServiceLocator<InputManager>::GetService();
 		m_mouse = m_inputManager->GetMouse();
 		m_drawManager = ServiceLocator<DrawManager>::GetService();
+		m_renderWindow = m_drawManager->getWindow();
+	//init view
+		m_screenWidth = 1024;
+		m_screenHeight = 600;
+		m_view.setSize(m_screenWidth, m_screenHeight);
+		
 		std::ifstream inputSteam("../assets/map_files/OverWorld/"+p_filename);
 		if (!inputSteam.is_open())
 		{
@@ -131,6 +137,7 @@ namespace spaceshooter
 
 	void OVArea::Update(float deltatime)
 	{
+		m_renderWindow->setView(m_view);
 		m_mousePosition = m_drawManager->getWindow()->mapPixelToCoords(m_mouse.getPosition(*m_drawManager->getWindow()));
 		for (unsigned int i = 0; i < m_AllTiles.size(); i++)
 		{
@@ -140,18 +147,38 @@ namespace spaceshooter
 				{
 					if (m_mousePosition.y >= point1.y && m_mousePosition.y <= point3.y)
 					{
-						std::cout << "yololo";
+						std::cout<<m_AllTiles[i].ID;
 					}
 					
 				}
 		}
-		
+		UpdateCamera(deltatime);
 		
 		
 	/*	m_mousePositionGrid = sf::Vector2f(m_mousePosition.x /m_tileSize, m_mousePosition.y / m_tileSize);
 		sf::Vector2f m_mousePositionGrounded = sf::Vector2f(floor(m_mousePositionGrid.x), floor(m_mousePositionGrid.y));
 		std::cout << m_mousePositionGrounded.x;
 		std::cout << m_mousePositionGrounded.y;*/
+	}
+	void OVArea::UpdateCamera(float deltatime)
+	{
+		if (m_view.getCenter().x+(m_screenWidth/2.5) < m_mousePosition.x)
+		{
+			m_view.move(sf::Vector2f(5.0f, 0.f));
+		}
+		else if (m_view.getCenter().x-(m_screenWidth/2.5) > m_mousePosition.x)
+		{
+			m_view.move(sf::Vector2f(-5.0f, 0.f));
+		}
+		if (m_view.getCenter().y+(m_screenHeight/2.5) < m_mousePosition.y)
+		{
+			m_view.move(sf::Vector2f(0.0f, 5.f));
+		}
+		else if (m_view.getCenter().y-m_screenHeight/2.5 > m_mousePosition.y)
+		{
+			m_view.move(sf::Vector2f(0.0f, -5.f));
+		}
+			
 	}
 	void OVArea::draw(sf::RenderTarget &target, sf::RenderStates states) const
 	{

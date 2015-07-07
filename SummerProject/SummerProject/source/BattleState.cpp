@@ -279,7 +279,7 @@ namespace spaceshooter
 
 	std::string BattleState::GetNextState()
 	{
-		return std::string("");
+		return std::string("BattleState");
 	}
 
 	// private

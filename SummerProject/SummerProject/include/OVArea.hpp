@@ -7,14 +7,25 @@
 namespace spaceshooter
 {
 	//roguelike tilebased mousemovement, event nodes etc.
-	
+	class OverWorldState;
+	class OVPlayer;
 	class OVArea: public sf::Drawable
 	{
 	public:
+		enum Passable
+		{
+			PASSABLE_NOTDEFINED,
+			PASSABLE_NOT,
+			PASSABLE_PASSABLE,
+
+		};
 		struct Tile
 		{
 			char ID;
 			sf::Vertex* vertices;
+			//bool passable;
+			sf::Vector2f centerPos;
+			Passable passable;
 		};
 
 		struct TileDefinition
@@ -30,15 +41,17 @@ namespace spaceshooter
 			sf::VertexArray vertices;
 		};
 
-		OVArea(std::string p_filename);
+		OVArea(std::string p_filename, OverWorldState *p_overworld, OVPlayer *p_player);
 		~OVArea();
 		void Update(float deltatime);
 		void UpdateCamera(float deltatime);
 		void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 		TileDefinition* getTileDefinition(char ID) const;
+		OverWorldState* m_overWorld;
 	private:
 		float m_screenWidth;
 		float m_screenHeight;
+		OVPlayer* m_player;
 		InputManager* m_inputManager;
 		DrawManager* m_drawManager;
 		sf::Vector2f m_mousePosition;

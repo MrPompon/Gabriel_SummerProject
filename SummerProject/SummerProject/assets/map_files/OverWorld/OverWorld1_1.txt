@@ -18,6 +18,8 @@ td k 384 128
 td l 512 128
 td m 640 128
 td n 768 128
+td x 768 128
+
 
 l ground
 d a b c d e f g h i j k l m n a a a a a a a a a a a a a a a
@@ -52,10 +54,10 @@ d a a a a a a a a a a a a a a a k k k k k k k k k k k k k k
 d a a a a a a a a a a a a a a c j j j j j j j j j j j j j j
 
 l object_layer
-d 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-d 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-d 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-d 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+d x 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+d 0 x 0 0 0 0 0 0 0 0 0 0 0 0 0
+d 0 0 x 0 0 0 0 0 0 0 0 0 0 0 0
+d 0 0 0 x 0 0 0 0 0 0 0 0 0 0 0
 d 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 d 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 d 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0

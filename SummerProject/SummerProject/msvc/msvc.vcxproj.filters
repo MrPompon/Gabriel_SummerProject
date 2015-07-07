@@ -147,6 +147,9 @@
     <ClInclude Include="..\include\OVArea.hpp">
       <Filter>Header Files\OV</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\OVPlayer.hpp">
+      <Filter>Header Files\OV</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="../source/main.cpp">
@@ -240,6 +243,9 @@
       <Filter>Source Files\State</Filter>
     </ClCompile>
     <ClCompile Include="..\source\OVArea.cpp">
+      <Filter>Source Files\OVFolder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\OVPlayer.cpp">
       <Filter>Source Files\OVFolder</Filter>
     </ClCompile>
   </ItemGroup>

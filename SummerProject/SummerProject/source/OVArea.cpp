@@ -7,6 +7,8 @@
 #include "DrawManager.hpp"
 #include "OVArea.hpp"
 #include "ServiceLocator.hpp"
+#include "OverWorldState.hpp"
+#include "OVPlayer.hpp"
 #include <math.h>
 namespace spaceshooter
 { 
@@ -38,8 +40,10 @@ namespace spaceshooter
 		}
 		return nullptr;
 	}
-	OVArea::OVArea(std::string p_filename)
+	OVArea::OVArea(std::string p_filename, OverWorldState *p_overworld, OVPlayer *p_player)
 	{
+		m_player = p_player;
+		m_overWorld = p_overworld;
 		m_inputManager = ServiceLocator<InputManager>::GetService();
 		m_mouse = m_inputManager->GetMouse();
 		m_drawManager = ServiceLocator<DrawManager>::GetService();
@@ -102,19 +106,26 @@ namespace spaceshooter
 			{
 				for (int i = 0; i < parts.size() - 1; ++i)
 				{
+					Passable passable=PASSABLE_NOTDEFINED;
 					int ID = parts[i + 1].c_str()[0]; //nu kan vi hitta rätt tiledefinition för varje tile
 					if (ID == '0')
 						continue;
+					if (ID == 'x')
+					{
+						passable = PASSABLE_NOT;
+					}
 					TileDefinition* td = getTileDefinition(ID);
+					
 					if (td == nullptr)
 					{
 						std::cout << "Failed to parse map: Unable to find tile definition for ID '" << ID << "'" << std::endl;
 					}
 
 					Tile* tile = new Tile();
+					tile->passable = passable;
 					tile->ID = ID;
 					tile->vertices = &currentLayer->vertices[(i + currentRow * m_width) * 4];
-
+					tile->centerPos = sf::Vector2f(((i + 1)* m_tileSize)/2, ((currentRow + 1)*m_tileSize)/2);
 					tile->vertices[0].position = sf::Vector2f(i * m_tileSize, currentRow * m_tileSize);
 					tile->vertices[1].position = sf::Vector2f((i + 1) * m_tileSize, currentRow * m_tileSize);
 					tile->vertices[2].position = sf::Vector2f((i + 1) * m_tileSize, (currentRow + 1) * m_tileSize);
@@ -139,18 +150,23 @@ namespace spaceshooter
 	{
 		m_renderWindow->setView(m_view);
 		m_mousePosition = m_drawManager->getWindow()->mapPixelToCoords(m_mouse.getPosition(*m_drawManager->getWindow()));
-		for (unsigned int i = 0; i < m_AllTiles.size(); i++)
+		if (m_mouse.isButtonPressed(m_mouse.Left))
 		{
+			for (unsigned int i = 0; i < m_AllTiles.size(); i++)
+			{
 				sf::Vector2f point1 = m_AllTiles[i].vertices[0].position;
 				sf::Vector2f point3 = m_AllTiles[i].vertices[2].position;
-				if ( m_mousePosition.x >= point1.x && m_mousePosition.x<= point3.x)
+				if (m_mousePosition.x >= point1.x && m_mousePosition.x <= point3.x)
 				{
 					if (m_mousePosition.y >= point1.y && m_mousePosition.y <= point3.y)
 					{
-						std::cout<<m_AllTiles[i].ID;
+						//std::cout << m_AllTiles[i].ID << std::endl;
+						//std::cout << m_AllTiles[i].passable << std::endl;
+						std::cout << m_AllTiles[i].centerPos.x << std::endl;
+						std::cout << m_AllTiles[i].centerPos.y << std::endl;
 					}
-					
 				}
+			}
 		}
 		UpdateCamera(deltatime);
 		
@@ -170,6 +186,7 @@ namespace spaceshooter
 		{
 			m_view.move(sf::Vector2f(-5.0f, 0.f));
 		}
+
 		if (m_view.getCenter().y+(m_screenHeight/2.5) < m_mousePosition.y)
 		{
 			m_view.move(sf::Vector2f(0.0f, 5.f));
@@ -178,7 +195,6 @@ namespace spaceshooter
 		{
 			m_view.move(sf::Vector2f(0.0f, -5.f));
 		}
-			
 	}
 	void OVArea::draw(sf::RenderTarget &target, sf::RenderStates states) const
 	{

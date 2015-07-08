@@ -17,8 +17,18 @@ namespace spaceshooter
 		void Update(float deltatime);
 		void SetTargetPos(sf::Vector2f p_targetpos);
 		void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+		enum MovementDirection
+		{
+			DIRECTION_NONE,
+			DIRECTION_RIGHT,
+			DIRECTION_UP,
+			DIRECTION_DOWN,
+			DIRECTION_LEFT,
+		};
+		MovementDirection movementDirection;
 	private:
 		//Animation
+		DrawManager*m_drawManager;
 		TextureManager*m_textureManager;
 		void InitAnimation(std::string p_animationName);
 		void AddAnimationFrame(std::string p_animationName);

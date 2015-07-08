@@ -21,9 +21,10 @@ namespace spaceshooter
 		};
 		struct Tile
 		{
+			std::string layersName;
 			char ID;
 			sf::Vertex* vertices;
-			//bool passable;
+			bool isCollider;
 			sf::Vector2f centerPos;
 			Passable passable;
 		};

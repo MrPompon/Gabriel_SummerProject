@@ -12,10 +12,11 @@ namespace spaceshooter
 {
 	OVPlayer::OVPlayer()
 	{
+		m_drawManager = ServiceLocator<DrawManager>::GetService();
 		m_textureManager = ServiceLocator<TextureManager>::GetService();
 		m_playerSheet = m_textureManager->CreateTextureFromFile("../assets/Sprites/Animations/PlayerSheets/PlayerSheetClown.png");
 		m_playerSprite = new AnimatedSprite();
-		m_currentPos = sf::Vector2f(-30, -30);
+		m_currentPos = sf::Vector2f(0, 0);
 		m_targetPos = m_currentPos;
 		m_screenWidth = 1024;
 		m_screenHeight = 600;
@@ -36,11 +37,11 @@ namespace spaceshooter
 		InitAnimation("Right");
 		AddAnimationFrame("Right");
 		
-		m_playerSprite->setAnimation(*m_playerAnimations.find("PlayerUp")->second);
+		m_playerSprite->setAnimation(*m_playerAnimations.find("PlayerDown")->second);
 		m_playerSprite->setFrameTime(sf::seconds(0.1f));
 		m_playerSprite->setPosition(m_currentPos.x, m_currentPos.y);
 		m_playerSprite->setOrigin(m_playerSprite->getGlobalBounds().width*0.5, m_playerSprite->getGlobalBounds().height*0.5);
-		m_playerSprite->setScale(2.5, 2.5);
+		m_playerSprite->setScale(1, 1);
 	}
 	OVPlayer::~OVPlayer()
 	{
@@ -50,20 +51,42 @@ namespace spaceshooter
 	{
 		if (m_currentPos.x < m_targetPos.x)
 		{
+			if (movementDirection != DIRECTION_RIGHT)
+			{
+				m_playerSprite->setAnimation(*m_playerAnimations.find("PlayerRight")->second);
+			}
 			m_currentPos.x++;
+			movementDirection = DIRECTION_RIGHT;
 		}
 		else if (m_currentPos.x > m_targetPos.x)
 		{
+			if (movementDirection != DIRECTION_LEFT)
+			{
+				m_playerSprite->setAnimation(*m_playerAnimations.find("PlayerLeft")->second);
+			}
 			m_currentPos.x--;
+			movementDirection = DIRECTION_LEFT;
 		}
-		if (m_currentPos.y < m_targetPos.y)
+		else if (m_currentPos.y < m_targetPos.y)
 		{
+			if (movementDirection != DIRECTION_DOWN)
+			{
+				m_playerSprite->setAnimation(*m_playerAnimations.find("PlayerDown")->second);	
+			}
 			m_currentPos.y++;
+			movementDirection = DIRECTION_DOWN;
 		}
 		else if (m_currentPos.y > m_targetPos.y)
 		{
+			if (movementDirection != DIRECTION_UP)
+			{
+				m_playerSprite->setAnimation(*m_playerAnimations.find("PlayerUp")->second);
+			}
 			m_currentPos.y--;
+			movementDirection = DIRECTION_UP;
 		}
+	
+		m_playerSprite->setPosition(m_currentPos);
 	}
 	void OVPlayer::InitAnimation(std::string p_animationName)
 	{
@@ -106,7 +129,7 @@ namespace spaceshooter
 			m_colums = 3;
 
 			m_offsetX = 0;
-			m_offsetY = 92;
+			m_offsetY =0;
 
 			m_imageWidth = 32;
 			m_imageHeight = 32;
@@ -114,28 +137,32 @@ namespace spaceshooter
 	}
 	void OVPlayer::AddAnimationFrame(std::string p_animationName)
 	{
-		for (unsigned int r = 0; r < m_rows; r++)
+	
+		if (p_animationName == "Down")
 		{
-			for (unsigned int c = 0; c < m_colums; c++)
-			{
-				if (p_animationName == "Down")
-				{
-					PlayerDownAnimation->addFrame(sf::IntRect(m_offsetX + (r*m_imageWidth), m_offsetY + (c*m_imageHeight), m_imageWidth, m_imageHeight));
-				}
-				else if (p_animationName == "Right")
-				{
-					PlayerRightAnimation->addFrame(sf::IntRect(m_offsetX + (r*m_imageWidth), m_offsetY + (c*m_imageHeight), m_imageWidth, m_imageHeight));
-				}
-				else if (p_animationName == "Left")
-				{
-					PlayerLeftAnimation->addFrame(sf::IntRect(m_offsetX + (r*m_imageWidth), m_offsetY + (c*m_imageHeight), m_imageWidth, m_imageHeight));
-				}
-				else if (p_animationName == "Up")
-				{
-					PlayerUpAnimation->addFrame(sf::IntRect(m_offsetX + (r*m_imageWidth), m_offsetY + (c*m_imageHeight), m_imageWidth, m_imageHeight));
-				}
-			}
+			PlayerDownAnimation->addFrame(sf::IntRect(0, 0, m_imageWidth,m_imageHeight));
+			PlayerDownAnimation->addFrame(sf::IntRect(32, 0, m_imageWidth, m_imageHeight));
+			PlayerDownAnimation->addFrame(sf::IntRect(64, 0, m_imageWidth, m_imageHeight));
 		}
+		else if (p_animationName == "Right")
+		{
+			PlayerRightAnimation->addFrame(sf::IntRect(0, 64,m_imageWidth,m_imageHeight));
+			PlayerRightAnimation->addFrame(sf::IntRect(32, 64, m_imageWidth, m_imageHeight));
+			PlayerRightAnimation->addFrame(sf::IntRect(64, 64, m_imageWidth, m_imageHeight));
+		}
+		else if (p_animationName == "Left")
+		{
+			PlayerLeftAnimation->addFrame(sf::IntRect(0, 32, m_imageWidth,m_imageHeight));
+			PlayerLeftAnimation->addFrame(sf::IntRect(32, 32, m_imageWidth, m_imageHeight));
+			PlayerLeftAnimation->addFrame(sf::IntRect(64, 32, m_imageWidth, m_imageHeight));
+		}
+		else if (p_animationName == "Up")
+		{
+			PlayerUpAnimation->addFrame(sf::IntRect(0, 96,m_imageWidth,m_imageHeight));
+			PlayerUpAnimation->addFrame(sf::IntRect(32, 96, m_imageWidth, m_imageHeight));
+			PlayerUpAnimation->addFrame(sf::IntRect(32, 96, m_imageWidth, m_imageHeight));
+		}
+		
 		if (p_animationName == "Down")
 		{
 			m_playerAnimations.insert(std::make_pair("Player"+p_animationName, PlayerDownAnimation));

@@ -11,7 +11,7 @@
 #include "OVPlayer.hpp"
 #include <math.h>
 namespace spaceshooter
-{ 
+{
 	std::vector<std::string> explodeArea(const std::string& string, const std::string& delimeter)
 	{
 		std::vector<std::string> parts;
@@ -48,12 +48,12 @@ namespace spaceshooter
 		m_mouse = m_inputManager->GetMouse();
 		m_drawManager = ServiceLocator<DrawManager>::GetService();
 		m_renderWindow = m_drawManager->getWindow();
-	//init view
+		//init view
 		m_screenWidth = 1024;
 		m_screenHeight = 600;
 		m_view.setSize(m_screenWidth, m_screenHeight);
-		
-		std::ifstream inputSteam("../assets/map_files/OverWorld/"+p_filename);
+
+		std::ifstream inputSteam("../assets/map_files/OverWorld/" + p_filename);
 		if (!inputSteam.is_open())
 		{
 			std::cout << "Failed to parse map: Could not open file '" << p_filename << "'" << std::endl;
@@ -106,26 +106,30 @@ namespace spaceshooter
 			{
 				for (int i = 0; i < parts.size() - 1; ++i)
 				{
-					Passable passable=PASSABLE_NOTDEFINED;
+					Passable passable = PASSABLE_NOTDEFINED;
 					int ID = parts[i + 1].c_str()[0]; //nu kan vi hitta rätt tiledefinition för varje tile
 					if (ID == '0')
 						continue;
-					if (ID == 'x')
-					{
-						passable = PASSABLE_NOT;
-					}
-					TileDefinition* td = getTileDefinition(ID);
 					
+					TileDefinition* td = getTileDefinition(ID);
+
 					if (td == nullptr)
 					{
 						std::cout << "Failed to parse map: Unable to find tile definition for ID '" << ID << "'" << std::endl;
 					}
 
 					Tile* tile = new Tile();
+					tile->isCollider = false;
+					if (ID == 'x')
+					{
+						tile->isCollider = true;
+						passable = PASSABLE_NOT;
+					}
 					tile->passable = passable;
 					tile->ID = ID;
+					tile->layersName = currentLayer->name;
 					tile->vertices = &currentLayer->vertices[(i + currentRow * m_width) * 4];
-					tile->centerPos = sf::Vector2f(((i + 1)* m_tileSize)/2, ((currentRow + 1)*m_tileSize)/2);
+					tile->centerPos = sf::Vector2f((((i + 1)* (m_tileSize)) / 2) + i * 64, (((currentRow + 1)*(m_tileSize)) / 2) + currentRow * 64);
 					tile->vertices[0].position = sf::Vector2f(i * m_tileSize, currentRow * m_tileSize);
 					tile->vertices[1].position = sf::Vector2f((i + 1) * m_tileSize, currentRow * m_tileSize);
 					tile->vertices[2].position = sf::Vector2f((i + 1) * m_tileSize, (currentRow + 1) * m_tileSize);
@@ -160,14 +164,23 @@ namespace spaceshooter
 				{
 					if (m_mousePosition.y >= point1.y && m_mousePosition.y <= point3.y)
 					{
-						//std::cout << m_AllTiles[i].ID << std::endl;
-						//std::cout << m_AllTiles[i].passable << std::endl;
-						std::cout << m_AllTiles[i].centerPos.x << std::endl;
-						std::cout << m_AllTiles[i].centerPos.y << std::endl;
+						if (m_AllTiles[i].layersName == "collision_layer")  //check the collision layer 
+						{
+							if (!m_AllTiles[i].passable == PASSABLE_NOT)
+							{
+								//std::cout << m_AllTiles[i].ID << std::endl;
+								//std::cout << m_AllTiles[i].passable << std::endl;
+								std::cout << m_AllTiles[i].centerPos.x << std::endl;
+								std::cout << m_AllTiles[i].centerPos.y << std::endl;
+								m_player->SetTargetPos(m_AllTiles[i].centerPos);
+							}
+						}
 					}
 				}
 			}
 		}
+	
+
 		UpdateCamera(deltatime);
 		
 		

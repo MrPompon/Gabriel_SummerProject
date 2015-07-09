@@ -1,45 +1,32 @@
 width 30
 height 30
-ts 32 
-texture ../assets/Sprites/TileSets/OverWorld/RandomTileSet.png
+ts 128 
+texture ../assets/Sprites/TileSets/OverWorld/GrassTileSet.png
 
 // symbol texture_x texture y
 td a 0 0
-td b 32 0
-td c 64 0
-td d 96 0
-td e 128 0
-td f 160 0
-td g 192 0
-td h 224 0
-td i 256 0
-td j 288 0
-td k 320 0
-td l 352 0
-td m 384 0
-td n 416 0
-td o 448 0
-td p 480 0
-td q 512 0
-td r 544 0
-td s 576 0
-td t 608 0
-td u 640 0
-td v 672 0
-td w 704 0
-td y 0 32
-td z 224 32
-td ! 256 32
-td ¤ 544 32
-td x 0 0
+td b 128 0
+td c 256 0
+td d 384 0
+td e 512 0
+td f 640 0
+td g 768 0
+td h 0 128
+td i 128 128
+td j 256 128
+td k 384 128
+td l 512 128
+td m 640 128
+td n 768 128
+td x 768 128
 
 
-l ground_layer
-d z b c 0 e f g h i j k l m n a a a a a a a a a a a a a a a
-d ¤ a a 0 0 a a a a a a a a a a a a a a a a a a a a a a a a
-d a a a 0 0 a j j j j j j j a a b b b b b b a a a a a a a a
-d a a a 0 0 a j j j j j j j a a b b b b a a a a a a a a a a
-d a a a 0 0 a j j j ! j j j a a b b c b a a a a a a a a a a
+l ground
+d a b c 0 e f g h i j k l m n a a a a a a a a a a a a a a a
+d a a a 0 0 a a a a a a a a a a a a a a a a a a a a a a a a
+d a a a 0 0 a a a a a a a a a a b b b b b b a a a a a a a a
+d a a a 0 0 a a a a a a a a a a b b b b a a a a a a a a a a
+d a a a 0 0 a a a a a a a a a a b b c b a a a a a a a a a a
 d n n n l l l l l l l l l l l l l l l l l l l l l l l a a a
 d n n n l l l l l l l l l l l l l l l l l l l l l l l b b b
 d n n n l l l l l l l l l l l l l l l l l l l l l l l m m m
@@ -67,11 +54,11 @@ d a a a a a a a a a a a a a a a k k k k k k k k k k k k k k
 d a a a a a a a a a a a a a a c j j j j j j j j j j j j j j
 
 l collision_layer
-d z b c x e f g h i j k l m n a a a a a a a a a a a a a a a
-d ¤ a a x x a a a a a a a a a a a a a a a a a a a a a a a a
-d a a a x x a x x x x x x x a a b b b b b b a a a a a a a a
-d a a a x x a x x x x x x x a a b b b b a a a a a a a a a a
-d a a a x x a x x x ! x x x a a b b c b a a a a a a a a a a
+d a b c x e f g h i j k l m n a a a a a a a a a a a a a a a
+d a a a x x a a a a a a a a a a a a a a a a a a a a a a a a
+d a a a x x a a a a a a a a a a b b b b b b a a a a a a a a
+d a a a x x a a a a a a a a a a b b b b a a a a a a a a a a
+d a a a x a a a a a a a a a a a b b c b a a a a a a a a a a
 d n n n l l l l l l l l l l l l l l l l l l l l l l l a a a
 d n n n l l l l l l l l l l l l l l l l l l l l l l l b b b
 d n n n l l l l l l l l l l l l l l l l l l l l l l l m m m

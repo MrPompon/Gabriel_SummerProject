@@ -16,6 +16,7 @@ namespace spaceshooter
 		~OVPlayer();
 		void Update(float deltatime);
 		void SetTargetPos(sf::Vector2f p_targetpos);
+		sf::Vector2f GetPosition();
 		void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 		enum MovementDirection
 		{

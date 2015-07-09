@@ -42,6 +42,7 @@ namespace spaceshooter
 		//All Combat font
 		bool menu_is_up;
 		sf::RenderWindow *m_window;
+		sf::View m_view;
 		bool optionsKeyIsPressed;
 		//player
 		sf::Text text_player_health, text_player_damage;

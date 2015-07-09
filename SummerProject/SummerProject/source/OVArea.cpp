@@ -129,7 +129,7 @@ namespace spaceshooter
 					tile->ID = ID;
 					tile->layersName = currentLayer->name;
 					tile->vertices = &currentLayer->vertices[(i + currentRow * m_width) * 4];
-					tile->centerPos = sf::Vector2f((((i + 1)* (m_tileSize)) / 2) + i * 64, (((currentRow + 1)*(m_tileSize)) / 2) + currentRow * 64);
+					tile->centerPos = sf::Vector2f((((i + 1)* (m_tileSize)) / 2) + i * (m_tileSize/2), (((currentRow + 1)*(m_tileSize)) / 2) + currentRow * (m_tileSize/2));
 					tile->vertices[0].position = sf::Vector2f(i * m_tileSize, currentRow * m_tileSize);
 					tile->vertices[1].position = sf::Vector2f((i + 1) * m_tileSize, currentRow * m_tileSize);
 					tile->vertices[2].position = sf::Vector2f((i + 1) * m_tileSize, (currentRow + 1) * m_tileSize);
@@ -149,7 +149,13 @@ namespace spaceshooter
 	{
 
 	}
-
+	void OVArea::HandleTileEvent(char p_tileID)
+	{
+		if (p_tileID == '!')
+		{
+			std::cout << "this is a door";
+		}
+	}
 	void OVArea::Update(float deltatime)
 	{
 		m_renderWindow->setView(m_view);
@@ -160,19 +166,25 @@ namespace spaceshooter
 			{
 				sf::Vector2f point1 = m_AllTiles[i].vertices[0].position;
 				sf::Vector2f point3 = m_AllTiles[i].vertices[2].position;
-				if (m_mousePosition.x >= point1.x && m_mousePosition.x <= point3.x)
+				if (m_mousePosition.x >= point1.x && m_mousePosition.x <= point3.x)//check if the mouse is inside a square 
 				{
 					if (m_mousePosition.y >= point1.y && m_mousePosition.y <= point3.y)
 					{
 						if (m_AllTiles[i].layersName == "collision_layer")  //check the collision layer 
 						{
-							if (!m_AllTiles[i].passable == PASSABLE_NOT)
+							if (!m_AllTiles[i].passable == PASSABLE_NOT)   //if the tile is walkable
 							{
-								//std::cout << m_AllTiles[i].ID << std::endl;
-								//std::cout << m_AllTiles[i].passable << std::endl;
-								std::cout << m_AllTiles[i].centerPos.x << std::endl;
-								std::cout << m_AllTiles[i].centerPos.y << std::endl;
-								m_player->SetTargetPos(m_AllTiles[i].centerPos);
+								//check so player is standing still in the middle of a square and can only walk to adjacent ones.
+								if (m_player->GetPosition().x - m_AllTiles[i].centerPos.x == m_tileSize || m_player->GetPosition().x - m_AllTiles[i].centerPos.x == -m_tileSize || m_player->GetPosition().x - m_AllTiles[i].centerPos.x == 0)
+								{
+								  if (m_player->GetPosition().y - m_AllTiles[i].centerPos.y == m_tileSize || m_player->GetPosition().y - m_AllTiles[i].centerPos.y == -m_tileSize || m_player->GetPosition().y - m_AllTiles[i].centerPos.y == 0)
+									{
+										HandleTileEvent(m_AllTiles[i].ID);
+										std::cout << m_AllTiles[i].ID;
+										std::cout << m_player->GetPosition().x - m_AllTiles[i].centerPos.x << std::endl;
+										m_player->SetTargetPos(m_AllTiles[i].centerPos);
+									}
+								}
 							}
 						}
 					}
@@ -213,8 +225,12 @@ namespace spaceshooter
 	{
 		for (int i = 0; i < m_layers.size(); ++i)
 		{
-			states.texture = &m_texture;
-			target.draw(m_layers[i]->vertices, states);
+			if (m_layers[i]->name != "collision_layer")
+			{
+				states.texture = &m_texture;
+				target.draw(m_layers[i]->vertices, states);
+			}
+
 		}
 	}
 }

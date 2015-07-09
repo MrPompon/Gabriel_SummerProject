@@ -112,6 +112,9 @@ namespace spaceshooter
 		// better to have a local pointer than to access it through the service locator
 		m_draw_manager = ServiceLocator<DrawManager>::GetService();
 		m_window = m_draw_manager->getWindow();
+		m_view.setSize(m_screen_width, m_screen_height);
+		m_view.setCenter(m_screen_width / 2, m_screen_height / 2);
+		m_window->setView(m_view);
 		return true;
 	}
 	void BattleState::InitAudio(std::string p_battleTheme)

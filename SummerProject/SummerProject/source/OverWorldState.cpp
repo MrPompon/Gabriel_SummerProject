@@ -37,7 +37,7 @@ namespace spaceshooter
 	{
 		AudioManager* audio_manager = ServiceLocator<AudioManager>::GetService();
 		sf::Music* BS_Music = audio_manager->CreateMusicFromFile("../assets/audio/Music/OV/OV_1.ogg");
-		BS_Music->play();
+		//BS_Music->play();
 	}
 	void OverWorldState::Exit()
 	{

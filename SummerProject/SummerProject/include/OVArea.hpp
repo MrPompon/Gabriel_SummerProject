@@ -49,6 +49,7 @@ namespace spaceshooter
 		void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 		TileDefinition* getTileDefinition(char ID) const;
 		OverWorldState* m_overWorld;
+		void HandleTileEvent(char p_tileID);
 	private:
 		float m_screenWidth;
 		float m_screenHeight;

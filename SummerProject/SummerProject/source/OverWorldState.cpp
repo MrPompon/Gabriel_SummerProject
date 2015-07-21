@@ -28,7 +28,6 @@ namespace spaceshooter
 	}
 	bool OverWorldState::Update(float deltatime)
 	{
-		UpdateMouse(deltatime);
 		if (m_OVArea != NULL)
 		{
 			m_OVArea->Update(deltatime);
@@ -44,12 +43,13 @@ namespace spaceshooter
 	void OverWorldState::InitAudio()
 	{
 		AudioManager* audio_manager = ServiceLocator<AudioManager>::GetService();
-		sf::Music* BS_Music = audio_manager->CreateMusicFromFile("../assets/audio/Music/OV/OV_1.ogg");
-		//BS_Music->play();
+		OV_Music = audio_manager->CreateMusicFromFile("../assets/audio/Music/OV/OV_1.ogg");
+		OV_Music->play();
 	}
 	void OverWorldState::Exit()
 	{
-
+		OV_Music->stop();
+	
 	}
 	void OverWorldState::Draw()
 	{
@@ -60,21 +60,13 @@ namespace spaceshooter
 	{
 		return std::string("BattleState"+m_encounterName);
 	}
-	void OverWorldState::UpdateMouse(float deltatime)
-	{
-		/*mousePosition = m_draw_manager->getWindow()->mapPixelToCoords(m_mouse.getPosition(*m_draw_manager->getWindow()));
-		if (m_mouse.isButtonPressed(m_mouse.Right))
-		{
-			m_OVArea = new OVArea("OverWorld1_1Spooky.txt", this, m_OVPlayer);
-		}*/
-	}
 	void OverWorldState::ChangeArea(std::string p_fileareaName)
 	{
 		m_OVArea = new OVArea(p_fileareaName+".txt", this, m_OVPlayer);
 	}
 	void OverWorldState::SetExitState(std::string encounterName)
 	{
-		//m_stateManager->AttachState("BattleState", new BattleState("Boss_1", encounterName, "Night"));
+		//m_stateManager->AttachState("BattleState"+m_encounterName, new BattleState("Boss_1", encounterName, "Night"));
 		m_encounterName = encounterName;
 		m_exitState = true;
 	}

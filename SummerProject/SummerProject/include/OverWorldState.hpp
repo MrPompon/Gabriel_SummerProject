@@ -27,6 +27,7 @@ namespace spaceshooter
 		void InitAudio();
 		void ChangeArea(std::string p_fileareaName);
 	private:
+		sf::Music* OV_Music;
 		StateManager*m_stateManager;
 		std::string m_encounterName;
 		DrawManager* m_draw_manager;

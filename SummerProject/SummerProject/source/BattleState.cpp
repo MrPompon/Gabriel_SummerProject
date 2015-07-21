@@ -78,6 +78,25 @@ namespace spaceshooter
 
 	BattleState::~BattleState()
 	{
+		m_playerVector.clear();
+		m_enemyVector.clear();
+		AllScreenEffects.clear();
+		AllSkillEffects.clear();
+		AllGUIWindows.clear();
+		AllLifeBars.clear();
+		m_player_texture = nullptr;
+		AudioManager* audio_manager = ServiceLocator<AudioManager>::GetService();
+		audio_manager->DestroySoundFromFile("../assets/audio/SFX/" + m_player_skill_1_Name + ".ogg");
+		audio_manager->DestroySoundFromFile("../assets/audio/SFX/" + m_player_skill_2_Name + ".ogg");
+		audio_manager->DestroySoundFromFile("../assets/audio/SFX/" + m_player_skill_3_Name + ".ogg");
+		audio_manager->DestroySoundFromFile("../assets/audio/SFX/" + m_player_skill_4_Name + ".ogg");
+		audio_manager->DestroySoundFromFile("../assets/audio/SFX/" + m_enemy_skill_1_Name + ".ogg");
+		audio_manager->DestroySoundFromFile("../assets/audio/SFX/" + m_enemy_skill_2_Name + ".ogg");
+		audio_manager->DestroySoundFromFile("../assets/audio/SFX/" + m_enemy_skill_3_Name + ".ogg");
+		audio_manager->DestroySoundFromFile("../assets/audio/SFX/" + m_enemy_skill_4_Name + ".ogg");
+		audio_manager->DestroySoundFromFile("../assets/audio/SFX/LootGain1.ogg");
+		audio_manager->DestroyMusicFromFile("../assets/audio/Music/BS/VictoryTheme.ogg");
+		audio_manager->DestroyMusicFromFile("../assets/audio/Music/BS/" + m_battleTheme + ".ogg");
 	}
 
 	bool BattleState::Enter()
@@ -85,15 +104,6 @@ namespace spaceshooter
 		// register to listen for all input actions
 		
 		InputManager* input_manager = ServiceLocator<InputManager>::GetService();
-		input_manager->RegisterKeyActionListener(Action::LEFT, this, &BattleState::OnAction);
-		input_manager->RegisterKeyActionListener(Action::RIGHT, this, &BattleState::OnAction);
-		input_manager->RegisterKeyActionListener(Action::UP, this, &BattleState::OnAction);
-		input_manager->RegisterKeyActionListener(Action::DOWN, this, &BattleState::OnAction);
-		input_manager->RegisterKeyActionListener(Action::FIRE, this, &BattleState::OnAction);
-		input_manager->RegisterKeyActionListener(Action::ALTFIRE, this, &BattleState::OnAction);
-		input_manager->RegisterKeyActionListener(Action::SELECT1, this, &BattleState::OnAction);
-		input_manager->RegisterKeyActionListener(Action::SELECT2, this, &BattleState::OnAction);
-		input_manager->RegisterKeyActionListener(Action::SELECT3, this, &BattleState::OnAction);
 		input_manager->RegisterKeyActionListener(Action::SELECT4, this, &BattleState::OnAction);
 
 		m_mouse = input_manager->GetMouse();
@@ -120,10 +130,11 @@ namespace spaceshooter
 	}
 	void BattleState::InitAudio(std::string p_battleTheme)
 	{
+		m_battleTheme = p_battleTheme;
 		m_music_victoryPlaying = false;
 		AudioManager* audio_manager = ServiceLocator<AudioManager>::GetService();
-		sf::Music* BS_Music = audio_manager->CreateMusicFromFile("../assets/audio/Music/BS/" + p_battleTheme + ".ogg");
-		sf::Music* BS_Music_Victory = audio_manager->CreateMusicFromFile("../assets/audio/Music/BS/VictoryTheme.ogg");
+		BS_Music = audio_manager->CreateMusicFromFile("../assets/audio/Music/BS/" + p_battleTheme + ".ogg");
+		BS_Music_Victory = audio_manager->CreateMusicFromFile("../assets/audio/Music/BS/VictoryTheme.ogg");
 		sf::SoundBuffer *m_soundBuffer;
 		m_soundBuffer= audio_manager->CreateSoundFromFile("../assets/audio/SFX/" + m_player_skill_1_Name + ".ogg");
 		m_player_skill_1_sound.setBuffer(*m_soundBuffer);
@@ -197,16 +208,10 @@ namespace spaceshooter
 
 		//  unregister all actions listeners
 		InputManager* input_manager = ServiceLocator<InputManager>::GetService();
-		input_manager->UnregisterKeyActionListener(Action::LEFT, this);
-		input_manager->UnregisterKeyActionListener(Action::RIGHT, this);
-		input_manager->UnregisterKeyActionListener(Action::UP, this);
-		input_manager->UnregisterKeyActionListener(Action::DOWN, this);
-		input_manager->UnregisterKeyActionListener(Action::FIRE, this);
-		input_manager->UnregisterKeyActionListener(Action::ALTFIRE, this);
-		input_manager->UnregisterKeyActionListener(Action::SELECT1, this);
-		input_manager->UnregisterKeyActionListener(Action::SELECT2, this);
-		input_manager->UnregisterKeyActionListener(Action::SELECT3, this);
 		input_manager->UnregisterKeyActionListener(Action::SELECT4, this);
+		BS_Music->stop();
+		BS_Music_Victory->stop();
+	
 	}
 
 	void BattleState::InitEnemyStats()
@@ -296,44 +301,8 @@ namespace spaceshooter
 	// private
 	void BattleState::OnAction(const std::string& action, bool state)
 	{
-		// note(tommi): map actions to an internal structure 
-		if (action.compare(Action::LEFT) == 0)
-		{
-			m_actions[ACTION_LEFT] = state;
-		}
-		else if (action.compare(Action::RIGHT) == 0)
-		{
-			m_actions[ACTION_RIGHT] = state;
-		}
-		else if (action.compare(Action::UP) == 0)
-		{
-			m_actions[ACTION_UP] = state;
-		}
-		else if (action.compare(Action::DOWN) == 0)
-		{
-			m_actions[ACTION_DOWN] = state;
-		}
-		else if (action.compare(Action::FIRE) == 0)
-		{
-			m_actions[ACTION_FIRE] = state;
-		}
-		else if (action.compare(Action::ALTFIRE) == 0)
-		{
-			m_actions[ACTION_ALT_FIRE] = state;
-		}
-		else if (action.compare(Action::SELECT1) == 0)
-		{
-			m_actions[ACTION_SELECT1] = state;
-		}
-		else if (action.compare(Action::SELECT2) == 0)
-		{
-			m_actions[ACTION_SELECT2] = state;
-		}
-		else if (action.compare(Action::SELECT3) == 0)
-		{
-			m_actions[ACTION_SELECT3] = state;
-		}
-		else if (action.compare(Action::SELECT4) == 0)
+	
+		if (action.compare(Action::SELECT4) == 0)
 		{
 			m_actions[ACTION_SELECT4] = state;
 		}
@@ -366,10 +335,6 @@ namespace spaceshooter
 				{
 					m_battleOver = true;
 				}
-			}
-			else
-			{
-				
 			}
 		}
 	}
@@ -818,8 +783,6 @@ namespace spaceshooter
 		AddBattleText(p_skillName);
 		if (p_amountOfHits > 0)
 		{
-
-
 			AddBattleText(" Hit ");
 			AddBattleText("\n");
 			ss << p_amountOfHits;

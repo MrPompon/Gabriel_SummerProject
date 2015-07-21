@@ -34,7 +34,7 @@ namespace spaceshooter
 	}
 	GUIWindow::~GUIWindow()
 	{
-
+		wordVector.clear();
 	}
 	std::string GUIWindow::GetWindowName()
 	{

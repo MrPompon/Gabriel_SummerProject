@@ -22,7 +22,8 @@ namespace spaceshooter
 
 		sf::SoundBuffer* CreateSoundFromFile(const std::string& filename);
 		sf::Music* CreateMusicFromFile(const std::string& filename);
-
+		void DestroySoundFromFile(const std::string& filename);
+		void DestroyMusicFromFile(const std::string& filename);
 	private:
 		std::map<std::string, sf::SoundBuffer*> m_sounds;
 		std::map<std::string, sf::Music*> m_musics;

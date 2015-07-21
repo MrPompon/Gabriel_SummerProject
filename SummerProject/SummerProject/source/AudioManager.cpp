@@ -74,4 +74,14 @@ namespace spaceshooter
 		}
 		return itr->second;
 	}
+	void AudioManager::DestroySoundFromFile(const std::string& filename)
+	{
+		auto itr = m_sounds.find(filename);
+		itr->second = nullptr;
+	}
+	void AudioManager::DestroyMusicFromFile(const std::string& filename)
+	{
+		auto itr = m_musics.find(filename);
+		itr->second = nullptr;
+	}
 } // namespace spaceshooter

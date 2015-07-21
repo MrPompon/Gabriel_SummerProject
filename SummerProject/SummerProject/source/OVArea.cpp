@@ -42,8 +42,6 @@ namespace spaceshooter
 	}
 	OVArea::OVArea(std::string p_filename, OverWorldState *p_overworld, OVPlayer *p_player)
 	{
-		
-		
 		m_player = p_player;
 		m_overWorld = p_overworld;
 		m_inputManager = ServiceLocator<InputManager>::GetService();
@@ -157,7 +155,8 @@ namespace spaceshooter
 	}
 	OVArea::~OVArea()
 	{
-
+		m_AllTiles.clear();
+		AllScreenEffects.clear();
 	}
 	void OVArea::HandleDoorEvent(char p_tileID)
 	{
@@ -205,7 +204,7 @@ namespace spaceshooter
 			}
 			else if (m_areaName == "OverWorldCastle")
 			{
-			
+				std::cout << "No enemies in this area";
 			}
 		}
 	}

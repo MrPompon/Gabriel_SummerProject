@@ -53,10 +53,13 @@ namespace spaceshooter
 	private:
 		void OnAction(const std::string& action, bool state);
 		//audio stuff
+		std::string m_battleTheme;
 		void InitAudio(std::string p_battleTheme);
 		sf::Music *m_music;
 		sf::Music *m_music_victory;
 		bool m_music_victoryPlaying;
+		sf::Music* BS_Music;
+		sf::Music* BS_Music_Victory;
 		//Overall and skills
 		void ManageWindow(std::string windowName, bool trueOrFalse);
 		void InitSkillEnemy(std::string skillname, int skillNumber);

@@ -16,7 +16,7 @@ namespace spaceshooter
 		m_textureManager = ServiceLocator<TextureManager>::GetService();
 		m_playerSheet = m_textureManager->CreateTextureFromFile("../assets/Sprites/Animations/PlayerSheets/PlayerSheetClown.png");
 		m_playerSprite = new AnimatedSprite();
-		m_currentPos = sf::Vector2f(16, 16);
+		m_currentPos = sf::Vector2f(48, 48);
 		m_targetPos = m_currentPos;
 		m_screenWidth = 1024;
 		m_screenHeight = 600;
@@ -183,6 +183,10 @@ namespace spaceshooter
 		{
 			m_playerAnimations.insert(std::make_pair("Player" + p_animationName, PlayerUpAnimation));
 		}
+	}
+	void OVPlayer::SetPosition(float x, float y)
+	{
+		m_currentPos = sf::Vector2f(x, y);
 	}
 	void OVPlayer::draw(sf::RenderTarget &target, sf::RenderStates states) const
 	{

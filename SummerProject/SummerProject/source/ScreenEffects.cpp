@@ -74,6 +74,7 @@ namespace spaceshooter
 	void ScreenEffects::Update(float deltatime)
 	{
 		m_lifeTime -= deltatime;
+	
 		if (m_lifeTime <= 0)
 		{
 			m_visible = false;
@@ -101,7 +102,9 @@ namespace spaceshooter
 		{
 		
 		}
-	
+		m_view.setCenter(m_screen_width / 2, m_screen_height / 2);
+
+		//m_screenEffectRect.setPosition(sf::Vector2f(m_drawmanager->getWindow()->getPosition()));
 	}
 	sf::RectangleShape ScreenEffects::GetRectangleShape()
 	{

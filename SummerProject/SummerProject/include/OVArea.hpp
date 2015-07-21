@@ -9,6 +9,7 @@ namespace spaceshooter
 	//roguelike tilebased mousemovement, event nodes etc.
 	class OverWorldState;
 	class OVPlayer;
+	class ScreenEffects;
 	class OVArea: public sf::Drawable
 	{
 	public:
@@ -21,6 +22,7 @@ namespace spaceshooter
 		};
 		struct Tile
 		{
+			int tileNumber;
 			std::string layersName;
 			char ID;
 			sf::Vertex* vertices;
@@ -49,8 +51,12 @@ namespace spaceshooter
 		void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 		TileDefinition* getTileDefinition(char ID) const;
 		OverWorldState* m_overWorld;
-		void HandleTileEvent(char p_tileID);
+		void HandleDoorEvent(char p_tileID);
+		void HandleEncounters(std::string m_areaName);
 	private:
+		ScreenEffects* m_screenEffect;
+		std::vector<ScreenEffects> AllScreenEffects;
+	
 		float m_screenWidth;
 		float m_screenHeight;
 		OVPlayer* m_player;
@@ -68,6 +74,7 @@ namespace spaceshooter
 		int m_width;
 		int m_height;
 		float m_tileSize;
+		std::string m_areaName;
 	};
 }
 // namespace spaceshooter

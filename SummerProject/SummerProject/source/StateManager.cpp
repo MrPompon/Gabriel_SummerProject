@@ -23,7 +23,9 @@ namespace spaceshooter
 	{ 
 		AttachState("Test", new TestState);
 		AttachState("OverWorld", new OverWorldState);
-		AttachState("BattleState", new BattleState("Boss_1","LowKeyKnight","Night"));
+		AttachState("BattleStateLowKeyKnight", new BattleState("Boss_1","LowKeyKnight","Night"));
+		AttachState("BattleStateGnoll", new BattleState("DarkGround", "Gnoll", "Dawn"));
+		AttachState("BattleStateMinotaur", new BattleState("Boss_1", "Minotaur", "Dusk"));
 		AttachState("ColTest", new CollisionTestState);
 		SetActiveState("OverWorld");
 

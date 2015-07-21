@@ -17,6 +17,7 @@ namespace spaceshooter
 		void Update(float deltatime);
 		void SetTargetPos(sf::Vector2f p_targetpos);
 		sf::Vector2f GetPosition();
+	    void SetPosition(float x, float y);
 		void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 		enum MovementDirection
 		{

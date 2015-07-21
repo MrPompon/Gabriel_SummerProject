@@ -1,0 +1,102 @@
+name OverWorldCastle
+width 30
+height 30
+ts 32 
+texture ../assets/Sprites/TileSets/OverWorld/RandomTileSet.png
+
+// symbol texture_x texture y
+td a 0 0
+td b 32 0
+td c 64 0
+td d 96 0
+td e 128 0
+td f 160 0
+td g 192 0
+td h 224 0
+td i 256 0
+td j 288 0
+td k 320 0
+td l 352 0
+td m 384 0
+td n 416 0
+td o 448 0
+td p 480 0
+td q 512 0
+td r 544 0
+td s 576 0
+td t 608 0
+td u 640 0
+td v 672 0
+td w 704 0
+td y 0 32
+td z 224 32
+td ! 256 32
+td ? 256 32
+td ¤ 544 32
+td % 64 352
+td x 0 0
+
+
+l ground_layer
+d % % % % j j j j j j j j j j j j j j j d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d j j j j j j j d d d d d d d d d d d d d d d d
+d d d d d d d j j j j j j j d d d d d d d d d d d d d d d d
+d d d d d d d j j j j j j j d d d d c d d d d d d d d d d d
+d d d d d d d d d j m j d d d d d d d d d d d d d d d d d d
+d d d d d d d d d j j j d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d f g d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d c d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d c c c d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d m m m
+d d d d d d d d d d d d d d d d d d d d d d d d d d d m m m
+d d d d d d d d d d d d d d d d d d d d d d d d d d d n n n
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+
+l collision_layer
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d j j j j j j j d d d d d d d d d d d d d d d d
+d d d d d d d j j j j j j j d d d d d d d d d d d d d d d d
+d d d d d d d j j j j j j j d d d d c d d d d d d d d d d d
+d d d d d d d d d j ! j d d d d d d d d d d d d d d d d d d
+d d d d d d d d d j j j d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d f g d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d c d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d c c c d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d m m m
+d d d d d d d d d d d d d d d d d d d d d d d d d d d m m m
+d d d d d d d d d d d d d d d d d d d d d d d d d d d n n n
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d

@@ -23,7 +23,7 @@ namespace spaceshooter
 	{
 		m_encounterName = p_encounterName;
 		m_areaTheme = p_areaTheme;
-
+		m_battleOver = false;
 		m_screen_width = 1024.0f;
 		m_screen_height = 600.0f;
 		player_saveFile = "save_file_1.txt";
@@ -83,6 +83,7 @@ namespace spaceshooter
 	bool BattleState::Enter()
 	{
 		// register to listen for all input actions
+		
 		InputManager* input_manager = ServiceLocator<InputManager>::GetService();
 		input_manager->RegisterKeyActionListener(Action::LEFT, this, &BattleState::OnAction);
 		input_manager->RegisterKeyActionListener(Action::RIGHT, this, &BattleState::OnAction);
@@ -247,7 +248,14 @@ namespace spaceshooter
 		{
 			AllScreenEffects[i].Update(deltatime);
 		}
-		return true;
+		if (m_battleOver == true)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
 	}
 
 	void BattleState::Draw()
@@ -282,7 +290,7 @@ namespace spaceshooter
 
 	std::string BattleState::GetNextState()
 	{
-		return std::string("BattleState");
+		return std::string("OverWorld");
 	}
 
 	// private
@@ -354,7 +362,10 @@ namespace spaceshooter
 			if (m_playerWon)
 			{
 				ManageWindow("BattleLootWindow", true);
-				
+				if (m_mouse.isButtonPressed(m_mouse.Left))
+				{
+					m_battleOver = true;
+				}
 			}
 			else
 			{
@@ -851,6 +862,7 @@ namespace spaceshooter
 		{
 			std::cout << "Failed to load font" << std::endl;
 		}
+		ManageWindow("OptionsMenu", false);
 		//players health displayed
 		text_player_health.setFont(hudBattleFont);
 		text_player_health.setPosition(m_screen_width*0.7, m_screen_height * 0.84f);

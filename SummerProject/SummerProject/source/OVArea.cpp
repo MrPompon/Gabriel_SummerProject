@@ -6,8 +6,8 @@
 #include "AudioManager.hpp"
 #include "DrawManager.hpp"
 #include "OVArea.hpp"
-#include "ServiceLocator.hpp"
 #include "OverWorldState.hpp"
+#include "ScreenEffects.hpp"
 #include "OVPlayer.hpp"
 #include <math.h>
 namespace spaceshooter
@@ -42,6 +42,8 @@ namespace spaceshooter
 	}
 	OVArea::OVArea(std::string p_filename, OverWorldState *p_overworld, OVPlayer *p_player)
 	{
+		
+		
 		m_player = p_player;
 		m_overWorld = p_overworld;
 		m_inputManager = ServiceLocator<InputManager>::GetService();
@@ -58,7 +60,8 @@ namespace spaceshooter
 		{
 			std::cout << "Failed to parse map: Could not open file '" << p_filename << "'" << std::endl;
 		}
-
+		//m_screenEffect = new ScreenEffects(m_renderWindow, ("SetNight"), INFINITY, m_drawManager);
+		//AllScreenEffects.push_back(*m_screenEffect);
 		std::string stringLine;
 		std::vector<std::string> parts;
 		Layer*currentLayer = nullptr;
@@ -66,7 +69,10 @@ namespace spaceshooter
 		while (std::getline(inputSteam, stringLine))
 		{
 			parts = explodeArea(stringLine, " ");
-
+			if (parts[0] == "name")
+			{
+				m_areaName = parts[1];
+			}
 			if (parts[0] == "width")
 			{
 				m_width = std::stoi(parts[1]);
@@ -78,6 +84,9 @@ namespace spaceshooter
 			else if (parts[0] == "ts")
 			{
 				m_tileSize = std::stof(parts[1]); // samma sak men till float
+				//m_player->SetPosition(m_tileSize / 2, m_tileSize / 2);
+				//m_player->SetTargetPos(sf::Vector2f(m_tileSize/2, m_tileSize/2));
+				m_view.setCenter(m_player->GetPosition());
 			}
 			else if (parts[0] == "texture")
 			{
@@ -128,6 +137,7 @@ namespace spaceshooter
 					tile->passable = passable;
 					tile->ID = ID;
 					tile->layersName = currentLayer->name;
+					tile->tileNumber =(i*currentRow);
 					tile->vertices = &currentLayer->vertices[(i + currentRow * m_width) * 4];
 					tile->centerPos = sf::Vector2f((((i + 1)* (m_tileSize)) / 2) + i * (m_tileSize/2), (((currentRow + 1)*(m_tileSize)) / 2) + currentRow * (m_tileSize/2));
 					tile->vertices[0].position = sf::Vector2f(i * m_tileSize, currentRow * m_tileSize);
@@ -149,11 +159,54 @@ namespace spaceshooter
 	{
 
 	}
-	void OVArea::HandleTileEvent(char p_tileID)
+	void OVArea::HandleDoorEvent(char p_tileID)
 	{
-		if (p_tileID == '!')
+		if (m_areaName=="OverWorld1_1")
 		{
-			std::cout << "this is a door";
+			if (p_tileID == '!')
+			{
+				m_overWorld->ChangeArea("OverWorldCastle");
+			}
+		}
+		if (m_areaName == "OverWorldCastle")
+		{
+			if (p_tileID == '!')
+			{
+				m_overWorld->ChangeArea("OverWorld1_1");
+			}
+		}
+	}
+	void OVArea::HandleEncounters(std::string m_areaName)
+	{
+		int rnd= Random(0, 12);
+		if (rnd == 0)
+		{
+			int rndEnemy = Random(0, 6);
+			if (m_areaName == "OverWorld1_1")
+			{
+				switch (rndEnemy)
+				{
+				case 0:m_overWorld->SetExitState("LowKeyKnight");
+					break;
+				case 1:m_overWorld->SetExitState("LowKeyKnight");
+					break;
+				case 2:m_overWorld->SetExitState("LowKeyKnight");
+					break;
+				case 3:m_overWorld->SetExitState("Gnoll");
+					break;
+				case 4:m_overWorld->SetExitState("Gnoll");
+					break;
+				case 5:m_overWorld->SetExitState("Minotaur");
+					break;
+				case 6:m_overWorld->SetExitState("Minotaur");
+					break;
+				}
+				
+			}
+			else if (m_areaName == "OverWorldCastle")
+			{
+			
+			}
 		}
 	}
 	void OVArea::Update(float deltatime)
@@ -179,7 +232,9 @@ namespace spaceshooter
 								{
 								  if (m_player->GetPosition().y - m_AllTiles[i].centerPos.y == m_tileSize || m_player->GetPosition().y - m_AllTiles[i].centerPos.y == -m_tileSize || m_player->GetPosition().y - m_AllTiles[i].centerPos.y == 0)
 									{
-										HandleTileEvent(m_AllTiles[i].ID);
+										std::cout << m_AllTiles[i].tileNumber<<std::endl;
+										HandleDoorEvent(m_AllTiles[i].ID);
+										HandleEncounters(m_areaName);
 										std::cout << m_AllTiles[i].ID;
 										std::cout << m_player->GetPosition().x - m_AllTiles[i].centerPos.x << std::endl;
 										m_player->SetTargetPos(m_AllTiles[i].centerPos);
@@ -192,9 +247,12 @@ namespace spaceshooter
 			}
 		}
 	
-
+	
 		UpdateCamera(deltatime);
-		
+		for (unsigned int i = 0; i < AllScreenEffects.size(); i++)
+		{
+			AllScreenEffects[i].Update(deltatime);
+		}
 		
 	/*	m_mousePositionGrid = sf::Vector2f(m_mousePosition.x /m_tileSize, m_mousePosition.y / m_tileSize);
 		sf::Vector2f m_mousePositionGrounded = sf::Vector2f(floor(m_mousePositionGrid.x), floor(m_mousePositionGrid.y));
@@ -230,7 +288,10 @@ namespace spaceshooter
 				states.texture = &m_texture;
 				target.draw(m_layers[i]->vertices, states);
 			}
-
+		}
+		for (unsigned int i = 0; i < AllScreenEffects.size(); i++)
+		{
+			m_drawManager->Draw(AllScreenEffects[i]);
 		}
 	}
 }

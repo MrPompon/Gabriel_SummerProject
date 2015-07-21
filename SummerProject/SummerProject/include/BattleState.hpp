@@ -82,6 +82,7 @@ namespace spaceshooter
 		std::string m_areaTheme;
 		std::string m_encounterName;
 	private:
+		bool m_battleOver;
 		sf::Mouse m_mouse;
 		std::vector<GUIWindow> AllGUIWindows;
 		std::vector<BS_LifeBar> AllLifeBars;

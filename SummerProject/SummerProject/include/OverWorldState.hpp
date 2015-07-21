@@ -12,6 +12,8 @@ namespace spaceshooter
 	class OVPlayer;
 	class DrawManager;
 	class InputManager;
+	class StateManager;
+	class BattleState;
 
 	class OverWorldState : public AbstractState
 	{
@@ -21,9 +23,12 @@ namespace spaceshooter
 		virtual bool Update(float deltatime);
 		virtual void Draw();
 		virtual std::string GetNextState();
-		void SetExitState();
+		void SetExitState(std::string encounterName);
 		void InitAudio();
+		void ChangeArea(std::string p_fileareaName);
 	private:
+		StateManager*m_stateManager;
+		std::string m_encounterName;
 		DrawManager* m_draw_manager;
 		InputManager* m_input_manager;
 		OVArea* m_OVArea;

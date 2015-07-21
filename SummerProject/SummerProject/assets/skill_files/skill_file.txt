@@ -6,7 +6,7 @@ SkillName | Attribute  | DMG | HitRate%| AmountsOfHits |SkillProc| AnimationTime
 --Agility skills--
 [Razor] Razor Offensive 15 35 9 POISON 4
 [Cleave] Cleave Offensive 25 80 2 NONE 2
-[Carnage] Carnage Offensive 500 30 8 NONE 5.5
+[Carnage] Carnage Offensive 99999 100 8 NONE 5.5
 [Blaze] Blaze Offensive 70 55 5 NONE 3
 --Strength skills --
 [HeadButt] HeadButt Offensive 80 80 1 STUN 1.5

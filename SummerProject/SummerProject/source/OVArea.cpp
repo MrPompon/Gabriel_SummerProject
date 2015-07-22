@@ -204,7 +204,7 @@ namespace spaceshooter
 			}
 			else if (m_areaName == "OverWorldCastle")
 			{
-				std::cout << "No enemies in this area";
+				m_overWorld->SetExitState("Demon");
 			}
 		}
 	}

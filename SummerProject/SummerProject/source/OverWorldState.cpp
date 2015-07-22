@@ -19,7 +19,6 @@ namespace spaceshooter
 		m_OVArea = new OVArea("OverWorld1_1.txt",this,m_OVPlayer);
 		m_draw_manager = ServiceLocator<DrawManager>::GetService();
 		m_input_manager = ServiceLocator<InputManager>::GetService();
-		//m_stateManager = ServiceLocator<StateManager>::GetService();
 		InitAudio();
 		m_mouse = m_input_manager->GetMouse();
 	
@@ -66,8 +65,11 @@ namespace spaceshooter
 	}
 	void OverWorldState::SetExitState(std::string encounterName)
 	{
-		//m_stateManager->AttachState("BattleState"+m_encounterName, new BattleState("Boss_1", encounterName, "Night"));
 		m_encounterName = encounterName;
+		m_stateManager = ServiceLocator<StateManager>::GetService();
+		m_stateManager->DetachState("BattleState" + m_encounterName);
+		m_stateManager->AttachState("BattleState"+m_encounterName, new BattleState("Boss_1", encounterName, "Night"));
+		
 		m_exitState = true;
 	}
 }

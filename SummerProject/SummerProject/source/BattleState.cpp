@@ -85,7 +85,7 @@ namespace spaceshooter
 		AllGUIWindows.clear();
 		AllLifeBars.clear();
 		m_player_texture = nullptr;
-		AudioManager* audio_manager = ServiceLocator<AudioManager>::GetService();
+	/*	AudioManager* audio_manager = ServiceLocator<AudioManager>::GetService();
 		audio_manager->DestroySoundFromFile("../assets/audio/SFX/" + m_player_skill_1_Name + ".ogg");
 		audio_manager->DestroySoundFromFile("../assets/audio/SFX/" + m_player_skill_2_Name + ".ogg");
 		audio_manager->DestroySoundFromFile("../assets/audio/SFX/" + m_player_skill_3_Name + ".ogg");
@@ -96,7 +96,7 @@ namespace spaceshooter
 		audio_manager->DestroySoundFromFile("../assets/audio/SFX/" + m_enemy_skill_4_Name + ".ogg");
 		audio_manager->DestroySoundFromFile("../assets/audio/SFX/LootGain1.ogg");
 		audio_manager->DestroyMusicFromFile("../assets/audio/Music/BS/VictoryTheme.ogg");
-		audio_manager->DestroyMusicFromFile("../assets/audio/Music/BS/" + m_battleTheme + ".ogg");
+		audio_manager->DestroyMusicFromFile("../assets/audio/Music/BS/" + m_battleTheme + ".ogg");*/
 	}
 
 	bool BattleState::Enter()

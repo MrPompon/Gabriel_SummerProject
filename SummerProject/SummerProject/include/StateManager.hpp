@@ -24,7 +24,7 @@ namespace spaceshooter
 		bool Update(float deltatime);
 		void Draw();
 
-		
+		void GetStateName(std::string stateName);
 		void AttachState(const std::string& name, AbstractState* state);
 		void DetachState(const std::string& name);
 		bool SetActiveState(const std::string& name);

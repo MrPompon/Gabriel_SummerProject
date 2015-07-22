@@ -68,7 +68,7 @@ namespace spaceshooter
 		m_state_manager = new StateManager;
 		if (!m_state_manager || !m_state_manager->Initialize())
 			return false;
-
+		ServiceLocator<StateManager>::SetService(m_state_manager);
 		return m_running = true;
 	}
 

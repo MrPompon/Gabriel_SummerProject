@@ -23,9 +23,6 @@ namespace spaceshooter
 	{ 
 		AttachState("Test", new TestState);
 		AttachState("OverWorld", new OverWorldState);
-		AttachState("BattleStateLowKeyKnight", new BattleState("Boss_1","LowKeyKnight","Night"));
-		AttachState("BattleStateGnoll", new BattleState("DarkGround", "Gnoll", "Dawn"));
-		AttachState("BattleStateMinotaur", new BattleState("Boss_1", "Minotaur", "Dusk"));
 		AttachState("ColTest", new CollisionTestState);
 		SetActiveState("OverWorld");
 
@@ -69,7 +66,14 @@ namespace spaceshooter
 	{
 		m_states.insert(std::pair<std::string, AbstractState*>(name, state));
 	}
-
+	void StateManager::GetStateName(std::string stateName)
+	{
+		auto itr = m_states.find(stateName);
+		if (itr != m_states.end())
+		{
+			
+		}
+	}
 	void StateManager::DetachState(const std::string& name)
 	{
 		auto itr = m_states.find(name);

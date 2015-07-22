@@ -1,0 +1,8 @@
+[NAME] Demon
+[LOOT] 2000
+[HP] 5000
+[DMG] 90
+[SPEED] 100
+[HITRATE] 70
+[EVADERATE] 30
+[SKILLS] Blaze Crunch Smash HeadButt

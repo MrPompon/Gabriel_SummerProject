@@ -15,6 +15,8 @@ namespace spaceshooter
 	class BS_LifeBar;
 	class SkillEffect;
 	class ScreenEffects;
+	class PlayerStatusManager;
+
 	class BattleState : public AbstractState
 	{
 		friend class GUIWindow;
@@ -73,6 +75,7 @@ namespace spaceshooter
 		float CalculateSkillDamage(float DMG, float SkillDMG, std::string p_skillName);
 		void ChangeTurn(float p_turnDelayTime);
 		//player funtions
+		void SetCombatEndStats(float hp, float exp, float gold);
 		void PlayersTurn(float deltatime);
 		void InitPlayerStats();
 		void FirstStrikeDecider();
@@ -123,6 +126,7 @@ namespace spaceshooter
 		int AmountOfOptionsInMenu2;
 		int AmountOfOptionsInSkillScreen;
 		//player
+		PlayerStatusManager* m_player_status_manager;
 		float m_player_health;
 		float m_player_damage;
 		float m_player_speed;

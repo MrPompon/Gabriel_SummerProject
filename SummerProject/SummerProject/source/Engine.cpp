@@ -7,6 +7,7 @@
 #include "CollisionManager.hpp"
 #include "AudioManager.hpp"
 #include "StateManager.hpp"
+#include "PlayerStatusManager.hpp"
 #include "ServiceLocator.hpp"
 #include "Engine.hpp"
 
@@ -40,6 +41,10 @@ namespace spaceshooter
 		// read more at en.wikipedia.org/wiki/Analog_television#Vertical_synchronization
 		m_window.setVerticalSyncEnabled(true);
 
+		m_player_status_manager = new PlayerStatusManager;
+		if (!m_player_status_manager || !!m_player_status_manager->Initialize())
+			return false;
+		ServiceLocator<PlayerStatusManager>::SetService(m_player_status_manager);
 		m_draw_manager = new DrawManager(&m_window);
 		if (!m_draw_manager || !m_draw_manager->Initialize())
 			return false;
@@ -69,6 +74,7 @@ namespace spaceshooter
 		if (!m_state_manager || !m_state_manager->Initialize())
 			return false;
 		ServiceLocator<StateManager>::SetService(m_state_manager);
+		
 		return m_running = true;
 	}
 

@@ -107,6 +107,7 @@
     <ClInclude Include="..\include\OVPlayer.hpp" />
     <ClInclude Include="..\include\ScreenEffects.hpp" />
     <ClInclude Include="..\include\SkillEffect.hpp" />
+    <ClInclude Include="..\include\PlayerStatusManager.hpp" />
     <ClInclude Include="..\include\Updatable.hpp" />
     <ClInclude Include="..\include\AbstractState.hpp" />
     <ClInclude Include="..\include\Action.hpp" />
@@ -151,6 +152,7 @@
     <ClCompile Include="..\source\OVArea.cpp" />
     <ClCompile Include="..\source\OverWorldState.cpp" />
     <ClCompile Include="..\source\OVPlayer.cpp" />
+    <ClCompile Include="..\source\PlayerStatusManager.cpp" />
     <ClCompile Include="..\source\ScreenEffects.cpp" />
     <ClCompile Include="..\source\SkillEffect.cpp" />
     <ClCompile Include="..\source\Updatable.cpp" />

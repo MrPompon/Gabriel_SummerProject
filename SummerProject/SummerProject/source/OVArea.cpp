@@ -8,6 +8,7 @@
 #include "OVArea.hpp"
 #include "OverWorldState.hpp"
 #include "ScreenEffects.hpp"
+#include "PlayerStatusManager.hpp"
 #include "OVPlayer.hpp"
 #include <math.h>
 namespace spaceshooter
@@ -48,6 +49,7 @@ namespace spaceshooter
 		m_mouse = m_inputManager->GetMouse();
 		m_drawManager = ServiceLocator<DrawManager>::GetService();
 		m_renderWindow = m_drawManager->getWindow();
+		m_player_status_manager = ServiceLocator<PlayerStatusManager>::GetService();
 		//init view
 		m_screenWidth = 1024;
 		m_screenHeight = 600;
@@ -165,6 +167,7 @@ namespace spaceshooter
 			if (p_tileID == '!')
 			{
 				m_overWorld->ChangeArea("OverWorldCastle");
+				m_player_status_manager->SetAreaName("OverWorldCastle");
 			}
 		}
 		if (m_areaName == "OverWorldCastle")
@@ -172,6 +175,7 @@ namespace spaceshooter
 			if (p_tileID == '!')
 			{
 				m_overWorld->ChangeArea("OverWorld1_1");
+				m_player_status_manager->SetAreaName("OverWorld1_1");
 			}
 		}
 	}
@@ -206,6 +210,7 @@ namespace spaceshooter
 			{
 				m_overWorld->SetExitState("Demon");
 			}
+			m_player_status_manager->SetPlayerPosition(m_player->GetPosition());
 		}
 	}
 	void OVArea::Update(float deltatime)

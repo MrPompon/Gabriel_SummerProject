@@ -150,6 +150,9 @@
     <ClInclude Include="..\include\OVPlayer.hpp">
       <Filter>Header Files\OV</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\PlayerStatusManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="../source/main.cpp">
@@ -247,6 +250,9 @@
     </ClCompile>
     <ClCompile Include="..\source\OVPlayer.cpp">
       <Filter>Source Files\OVFolder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\PlayerStatusManager.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

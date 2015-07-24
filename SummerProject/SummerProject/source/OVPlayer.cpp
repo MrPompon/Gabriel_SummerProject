@@ -8,15 +8,18 @@
 #include "OVPlayer.hpp"
 #include "Animation.hpp"
 #include "AnimatedSprite.hpp"
+#include "PlayerStatusManager.hpp"
 namespace spaceshooter
 {
 	OVPlayer::OVPlayer()
 	{
+		
 		m_drawManager = ServiceLocator<DrawManager>::GetService();
 		m_textureManager = ServiceLocator<TextureManager>::GetService();
 		m_playerSheet = m_textureManager->CreateTextureFromFile("../assets/Sprites/Animations/PlayerSheets/PlayerSheetClown.png");
 		m_playerSprite = new AnimatedSprite();
-		m_currentPos = sf::Vector2f(48, 48);
+		m_playerStatusManager = ServiceLocator<PlayerStatusManager>::GetService();
+	    m_currentPos = m_playerStatusManager->GetPlayerPosition();
 		m_targetPos = m_currentPos;
 		m_screenWidth = 1024;
 		m_screenHeight = 600;

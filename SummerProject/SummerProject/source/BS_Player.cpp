@@ -2,6 +2,8 @@
 
 #include "stdafx.h"
 #include "BS_Player.hpp"
+#include "PlayerStatusManager.hpp"
+#include "ServiceLocator.hpp"
 #include <iostream>
 namespace spaceshooter
 {
@@ -41,6 +43,8 @@ namespace spaceshooter
 		std::string line;
 		std::vector<std::string> parts;
 		int currentRow = 0;
+		m_player_status_manager = ServiceLocator<PlayerStatusManager>::GetService();
+	
 		while (std::getline(inputStream, line))
 		{
 			//seperates a line to an array and makes everyword a seperate index
@@ -51,8 +55,7 @@ namespace spaceshooter
 				m_character_name = parts[1];
 				std::cout << m_character_name << std::endl;
 			}
-			if (parts[0] == "[HP]")
-			{
+			if (parts[0] == "[HP]"){
 				m_health = std::stof(parts[1]); //converts string to float
 				std::cout << m_health << std::endl;
 			}

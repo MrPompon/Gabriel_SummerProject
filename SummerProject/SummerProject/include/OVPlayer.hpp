@@ -8,7 +8,7 @@ namespace spaceshooter
 {
 	class Animation;
 	class AnimatedSprite;
-
+	class PlayerStatusManager;
 	class OVPlayer : public sf::Drawable, sf::Transformable
 	{
 	public:
@@ -29,6 +29,7 @@ namespace spaceshooter
 		};
 		MovementDirection movementDirection;
 	private:
+		PlayerStatusManager* m_playerStatusManager;
 		//Animation
 		DrawManager*m_drawManager;
 		TextureManager*m_textureManager;

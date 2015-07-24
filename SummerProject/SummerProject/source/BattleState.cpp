@@ -16,6 +16,7 @@
 #include "BS_LifeBar.hpp"
 #include "SkillEffect.hpp"
 #include "ScreenEffects.hpp"
+#include "PlayerStatusManager.hpp"
 
 namespace spaceshooter
 {
@@ -230,13 +231,21 @@ namespace spaceshooter
 	}
 	void BattleState::InitPlayerStats()
 	{
+		m_player_status_manager = ServiceLocator<PlayerStatusManager>::GetService();
 		m_playerWon = false;
 		m_player_damage = m_player->GetDMG();
-		m_player_health = m_player->GetHealth();
+		m_player_health = m_player_status_manager->GetStat("HP"); //gets from status manager because its the only updating variable atm 
 		m_player_speed = m_player->GetSpeed();
 		m_player_evadeRate = m_player->GetEvadeRate();
 		m_playerSkills = m_player->GetPlayerSkills();
 		m_player_hitrate = m_player->GetHitRate();
+	}
+	void BattleState::SetCombatEndStats(float hp, float exp, float gold)
+	{
+		m_player_status_manager = ServiceLocator<PlayerStatusManager>::GetService();
+		m_player_status_manager->SetStat("HP", hp);
+		m_player_status_manager->AddStat("Gold", gold);
+		m_player_status_manager->AddStat("EXP", exp);
 	}
 	bool BattleState::Update(float deltatime)
 	{
@@ -311,7 +320,7 @@ namespace spaceshooter
 	void BattleState::BattleManager(float deltatime)
 	{
 		
-		if (turnManager == TURN_ENEMY)
+		if (turnManager == TURN_ENEMY && !m_playerWon)
 		{
 			EnemysTurn(deltatime);
 		}
@@ -333,6 +342,7 @@ namespace spaceshooter
 				ManageWindow("BattleLootWindow", true);
 				if (m_mouse.isButtonPressed(m_mouse.Left))
 				{
+					SetCombatEndStats(m_player_health, 100, m_enemy_loot);
 					m_battleOver = true;
 				}
 			}
@@ -459,22 +469,25 @@ namespace spaceshooter
 			{
 				optionsKeyIsPressed=false; 
 			}
+			
 		}
 	}
 	void BattleState::EnemysTurn(float deltatime)
 	{
 		//deactivate GUIWhen its players turn
-		ManageWindow("OptionsMenu", false);
-		ManageWindow("SkillMenu", false);
-		enemysTurn = true;
-		if (m_turnDelayTime <= 0)
-		{
-			enemyAttacks=true;
-			EnemyUseSkill();
-			std::cout << "Player has " << m_player_health << " health remaining " << std::endl;
-			BattleStatusChecker();
-		}
-		
+			ManageWindow("OptionsMenu", false);
+			ManageWindow("SkillMenu", false);
+			enemysTurn = true;
+			if (m_turnDelayTime <= 0)
+			{
+				if (m_enemy_health>0)
+				{
+					enemyAttacks = true;
+					EnemyUseSkill();
+					std::cout << "Player has " << m_player_health << " health remaining " << std::endl;
+				}
+				BattleStatusChecker();
+			}
 	}
 	int BattleState::Random(int min, int max)
 	{

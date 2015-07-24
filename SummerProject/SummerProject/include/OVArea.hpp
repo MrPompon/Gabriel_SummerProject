@@ -10,6 +10,8 @@ namespace spaceshooter
 	class OverWorldState;
 	class OVPlayer;
 	class ScreenEffects;
+	class PlayerStatusManager;
+
 	class OVArea: public sf::Drawable
 	{
 	public:
@@ -54,6 +56,7 @@ namespace spaceshooter
 		void HandleDoorEvent(char p_tileID);
 		void HandleEncounters(std::string m_areaName);
 	private:
+		PlayerStatusManager*m_player_status_manager;
 		ScreenEffects* m_screenEffect;
 		std::vector<ScreenEffects> AllScreenEffects;
 	

@@ -12,6 +12,7 @@ namespace spaceshooter
 	class TextureManager;
 	class CollisionManager;
 	class AudioManager;
+	class PlayerStatusManager;
 
 	class Engine
 	{
@@ -36,6 +37,7 @@ namespace spaceshooter
 		CollisionManager* m_collision_manager;
 		AudioManager* m_audio_manager;
 		StateManager* m_state_manager;
+		PlayerStatusManager* m_player_status_manager;
 	};
 } // namespace spaceshooter
 

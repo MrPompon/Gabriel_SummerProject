@@ -10,13 +10,14 @@
 #include "BattleState.hpp"
 #include "OVArea.hpp"
 #include "OVPlayer.hpp"
+#include "PlayerStatusManager.hpp"
 namespace spaceshooter
 {
 	bool OverWorldState::Enter()
 	{
-		
+		m_player_status_manager = ServiceLocator<PlayerStatusManager>::GetService();
 		m_OVPlayer = new OVPlayer();
-		m_OVArea = new OVArea("OverWorld1_1.txt",this,m_OVPlayer);
+		m_OVArea = new OVArea(m_player_status_manager->GetAreaName()+".txt",this,m_OVPlayer);
 		m_draw_manager = ServiceLocator<DrawManager>::GetService();
 		m_input_manager = ServiceLocator<InputManager>::GetService();
 		InitAudio();

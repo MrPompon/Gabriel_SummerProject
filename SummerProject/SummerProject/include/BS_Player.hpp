@@ -5,6 +5,8 @@
 
 namespace spaceshooter
 {
+	class PlayerStatusManager;
+
 	class BS_Player
 	{
 	public:
@@ -21,6 +23,7 @@ namespace spaceshooter
 		//stats
 		std::vector<std::string> m_playerSkills;
 		std::string m_character_name;
+		PlayerStatusManager* m_player_status_manager;
 		float m_health;
 		float m_speed;
 		float m_damage;

@@ -14,6 +14,7 @@ namespace spaceshooter
 	class InputManager;
 	class StateManager;
 	class BattleState;
+	class PlayerStatusManager;
 
 	class OverWorldState : public AbstractState
 	{
@@ -27,6 +28,7 @@ namespace spaceshooter
 		void InitAudio();
 		void ChangeArea(std::string p_fileareaName);
 	private:
+		PlayerStatusManager* m_player_status_manager;
 		sf::Music* OV_Music;
 		StateManager*m_stateManager;
 		std::string m_encounterName;

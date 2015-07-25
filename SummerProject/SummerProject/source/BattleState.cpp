@@ -233,12 +233,12 @@ namespace spaceshooter
 	{
 		m_player_status_manager = ServiceLocator<PlayerStatusManager>::GetService();
 		m_playerWon = false;
-		m_player_damage = m_player->GetDMG();
+		m_player_damage = m_player_status_manager->GetStat("DMG");
 		m_player_health = m_player_status_manager->GetStat("HP"); //gets from status manager because its the only updating variable atm 
-		m_player_speed = m_player->GetSpeed();
-		m_player_evadeRate = m_player->GetEvadeRate();
+		m_player_speed = m_player_status_manager->GetStat("Speed");
+		m_player_evadeRate = m_player_status_manager->GetStat("EvadeRate");
 		m_playerSkills = m_player->GetPlayerSkills();
-		m_player_hitrate = m_player->GetHitRate();
+		m_player_hitrate = m_player_status_manager->GetStat("HitRate");
 	}
 	void BattleState::SetCombatEndStats(float hp, float exp, float gold)
 	{
@@ -343,6 +343,7 @@ namespace spaceshooter
 				if (m_mouse.isButtonPressed(m_mouse.Left))
 				{
 					SetCombatEndStats(m_player_health, 100, m_enemy_loot);
+					m_player_status_manager->CheckEXP();
 					m_battleOver = true;
 				}
 			}

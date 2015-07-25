@@ -5,6 +5,7 @@
 #include "PlayerStatusManager.hpp"
 namespace spaceshooter
 {
+
 	std::vector<std::string> explodestatus(const std::string& string, const std::string& delimeter)
 	{
 		std::vector<std::string> parts;
@@ -25,6 +26,9 @@ namespace spaceshooter
 		LoadPlayerStatus("save_file_1.txt");
 		playerPosition.x = 16;
 		playerPosition.y = 16;
+		m_playerEXP = 0;
+		m_playerGold = 0;
+		CurrentLevel = 1;
 	}
 	PlayerStatusManager::~PlayerStatusManager()
 	{
@@ -73,14 +77,32 @@ namespace spaceshooter
 					std::cout << m_playerSpeed << std::endl;
 				}
 				if (parts[0] == "[HITRATE]"){
-					m_playerHitrate = std::stof(parts[1]);
+					m_playerHitRate = std::stof(parts[1]);
 				}
 			
 			}
 			m_playerCurrentHealth = m_playerMaxHealth;
 			areaName = "OverWorld1_1";
 		}
-	
+	void PlayerStatusManager::LevelUp()
+	{	
+			m_playerMaxHealth *= 1.15;
+			AddStat("DMG", 50);
+			AddStat("HitRate", 5);
+			m_playerCurrentHealth = m_playerMaxHealth; //gives the player max hp
+			CurrentLevel++;
+			
+	}
+	void PlayerStatusManager::CheckEXP()
+	{
+		EXPNeeded = (CurrentLevel * 100);
+
+		std::cout << EXPNeeded << " " << m_playerEXP;
+		if (m_playerEXP >= EXPNeeded){
+			LevelUp();
+			m_playerEXP = 0;
+		}
+	}
 	float PlayerStatusManager::GetStat(std::string statName)
 	{
 		if (statName == "Gold"){
@@ -91,6 +113,14 @@ namespace spaceshooter
 			return m_playerEXP;
 		}else if (statName == "MaxHealth"){
 			return m_playerMaxHealth;
+		}else if (statName == "DMG"){
+			return m_playerDamage;
+		}else if (statName == "HitRate"){
+			return m_playerHitRate;
+		}else if (statName == "EvadeRate"){
+			return m_playerEvadeRate;
+		}else if (statName == "Speed"){
+			return m_playerSpeed;
 		}
 	}
 	void  PlayerStatusManager::SetStat(std::string statName,int amount)
@@ -115,6 +145,14 @@ namespace spaceshooter
 			m_playerEXP += amount;
 		}else if (statName == "MaxHealth"){
 			m_playerMaxHealth += amount;
+		}else if (statName == "DMG"){
+			m_playerDamage += amount;
+		}else if (statName == "HitRate"){
+			m_playerHitRate += amount;
+		}else if (statName == "EvadeRate"){
+			m_playerEvadeRate += amount;
+		}else if (statName == "Speed"){
+			m_playerSpeed += amount;
 		}
 	}
 	sf::Vector2f PlayerStatusManager::GetPlayerPosition()

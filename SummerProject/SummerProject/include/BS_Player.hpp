@@ -13,6 +13,7 @@ namespace spaceshooter
 		~BS_Player();
 		BS_Player(std::string filename);
 		float GetHealth();
+		float GetMaxHealth();
 		float GetDMG();
 		float GetSpeed();
 		float GetEvadeRate();
@@ -24,6 +25,7 @@ namespace spaceshooter
 		std::vector<std::string> m_playerSkills;
 		std::string m_character_name;
 		PlayerStatusManager* m_player_status_manager;
+		float m_maxHealth;
 		float m_health;
 		float m_speed;
 		float m_damage;

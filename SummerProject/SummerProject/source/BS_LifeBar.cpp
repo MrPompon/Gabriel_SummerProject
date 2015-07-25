@@ -28,8 +28,8 @@ namespace spaceshooter
 		enemysLifeBar = false;
 		m_player = p_player;
 		m_position = p_position;
-		maximumLife = m_player->GetHealth();
-		currentLife = maximumLife;
+		maximumLife = m_player->GetMaxHealth();
+		currentLife = m_player->GetHealth();
 		InitLifeBar();
 	}
 	BS_LifeBar::~BS_LifeBar()

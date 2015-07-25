@@ -26,7 +26,12 @@ namespace spaceshooter
 		void SetPlayerPosition(sf::Vector2f);
 		void SetAreaName(std::string areaName);
 		std::string GetAreaName();
+		void CheckEXP();
 	private:
+		void LevelUp();
+		int CurrentLevel;
+		int EXPNeeded;
+
 		sf::Vector2f playerPosition;
 		std::string areaName;
 		float m_playerMaxHealth;
@@ -36,7 +41,7 @@ namespace spaceshooter
 		float m_playerDamage;
 		float m_playerSpeed;
 		float m_playerEvadeRate;
-		float m_playerHitrate;
+		float m_playerHitRate;
 		std::string m_player_name;
 	};
 }// namespace spaceshooter

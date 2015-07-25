@@ -44,7 +44,7 @@ namespace spaceshooter
 		std::vector<std::string> parts;
 		int currentRow = 0;
 		m_player_status_manager = ServiceLocator<PlayerStatusManager>::GetService();
-	
+		m_maxHealth= m_player_status_manager->GetStat("MaxHealth");
 		while (std::getline(inputStream, line))
 		{
 			//seperates a line to an array and makes everyword a seperate index
@@ -86,6 +86,10 @@ namespace spaceshooter
 				}
 			}
 		}
+	}
+	float BS_Player::GetMaxHealth()
+	{
+		return m_maxHealth;
 	}
 	float BS_Player::GetDMG()
 	{

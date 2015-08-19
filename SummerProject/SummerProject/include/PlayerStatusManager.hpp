@@ -20,6 +20,7 @@ namespace spaceshooter
 		void LoadPlayerStatus(std::string fileName);
 		bool Initialize();
 		float GetStat(std::string statName);
+		int GetLevel();
 		void SetStat(std::string statName, int amount);
 		void AddStat(std::string statName, float stat);
 		sf::Vector2f GetPlayerPosition();

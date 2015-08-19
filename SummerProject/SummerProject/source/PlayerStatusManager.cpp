@@ -30,6 +30,10 @@ namespace spaceshooter
 		m_playerGold = 0;
 		CurrentLevel = 1;
 	}
+	int PlayerStatusManager::GetLevel()
+	{
+		return CurrentLevel;
+	}
 	PlayerStatusManager::~PlayerStatusManager()
 	{
 

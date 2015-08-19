@@ -347,6 +347,13 @@ namespace spaceshooter
 					m_battleOver = true;
 				}
 			}
+			else if (m_enemyWon)
+			{
+				if (m_mouse.isButtonPressed(m_mouse.Left))
+				{
+					m_battleOver = true;
+				}
+			}
 		}
 	}
 	void BattleState::InitSkillPlayer(std::string p_skillname, int skillNumber)

@@ -22,7 +22,6 @@ namespace spaceshooter
 		m_input_manager = ServiceLocator<InputManager>::GetService();
 		InitAudio();
 		m_mouse = m_input_manager->GetMouse();
-	
 		m_exitState = false;
 		return true;
 	}
@@ -64,12 +63,12 @@ namespace spaceshooter
 	{
 		m_OVArea = new OVArea(p_fileareaName+".txt", this, m_OVPlayer);
 	}
-	void OverWorldState::SetExitState(std::string encounterName)
+	void OverWorldState::SetExitState(std::string encounterName, std::string areaAndMusicName, std::string timeOfDay)
 	{
 		m_encounterName = encounterName;
 		m_stateManager = ServiceLocator<StateManager>::GetService();
 		m_stateManager->DetachState("BattleState" + m_encounterName);
-		m_stateManager->AttachState("BattleState"+m_encounterName, new BattleState("Boss_1", encounterName, "Night"));
+		m_stateManager->AttachState("BattleState"+m_encounterName, new BattleState(areaAndMusicName, encounterName, timeOfDay));
 		
 		m_exitState = true;
 	}

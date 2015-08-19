@@ -188,27 +188,27 @@ namespace spaceshooter
 			if (m_areaName == "OverWorld1_1")
 			{
 				switch (rndEnemy)
-				{
-				case 0:m_overWorld->SetExitState("LowKeyKnight");
+				{//random daytime atm since no timemananger.
+				case 0:m_overWorld->SetExitState("LowKeyKnight","DarkGround","Day");
 					break;
-				case 1:m_overWorld->SetExitState("LowKeyKnight");
+				case 1:m_overWorld->SetExitState("LowKeyKnight", "DarkGround", "Day");
 					break;
-				case 2:m_overWorld->SetExitState("LowKeyKnight");
+				case 2:m_overWorld->SetExitState("Gnoll", "DarkGround", "Night");
 					break;
-				case 3:m_overWorld->SetExitState("Gnoll");
+				case 3:m_overWorld->SetExitState("Gnoll", "DarkGround", "Night");
 					break;
-				case 4:m_overWorld->SetExitState("Gnoll");
+				case 4:m_overWorld->SetExitState("Gnoll", "DarkGround", "Night");
 					break;
-				case 5:m_overWorld->SetExitState("Minotaur");
+				case 5:m_overWorld->SetExitState("Minotaur","Boss_1","Dawn");
 					break;
-				case 6:m_overWorld->SetExitState("Minotaur");
+				case 6:m_overWorld->SetExitState("Minotaur","Boss_1","Dusk");
 					break;
 				}
 				
 			}
 			else if (m_areaName == "OverWorldCastle")
 			{
-				m_overWorld->SetExitState("Demon");
+				m_overWorld->SetExitState("Demon","Boss_2","Night");
 			}
 			m_player_status_manager->SetPlayerPosition(m_player->GetPosition());
 		}

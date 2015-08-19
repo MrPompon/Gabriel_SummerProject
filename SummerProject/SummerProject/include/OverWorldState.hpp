@@ -15,7 +15,7 @@ namespace spaceshooter
 	class StateManager;
 	class BattleState;
 	class PlayerStatusManager;
-
+	class GUIWindow;
 	class OverWorldState : public AbstractState
 	{
 	public:
@@ -24,10 +24,11 @@ namespace spaceshooter
 		virtual bool Update(float deltatime);
 		virtual void Draw();
 		virtual std::string GetNextState();
-		void SetExitState(std::string encounterName);
+		void SetExitState(std::string encounterName, std::string musicName, std::string timeOfDay);
 		void InitAudio();
 		void ChangeArea(std::string p_fileareaName);
 	private:
+		
 		PlayerStatusManager* m_player_status_manager;
 		sf::Music* OV_Music;
 		StateManager*m_stateManager;

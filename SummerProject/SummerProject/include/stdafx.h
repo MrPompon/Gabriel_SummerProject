@@ -12,7 +12,6 @@
 #include <string>
 #include <vector>
 #include <map>
-#include <vld.h>
 /* sfml headers and libraries */
 #include <SFML/Main.hpp>
 #include <SFML/System.hpp>

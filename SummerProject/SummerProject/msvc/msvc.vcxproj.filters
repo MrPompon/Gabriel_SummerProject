@@ -69,9 +69,6 @@
     <ClInclude Include="..\include\TextureManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\CollisionManager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\AudioManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -90,9 +87,6 @@
     <ClInclude Include="..\include\Math.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Collidable.hpp">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\Drawable.hpp">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
@@ -104,12 +98,6 @@
     </ClInclude>
     <ClInclude Include="..\include\TestState.hpp">
       <Filter>Header Files\State</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\CollisionTestState.hpp">
-      <Filter>Header Files\State</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\CollisionShapes.hpp">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\BattleState.hpp">
       <Filter>Header Files\State</Filter>
@@ -176,9 +164,6 @@
     <ClCompile Include="..\source\TextureManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\CollisionManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\AudioManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -194,23 +179,11 @@
     <ClCompile Include="..\source\Updatable.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\Collidable.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Drawable.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\AbstractState.cpp">
       <Filter>Source Files\State</Filter>
     </ClCompile>
     <ClCompile Include="..\source\TestState.cpp">
       <Filter>Source Files\State</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\CollisionTestState.cpp">
-      <Filter>Source Files\State</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\CollisionShapes.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\source\BattleState.cpp">
       <Filter>Source Files\State</Filter>

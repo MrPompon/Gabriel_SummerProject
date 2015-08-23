@@ -6,7 +6,6 @@
 
 #include "BattleState.hpp"
 #include "TestState.hpp"
-#include "CollisionTestState.hpp"
 #include "OverWorldState.hpp"
 namespace spaceshooter
 {
@@ -23,7 +22,6 @@ namespace spaceshooter
 	{ 
 		AttachState("Test", new TestState);
 		AttachState("OverWorld", new OverWorldState);
-		AttachState("ColTest", new CollisionTestState);
 		SetActiveState("OverWorld");
 
 		return true;

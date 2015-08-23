@@ -48,7 +48,15 @@ namespace spaceshooter
 	}
 	OVPlayer::~OVPlayer()
 	{
-
+		m_drawManager = nullptr;
+		m_textureManager = nullptr;
+		m_playerSheet = nullptr;
+		m_playerSprite = nullptr;
+		m_playerStatusManager = nullptr;
+		PlayerRightAnimation = nullptr;
+		PlayerLeftAnimation = nullptr;
+		PlayerUpAnimation = nullptr;
+		PlayerDownAnimation = nullptr;
 	}
 	sf::Vector2f OVPlayer::GetPosition()
 	{
